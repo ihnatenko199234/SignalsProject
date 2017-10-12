@@ -5,6 +5,7 @@ public class Rectangle extends PeriodicSignal {
 	public Rectangle(double T, double A, int t1, int f, double d) {
 		super(T, A, t1, f, d);
 		this.kw = 1.0/2;
+		name = "Rectangle";
 	}
 	
 	public Rectangle(double kw, double T, double A, int t1, int f, double d) {
@@ -13,7 +14,7 @@ public class Rectangle extends PeriodicSignal {
   }
 
 	@Override
-	protected double[][] generateSignal() {
+	public double[][] generateSignal() {
 	  
 	  //TODO dodac wspolczynnik wypelnienia kw
 	  

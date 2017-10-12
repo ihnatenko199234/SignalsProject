@@ -11,6 +11,6 @@ public abstract class PeriodicSignal extends Signal {
 
 
 	@Override
-	abstract protected double[][] generateSignal();
+	public abstract double[][] generateSignal();
 
 }

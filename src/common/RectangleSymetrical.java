@@ -3,10 +3,11 @@ public class RectangleSymetrical extends PeriodicSignal {
 
 	public RectangleSymetrical(double T, double A, int t1, int f, double d) {
 		super(T, A, t1, f, d);
+		name = "Regtangle symetrical";
 	}
 
 	@Override
-	protected double[][] generateSignal() {
+	public double[][] generateSignal() {
 	  
 	  //TODO dodac wspolczynnik wypelnienia kw
 	  
