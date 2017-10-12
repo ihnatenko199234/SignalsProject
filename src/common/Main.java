@@ -2,6 +2,7 @@ package common;
 import java.util.Arrays;
 
 import gui.MainWindow;
+import gui.WindowsManager;
 import utils.GraphManager;
 
 public class Main {
