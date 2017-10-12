@@ -7,10 +7,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import common.Signal;
@@ -53,6 +55,13 @@ public class GraphParametersDialog extends Dialog {
 	 */
 	public Object open() {
 		createContents();
+		Monitor primary =  Display.getCurrent().getPrimaryMonitor();
+		Rectangle bounds = primary.getBounds();
+		Rectangle rect = shell.getBounds();
+		int x = bounds.x + (bounds.width - rect.width) / 2;
+		int y = bounds.y + (bounds.height - rect.height) / 2;
+		shell.setLocation(x, y);
+		
 		shell.open();
 		shell.layout();
 		Display display = getParent().getDisplay();
@@ -144,6 +153,12 @@ public class GraphParametersDialog extends Dialog {
 		btnOk.setText("OK");
 		
 		Button btnCancel = new Button(composite, SWT.NONE);
+		btnCancel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				shell.dispose();
+			}
+		});
 		btnCancel.setText("Cancel");
 		btnCancel.setBounds(213, 138, 90, 30);
 		formToolkit.adapt(btnCancel, true, true);

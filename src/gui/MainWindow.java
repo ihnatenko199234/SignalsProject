@@ -2,6 +2,11 @@ package gui;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Menu;
+
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Monitor;
+
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -31,6 +36,15 @@ public class MainWindow {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
+		
+
+	    Monitor primary = display.getPrimaryMonitor();
+	    Rectangle bounds = primary.getBounds();
+	    Rectangle rect = shell.getBounds();
+	    int x = bounds.x + (bounds.width - rect.width) / 2;
+	    int y = bounds.y + (bounds.height - rect.height) / 2;
+	    shell.setLocation(x, y);
+	    
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
