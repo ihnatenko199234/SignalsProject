@@ -28,15 +28,11 @@ public class Main {
 
 		System.out.println(Arrays.deepToString(array).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 		
-		GraphManager graphManager = new GraphManager("Sinus", array);
-		graphManager.setVisible(true);
-		
-		try {
-			MainWindow window = new MainWindow();
-			window.open();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		GraphManager graphManager = new GraphManager("Sinus", array);
+//		graphManager.setVisible(true);
+//		
+		WindowsManager WM = new WindowsManager();
+		WM.createMainWindow();
 	}
 
 }
