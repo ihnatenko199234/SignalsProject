@@ -13,7 +13,7 @@ public class Triangle extends PeriodicSignal {
   }
 
 	@Override
-	protected double[][] generateSignal() {
+	public double[][] generateSignal() {
 		double[][] tab = new double[(int)(d*f)][2];
 		
 		for(int i = 0; i < d*f; i++) {
