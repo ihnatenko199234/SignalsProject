@@ -28,6 +28,7 @@ public class MainWindow {
 	protected Shell dialogShell;
 	
 	protected Frame frame;
+	protected Composite composite;
 
 	/**
 	 * Launch the application.
@@ -75,11 +76,11 @@ public class MainWindow {
 		shell.setText("SWT Application");	
 		shell.setSize(1600, 520);
 		
-		Composite composite = new Composite(shell, SWT.EMBEDDED);
+		composite = new Composite(shell, SWT.EMBEDDED);
 		composite.setBounds(20, 20, 600, 400);
 		composite.setLayout(new RowLayout( ));	
 		frame = SWT_AWT.new_Frame(composite);
-
+		
 		Menu menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);
 		
@@ -101,10 +102,11 @@ public class MainWindow {
 
 	}
 	
-	public void updateGraphPanel(Signal signal, JPanel graphPanel) {
+	public void updateGraphPanel(String operation, Signal signal, JPanel graphPanel) {
 		if(signal.isComposite())shell.setSize(1600, 1040);
 		else shell.setSize(1600, 520);
+		frame.removeAll();
 		frame.add(graphPanel);
-		
+		frame.repaint();
 	}
 }

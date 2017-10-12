@@ -20,6 +20,7 @@ import common.SignalFactory;
 
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class GraphParametersDialog extends Dialog {
 
@@ -38,8 +39,15 @@ public class GraphParametersDialog extends Dialog {
 	int t1 = 0;
 	double d = 2;
 	double T = 1;
+	double ts = 4;
+	double ns = 2;
+	double p = 0.01;
+	
 	
 	int selectedIndex;
+	private Text tsTextBox;
+	private Text nsTextBox;
+	private Text pTextBox;
 	/**
 	 * Create the dialog.
 	 * @param parent
@@ -80,11 +88,12 @@ public class GraphParametersDialog extends Dialog {
 	private void createContents() {
 		shell = new Shell(getParent(), getStyle());
 		shell.setModified(true);
-		shell.setSize(450, 281);
+		shell.setSize(450, 336);
 		shell.setText("Choose signal and set parameters");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(0, 57, 444, 191);
+		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
+		composite.setBounds(0, 57, 444, 244);
 		
 		Label lblNewLabel = new Label(composite, SWT.NONE);
 		lblNewLabel.setToolTipText(" amount of samples used to mimic continuity of the function");
@@ -97,19 +106,36 @@ public class GraphParametersDialog extends Dialog {
 		lblNewLabel_1.setText("A");
 		
 		Label lblNewLabel_2 = new Label(composite, SWT.NONE);
+		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		lblNewLabel_2.setToolTipText("start time");
 		lblNewLabel_2.setBounds(251, 13, 30, 20);
 		lblNewLabel_2.setText("t1");
 		
 		Label lblNewLabel_3 = new Label(composite, SWT.NONE);
+		lblNewLabel_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		lblNewLabel_3.setToolTipText("duration");
 		lblNewLabel_3.setBounds(251, 51, 30, 20);
 		lblNewLabel_3.setText("d");
 		
 		Label lblT = new Label(composite, SWT.NONE);
+		lblT.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		lblT.setToolTipText("period");
 		lblT.setBounds(55, 93, 30, 20);
 		lblT.setText("T");
+		
+		Label lblTs = new Label(composite, SWT.NONE);
+		lblTs.setForeground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
+		lblTs.setToolTipText("t[s] wype\u0142nienie");
+		lblTs.setText("ts");
+		lblTs.setBounds(55, 135, 30, 20);
+		formToolkit.adapt(lblTs, true, true);
+		
+		Label lblPs = new Label(composite, SWT.NONE);
+		lblPs.setToolTipText("numer pr\u00F3bki, dla kt\u00F3rej nast\u0119puje skok amplitudy");
+		lblPs.setText("ns");
+		lblPs.setForeground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
+		lblPs.setBounds(251, 135, 30, 20);
+		formToolkit.adapt(lblPs, true, true);
 		
 		fTextBox = new Text(composite, SWT.BORDER);
 		fTextBox.setBounds(91, 10, 78, 26);
@@ -126,11 +152,24 @@ public class GraphParametersDialog extends Dialog {
 		TTextBox = new Text(composite, SWT.BORDER);
 		TTextBox.setBounds(91, 90, 78, 26);
 		
+		tsTextBox = new Text(composite, SWT.BORDER);
+		tsTextBox.setBounds(91, 129, 78, 26);
+		
+		nsTextBox = new Text(composite, SWT.BORDER);
+		nsTextBox.setBounds(287, 129, 78, 26);
+		
+		pTextBox = new Text(composite, SWT.BORDER);
+		pTextBox.setBounds(287, 87, 78, 26);
+		
 		fTextBox.setText(String.valueOf(f));
 		ATextBox.setText(String.valueOf(A));
 		t1TextBox.setText(String.valueOf(t1));
 		dTextBox.setText(String.valueOf(d));
 		TTextBox.setText(String.valueOf(T));
+		tsTextBox.setText(String.valueOf(ts));
+		nsTextBox.setText(String.valueOf(ns));
+		pTextBox.setText(String.valueOf(p));
+		
 		
 		updateVisabilityOfTextBoxes();
 		
@@ -138,18 +177,21 @@ public class GraphParametersDialog extends Dialog {
 		btnOk.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
-				int f = Integer.parseInt(fTextBox.getText());
-				double A = Double.parseDouble(ATextBox.getText());
-				int t1 = Integer.parseInt(t1TextBox.getText());
-				double d = Double.parseDouble(dTextBox.getText());
-				double T = Double.parseDouble(TTextBox.getText());
+				f = Integer.parseInt(fTextBox.getText());
+				A = Double.parseDouble(ATextBox.getText());
+				t1 = Integer.parseInt(t1TextBox.getText());
+				d = Double.parseDouble(dTextBox.getText());
+				T = Double.parseDouble(TTextBox.getText());
+				ts = Double.parseDouble(tsTextBox.getText());
+				ns = Double.parseDouble(nsTextBox.getText());
+				p = Double.parseDouble(pTextBox.getText());
 				
-				Signal signal = SignalFactory.getSignal(signalOptionComboBox.getText(), f, A, t1, d, T);
+				Signal signal = SignalFactory.getSignal(signalOptionComboBox.getText(), f, A, t1, d, T, ts, ns, p);
 				shell.dispose();
 				WindowsManager.createSignalChartsWindow(signal);
 			}
 		});
-		btnOk.setBounds(324, 138, 90, 30);
+		btnOk.setBounds(231, 187, 90, 30);
 		formToolkit.adapt(btnOk, true, true);
 		btnOk.setText("OK");
 		
@@ -162,8 +204,19 @@ public class GraphParametersDialog extends Dialog {
 			}
 		});
 		btnCancel.setText("Cancel");
-		btnCancel.setBounds(213, 138, 90, 30);
+		btnCancel.setBounds(120, 187, 90, 30);
 		formToolkit.adapt(btnCancel, true, true);
+		
+		
+		
+		Label lblP = new Label(composite, SWT.NONE);
+		lblP.setToolTipText("prawdopodobie\u0144stwem wyst\u0105pienia warto\u015Bci A");
+		lblP.setText("p");
+		lblP.setForeground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
+		lblP.setBounds(251, 93, 30, 20);
+		formToolkit.adapt(lblP, true, true);
+		
+
 		
 		signalOptionComboBox = new Combo(shell, SWT.NONE);
 		signalOptionComboBox.addSelectionListener(new SelectionAdapter() {
@@ -194,5 +247,19 @@ public class GraphParametersDialog extends Dialog {
 		if(selectedIndex == 0 || selectedIndex == 1 || selectedIndex == 8 || selectedIndex == 9 || selectedIndex == 10) {
 			TTextBox.setEnabled(false);
 		}else TTextBox.setEnabled(true);
+		
+		if(selectedIndex == 8) {
+			tsTextBox.setEnabled(true);
+		}else tsTextBox.setEnabled(false);
+		
+		if(selectedIndex == 9) {
+			nsTextBox.setEnabled(true);
+		}else nsTextBox.setEnabled(false);
+		
+		if(selectedIndex == 10) {
+			pTextBox.setEnabled(true);
+		}else pTextBox.setEnabled(false);
+		
+
 	}
 }

@@ -95,18 +95,36 @@ public class SignalChartsWindow {
 		mntmNewItem_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				MW.updateGraphPanel(signal, graphPanel);
+				MW.updateGraphPanel("add",signal, graphPanel);
 			}
 		});
 		mntmNewItem_1.setText("+ add");
 		
 		MenuItem mntmNewItem_2 = new MenuItem(menu, SWT.NONE);
+		mntmNewItem_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				MW.updateGraphPanel("substract",signal, graphPanel);
+			}
+		});
 		mntmNewItem_2.setText("- substract");
 		
 		MenuItem mntmNewItem_3 = new MenuItem(menu, SWT.NONE);
+		mntmNewItem_3.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				MW.updateGraphPanel("multiply",signal, graphPanel);
+			}
+		});
 		mntmNewItem_3.setText("* multiply");
 		
 		MenuItem mntmNewItem_4 = new MenuItem(menu, SWT.NONE);
+		mntmNewItem_4.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				MW.updateGraphPanel("divide",signal, graphPanel);
+			}
+		});
 		mntmNewItem_4.setText("/ divide");
 	
 
