@@ -31,6 +31,7 @@ public class GraphParametersDialog extends Dialog {
 	private Text dTextBox;
 	private Text TTextBox;
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
+	private Combo signalOptionComboBox;
 	
 	int f = 200;
 	double A = 1;
@@ -143,9 +144,9 @@ public class GraphParametersDialog extends Dialog {
 				double d = Double.parseDouble(dTextBox.getText());
 				double T = Double.parseDouble(TTextBox.getText());
 				
-				Signal signal = SignalFactory.getSignal(selectedIndex, f, A, t1, d, T);
+				Signal signal = SignalFactory.getSignal(signalOptionComboBox.getText(), f, A, t1, d, T);
 				shell.dispose();
-				createGraphWindow(signal);	
+				WindowsManager.createSignalChartsWindow(signal);
 			}
 		});
 		btnOk.setBounds(324, 138, 90, 30);
@@ -156,6 +157,7 @@ public class GraphParametersDialog extends Dialog {
 		btnCancel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
+				
 				shell.dispose();
 			}
 		});
@@ -163,7 +165,7 @@ public class GraphParametersDialog extends Dialog {
 		btnCancel.setBounds(213, 138, 90, 30);
 		formToolkit.adapt(btnCancel, true, true);
 		
-		Combo signalOptionComboBox = new Combo(shell, SWT.NONE);
+		signalOptionComboBox = new Combo(shell, SWT.NONE);
 		signalOptionComboBox.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -171,19 +173,21 @@ public class GraphParametersDialog extends Dialog {
 				updateVisabilityOfTextBoxes();
 			}
 		});
-		signalOptionComboBox.setItems(new String[] {"(S1) szum o rozk\u0142adzie jednostajnym", "(S2) szum gaussowski", "(S3) sygna\u0142 sinusoidalny", "(S4) sygna\u0142 sinusoidalny wyprostowany jednopo\u0142\u00F3wkowo", "(S5) sygna\u0142 sinusoidalny wyprostowany dwupo\u0142\u00F3wkowo", "(S6) sygna\u0142 prostok\u0105tny", "(S7) sygna\u0142 prostok\u0105tny symetryczny", "(S8) sygna\u0142 tr\u00F3jk\u0105tny", "(S9) skok jednostkowy", "(S10) impuls jednostkowy", "(S11) szum impulsowy"});
+		signalOptionComboBox.setItems(new String[] {
+				"(S1) szum o rozk\u0142adzie jednostajnym", 
+				"(S2) szum gaussowski", 
+				"(S3) sygna\u0142 sinusoidalny", 
+				"(S4) sygna\u0142 sinusoidalny wyprostowany jednopo\u0142\u00F3wkowo", 
+				"(S5) sygna\u0142 sinusoidalny wyprostowany dwupo\u0142\u00F3wkowo", 
+				"(S6) sygna\u0142 prostok\u0105tny", 
+				"(S7) sygna\u0142 prostok\u0105tny symetryczny", 
+				"(S8) sygna\u0142 tr\u00F3jk\u0105tny", 
+				"(S9) skok jednostkowy", 
+				"(S10) impuls jednostkowy", 
+				"(S11) szum impulsowy"});
 		signalOptionComboBox.setBounds(23, 23, 401, 28);
 		signalOptionComboBox.select(0);
 
-	}
-	private void createGraphWindow(Signal signal) {
-			try {
-				SignalChartsWindow window = new SignalChartsWindow();
-				window.open(signal);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 	}
 	
 	private void updateVisabilityOfTextBoxes() {

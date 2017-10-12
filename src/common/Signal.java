@@ -5,6 +5,7 @@ public abstract class Signal {
 	protected int t1; //czas poczatkowy
 	protected double d; // signal duration 
 	protected String name;
+	protected boolean composite = false; // type of signal
 	
 	/**
 	 * Constructor for this class.
@@ -27,5 +28,8 @@ public abstract class Signal {
 	abstract public double[][] generateSignal();
 	public String getName() {
 		return name;		
+	}
+	public boolean isComposite() {
+		return composite;
 	}
 }
