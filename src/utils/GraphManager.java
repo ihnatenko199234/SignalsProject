@@ -14,13 +14,17 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import common.Signal;
+
 public class GraphManager extends JFrame {
 	
-	public GraphManager(String chartTitle, double[][] array) {
+	public GraphManager(int selectedIndex, Signal signal) {
 		super();
 		
-		XYDataset dataset = createDataset(array); 
-		JPanel chartPanel = createChartPanel(chartTitle, dataset);
+		double[][] array = signal.generateSignal();
+		XYDataset dataset = createDataset(array); 		
+		
+		JPanel chartPanel = createChartPanel(signal.getName(), dataset);
 		this.add(chartPanel, BorderLayout.CENTER);
 		setSize(640, 480);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,7 +40,7 @@ public class GraphManager extends JFrame {
 		
 		return new ChartPanel(chart);
 	}
-	
+
 	private XYDataset createDataset(double[][] array) {
 		XYSeriesCollection dataset = new XYSeriesCollection();
 		XYSeries series1 = new XYSeries("Object 1");

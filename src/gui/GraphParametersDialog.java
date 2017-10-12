@@ -12,20 +12,31 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+
+import common.Signal;
+import common.SignalFactory;
+
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
 public class GraphParametersDialog extends Dialog {
 
 	protected Object result;
-	protected Shell shlChooseSignalAnd;
+	protected Shell shell;
 	private Text fTextBox;
 	private Text ATextBox;
 	private Text t1TextBox;
 	private Text dTextBox;
 	private Text TTextBox;
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
-
+	
+	int f = 200;
+	double A = 1;
+	int t1 = 0;
+	double d = 2;
+	double T = 1;
+	
+	int selectedIndex;
 	/**
 	 * Create the dialog.
 	 * @param parent
@@ -42,10 +53,10 @@ public class GraphParametersDialog extends Dialog {
 	 */
 	public Object open() {
 		createContents();
-		shlChooseSignalAnd.open();
-		shlChooseSignalAnd.layout();
+		shell.open();
+		shell.layout();
 		Display display = getParent().getDisplay();
-		while (!shlChooseSignalAnd.isDisposed()) {
+		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
@@ -57,12 +68,12 @@ public class GraphParametersDialog extends Dialog {
 	 * Create contents of the dialog.
 	 */
 	private void createContents() {
-		shlChooseSignalAnd = new Shell(getParent(), getStyle());
-		shlChooseSignalAnd.setModified(true);
-		shlChooseSignalAnd.setSize(450, 281);
-		shlChooseSignalAnd.setText("Choose signal and set parameters");
+		shell = new Shell(getParent(), getStyle());
+		shell.setModified(true);
+		shell.setSize(450, 281);
+		shell.setText("Choose signal and set parameters");
 		
-		Composite composite = new Composite(shlChooseSignalAnd, SWT.NONE);
+		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setBounds(0, 57, 444, 191);
 		
 		Label lblNewLabel = new Label(composite, SWT.NONE);
@@ -105,11 +116,27 @@ public class GraphParametersDialog extends Dialog {
 		TTextBox = new Text(composite, SWT.BORDER);
 		TTextBox.setBounds(91, 90, 78, 26);
 		
+		fTextBox.setText(String.valueOf(f));
+		ATextBox.setText(String.valueOf(A));
+		t1TextBox.setText(String.valueOf(t1));
+		dTextBox.setText(String.valueOf(d));
+		TTextBox.setText(String.valueOf(T));
+		
+		updateVisabilityOfTextBoxes();
+		
 		Button btnOk = new Button(composite, SWT.NONE);
 		btnOk.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
+				int f = Integer.parseInt(fTextBox.getText());
+				double A = Double.parseDouble(ATextBox.getText());
+				int t1 = Integer.parseInt(t1TextBox.getText());
+				double d = Double.parseDouble(dTextBox.getText());
+				double T = Double.parseDouble(TTextBox.getText());
 				
+				Signal signal = SignalFactory.getSignal(selectedIndex, f, A, t1, d, T);
+				shell.dispose();
+				createGraphWindow(signal);	
 			}
 		});
 		btnOk.setBounds(324, 138, 90, 30);
@@ -121,19 +148,32 @@ public class GraphParametersDialog extends Dialog {
 		btnCancel.setBounds(213, 138, 90, 30);
 		formToolkit.adapt(btnCancel, true, true);
 		
-		Combo signalOptionComboBox = new Combo(shlChooseSignalAnd, SWT.NONE);
+		Combo signalOptionComboBox = new Combo(shell, SWT.NONE);
 		signalOptionComboBox.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				int index = signalOptionComboBox.getSelectionIndex();
-				if(index == 0 || index == 1 || index == 8 || index == 9 || index == 10) {
-					TTextBox.setEnabled(false);
-				}
+				selectedIndex = signalOptionComboBox.getSelectionIndex();
+				updateVisabilityOfTextBoxes();
 			}
 		});
 		signalOptionComboBox.setItems(new String[] {"(S1) szum o rozk\u0142adzie jednostajnym", "(S2) szum gaussowski", "(S3) sygna\u0142 sinusoidalny", "(S4) sygna\u0142 sinusoidalny wyprostowany jednopo\u0142\u00F3wkowo", "(S5) sygna\u0142 sinusoidalny wyprostowany dwupo\u0142\u00F3wkowo", "(S6) sygna\u0142 prostok\u0105tny", "(S7) sygna\u0142 prostok\u0105tny symetryczny", "(S8) sygna\u0142 tr\u00F3jk\u0105tny", "(S9) skok jednostkowy", "(S10) impuls jednostkowy", "(S11) szum impulsowy"});
 		signalOptionComboBox.setBounds(23, 23, 401, 28);
 		signalOptionComboBox.select(0);
 
+	}
+	private void createGraphWindow(Signal signal) {
+			try {
+				SignalChartsWindow window = new SignalChartsWindow();
+				window.open(signal);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
+	
+	private void updateVisabilityOfTextBoxes() {
+		if(selectedIndex == 0 || selectedIndex == 1 || selectedIndex == 8 || selectedIndex == 9 || selectedIndex == 10) {
+			TTextBox.setEnabled(false);
+		}
 	}
 }
