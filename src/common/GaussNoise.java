@@ -5,10 +5,11 @@ public class GaussNoise extends Signal {
 
   public GaussNoise( double A, int t1, int f, double d ) {
     super( A, t1, f, d );
+    name = "Gauss noise";
   }
 
   @Override
-  protected double[][] generateSignal() {
+public double[][] generateSignal() {
     double[][] tab = new double[(int)(d*f)][2];
     Random rand = new Random();
     for(int i = 0; i < d*f; i++) {

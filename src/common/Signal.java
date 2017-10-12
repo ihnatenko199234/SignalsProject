@@ -4,6 +4,7 @@ public abstract class Signal {
 	protected double A; //amplituda
 	protected int t1; //czas poczatkowy
 	protected double d; // signal duration 
+	protected String name;
 	
 	/**
 	 * Constructor for this class.
@@ -23,5 +24,8 @@ public abstract class Signal {
 	 * Generates 2-dimentional Vector with function values 
 	 * @return
 	 */
-	abstract protected double[][] generateSignal();
+	abstract public double[][] generateSignal();
+	public String getName() {
+		return name;		
+	}
 }
