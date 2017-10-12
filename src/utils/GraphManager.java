@@ -16,32 +16,34 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import common.Signal;
 
-public class GraphManager extends JFrame {
+public class GraphManager {
+//extends JFrame {
 	
-	public GraphManager(int selectedIndex, Signal signal) {
-		super();
-		
-		double[][] array = signal.generateSignal();
-		XYDataset dataset = createDataset(array); 		
-		
-		JPanel chartPanel = createChartPanel(signal.getName(), dataset);
-		this.add(chartPanel, BorderLayout.CENTER);
-		setSize(640, 480);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
+	public GraphManager() {
+		//super();
+
+		//JPanel chartPanel = createGraphPanel(signal.getName(), dataset);
+//		this.add(chartPanel, BorderLayout.CENTER);
+//		setSize(640, 480);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setLocationRelativeTo(null);
 	}
 	
-	private JPanel createChartPanel(String chartTitle, XYDataset dataset ) {
+	public static JPanel createGraphPanel(Signal signal) {
+		
+		double[][] array = signal.generateSignal();
+		XYDataset dataset = createDataset(array); 	
+		
 		String xAxisLabel = "X";
 		String yAxisLabel = "Y";
 		
-		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle, xAxisLabel, yAxisLabel, dataset,
+		JFreeChart chart = ChartFactory.createXYLineChart(signal.getName(), xAxisLabel, yAxisLabel, dataset,
 				PlotOrientation.VERTICAL, false, false, false);
 		
 		return new ChartPanel(chart);
 	}
 
-	private XYDataset createDataset(double[][] array) {
+	private static XYDataset createDataset(double[][] array) {
 		XYSeriesCollection dataset = new XYSeriesCollection();
 		XYSeries series1 = new XYSeries("Object 1");
 		for(int i=0; i<array.length; i++) {
