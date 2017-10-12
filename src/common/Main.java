@@ -37,8 +37,8 @@ public class Main {
 
 //		System.out.println(Arrays.deepToString(array).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 		
-		GraphManager graphManager = new GraphManager(1, triangle);
-		graphManager.setVisible(true);
+		GraphManager graphManager = new GraphManager();
+//		graphManager.setVisible(true);
 		
 		try {
 			MainWindow window = new MainWindow();
