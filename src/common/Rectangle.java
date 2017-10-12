@@ -15,16 +15,13 @@ public class Rectangle extends PeriodicSignal {
 
 	@Override
 	public double[][] generateSignal() {
-	  
-	  //TODO dodac wspolczynnik wypelnienia kw
-	  
 		double[][] tab = new double[(int)(d*f)][2];
 		
 		for(int i = 0; i < d*f; i++) {
 			tab[i][0] = t1 + (1.0/f * i); 
 			
 			if((1.0/f * i) % T >= t1 && (1.0/f * i) % T < kw * T + t1) {
-			  tab[i][1] = A;// * Math.sin( (2*Math.PI / T) * ( 1.0/f * i - t1));
+			  tab[i][1] = A;
 			}
 			else {
 			  tab[i][1] = 0;

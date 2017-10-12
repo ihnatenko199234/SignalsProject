@@ -28,7 +28,7 @@ public class Main {
 
 		System.out.println(Arrays.deepToString(array).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 		
-		GraphManager graphManager = new GraphManager("Sinus", array);
+		GraphManager graphManager = new GraphManager(1, saw);
 		graphManager.setVisible(true);
 		
 		try {
