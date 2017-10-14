@@ -20,7 +20,6 @@ import common.SignalFactory;
 
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.wb.swt.SWTResourceManager;
 
 public class GraphParametersDialog extends Dialog {
 
@@ -92,7 +91,6 @@ public class GraphParametersDialog extends Dialog {
 		shell.setText("Choose signal and set parameters");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		composite.setBounds(0, 57, 444, 244);
 		
 		Label lblNewLabel = new Label(composite, SWT.NONE);
@@ -106,25 +104,21 @@ public class GraphParametersDialog extends Dialog {
 		lblNewLabel_1.setText("A");
 		
 		Label lblNewLabel_2 = new Label(composite, SWT.NONE);
-		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		lblNewLabel_2.setToolTipText("start time");
 		lblNewLabel_2.setBounds(251, 13, 30, 20);
 		lblNewLabel_2.setText("t1");
 		
 		Label lblNewLabel_3 = new Label(composite, SWT.NONE);
-		lblNewLabel_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		lblNewLabel_3.setToolTipText("duration");
 		lblNewLabel_3.setBounds(251, 51, 30, 20);
 		lblNewLabel_3.setText("d");
 		
 		Label lblT = new Label(composite, SWT.NONE);
-		lblT.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		lblT.setToolTipText("period");
 		lblT.setBounds(55, 93, 30, 20);
 		lblT.setText("T");
 		
 		Label lblTs = new Label(composite, SWT.NONE);
-		lblTs.setForeground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		lblTs.setToolTipText("t[s] wype\u0142nienie");
 		lblTs.setText("ts");
 		lblTs.setBounds(55, 135, 30, 20);
@@ -133,7 +127,6 @@ public class GraphParametersDialog extends Dialog {
 		Label lblPs = new Label(composite, SWT.NONE);
 		lblPs.setToolTipText("numer pr\u00F3bki, dla kt\u00F3rej nast\u0119puje skok amplitudy");
 		lblPs.setText("ns");
-		lblPs.setForeground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		lblPs.setBounds(251, 135, 30, 20);
 		formToolkit.adapt(lblPs, true, true);
 		
@@ -212,7 +205,6 @@ public class GraphParametersDialog extends Dialog {
 		Label lblP = new Label(composite, SWT.NONE);
 		lblP.setToolTipText("prawdopodobie\u0144stwem wyst\u0105pienia warto\u015Bci A");
 		lblP.setText("p");
-		lblP.setForeground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		lblP.setBounds(251, 93, 30, 20);
 		formToolkit.adapt(lblP, true, true);
 		
