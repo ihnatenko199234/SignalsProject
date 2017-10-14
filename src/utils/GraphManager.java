@@ -29,9 +29,9 @@ public class GraphManager {
 		
 	}
 	
-	public static JPanel createGraphPanel(Signal signal) {
+	public static JPanel createGraphPanel(double[][] array, String title) {
 		
-		double[][] array = signal.generateSignal();
+		
 		//ArrayList arrayList= new ArrayList(Arrays.asList(array));
 		
 		XYDataset dataset = createDatasetDouble(array); 	
@@ -39,7 +39,7 @@ public class GraphManager {
 		String xAxisLabel = "X";
 		String yAxisLabel = "Y";
 		
-		JFreeChart chart = ChartFactory.createXYLineChart(signal.getName(), xAxisLabel, yAxisLabel, dataset,
+		JFreeChart chart = ChartFactory.createXYLineChart(title, xAxisLabel, yAxisLabel, dataset,
 				PlotOrientation.VERTICAL, false, false, false);
 		
 		return new ChartPanel(chart);
@@ -66,9 +66,7 @@ public class GraphManager {
 	}
 	
 	
-	public static JPanel createHistogramPanel(double[][] values, int blockSize) {
-		int[][] histogramValues = SignalTools.generateHistogram(values, blockSize);
-		
+	public static JPanel createHistogramPanel(int[][] values, int blockSize) {
 	    HistogramDataset dataset = new HistogramDataset();
 	    dataset.setType(HistogramType.RELATIVE_FREQUENCY);
 	    //dataset.addSeries("Histogram",histogramValues,blockSize);
