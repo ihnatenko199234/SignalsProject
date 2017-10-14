@@ -76,4 +76,44 @@ public class SignalTools {
 		double srednia = suma/n2;
 		return srednia;
 	}
+	
+	public static double getWartoscSredniaBezwzgledna(double[][] sygnal, double f, double d) {
+		double suma = 0;
+		for(int n = 0; n < sygnal.length; n++) {
+			suma += Math.abs(sygnal[n][1]);
+		}
+		
+		double n2 = f * d;
+		
+		double srednia = suma/n2;
+		return srednia;
+	}
+	
+	public static double getWartoscSredniaMoc(double[][] sygnal, double f, double d) {
+		double suma = 0;
+		for(int n = 0; n < sygnal.length; n++) {
+			suma += Math.pow((sygnal[n][1]), 2);
+		}
+		
+		double n2 = f * d;
+		
+		double srednia = suma/n2;
+		return srednia;
+	}
+	
+	public static double getWartoscWariancja(double[][] sygnal, double f, double d, double sredniaSygnalu) {
+		double suma = 0;
+		for(int n = 0; n < sygnal.length; n++) {
+			suma += Math.pow((sygnal[n][1] - sredniaSygnalu), 2);
+		}
+		
+		double n2 = f * d;
+		
+		double srednia = suma/n2;
+		return srednia;
+	}
+	
+	public static double getWartoscSkuteczna(double mocSrednia) {
+		return Math.sqrt(mocSrednia);
+	}
 }
