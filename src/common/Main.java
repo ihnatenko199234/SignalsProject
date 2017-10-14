@@ -50,7 +50,7 @@ public class Main {
 		double varSkuteczna = SignalTools.getWartoscSkuteczna(sredniaMoc);
 //		System.out.println("wartosc skuteczna: " + varSkuteczna);
 		
-		double[][] dodawanie = SignalTools.dodajSygnaly(array1, array);
+		double[][] dodawanie = SignalTools.addSignals(array1, array);
 		System.out.println(Arrays.deepToString(dodawanie).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
 	    WindowsManager WM = new WindowsManager();
