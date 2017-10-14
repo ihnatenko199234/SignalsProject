@@ -21,7 +21,6 @@ import common.SignalFactory;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
-
 public class GraphParametersDialog extends Dialog {
 
 	protected Object result;
