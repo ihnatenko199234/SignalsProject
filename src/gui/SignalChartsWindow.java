@@ -24,6 +24,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Combo;
 
 public class SignalChartsWindow {
 
@@ -31,7 +32,7 @@ public class SignalChartsWindow {
 	private Signal signal;
 	private MainWindow MW;
 	
-	private int blockSize;
+	private int blockSize = 5;
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 	private Label averageInfLbl;
 	private Label averageAbsoluteInfLbl;
@@ -169,6 +170,22 @@ public class SignalChartsWindow {
 		effectiveValueInfLbl = formToolkit.createLabel(shell, "", SWT.NONE);
 		effectiveValueInfLbl.setBounds(138, 165, 70, 20);
 		
+		Label lblNewLabel_4 = formToolkit.createLabel(shell, "Block size for histogram:", SWT.NONE);
+		lblNewLabel_4.setBounds(33, 243, 168, 20);
+		
+		Combo blockSizeComboBox = new Combo(shell, SWT.NONE);
+		blockSizeComboBox.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				blockSize = Integer.parseInt(blockSizeComboBox.getText());
+			}
+		});
+		blockSizeComboBox.setItems(new String[] {"5", "10", "15", "20"});
+		blockSizeComboBox.setBounds(207, 239, 52, 28);
+		formToolkit.adapt(blockSizeComboBox);
+		formToolkit.paintBordersFor(blockSizeComboBox);
+		blockSizeComboBox.select(0);
+		
 		updateInfoLabels();
 	}
 	
@@ -181,7 +198,6 @@ public class SignalChartsWindow {
 		averageAbsoluteInfLbl.setText(Double.toString(SignalTools.getWartoscSredniaBezwzgledna(graphValues, f, d)));
 		averagePowerInfLbl.setText(Double.toString(averagePower));
 		varianceInfLbl.setText(Double.toString(SignalTools.getWartoscWariancja(graphValues, f, d, average)));
-		effectiveValueInfLbl.setText(Double.toString(SignalTools.getWartoscSkuteczna(averagePower)));
-		
+		effectiveValueInfLbl.setText(Double.toString(SignalTools.getWartoscSkuteczna(averagePower)));		
 	}
 }
