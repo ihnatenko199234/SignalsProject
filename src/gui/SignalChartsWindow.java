@@ -108,7 +108,7 @@ public class SignalChartsWindow {
 		mntmNewItem_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				MW.updateGraphPanel("add",signal, graphPanel);
+				MW.updateGraphPanel("+",signal, graphValues);
 			}
 		});
 		mntmNewItem_1.setText("+ add");
@@ -117,7 +117,7 @@ public class SignalChartsWindow {
 		mntmNewItem_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				MW.updateGraphPanel("substract",signal, graphPanel);
+				MW.updateGraphPanel("-",signal, graphValues);
 			}
 		});
 		mntmNewItem_2.setText("- substract");
@@ -126,7 +126,7 @@ public class SignalChartsWindow {
 		mntmNewItem_3.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				MW.updateGraphPanel("multiply",signal, graphPanel);
+				//MW.updateGraphPanel("*",signal, graphValues);
 			}
 		});
 		mntmNewItem_3.setText("* multiply");
@@ -135,7 +135,7 @@ public class SignalChartsWindow {
 		mntmNewItem_4.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				MW.updateGraphPanel("divide",signal, graphPanel);
+				//MW.updateGraphPanel("/",signal, graphValues);
 			}
 		});
 		mntmNewItem_4.setText("/ divide");
