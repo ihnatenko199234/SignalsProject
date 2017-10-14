@@ -32,4 +32,22 @@ public abstract class Signal {
 	public boolean isComposite() {
 		return composite;
 	}
+
+	public int getF() {
+		return f;
+	}
+
+	public double getA() {
+		return A;
+	}
+
+	public int getT1() {
+		return t1;
+	}
+
+	public double getD() {
+		return d;
+	}
+	
+	
 }
