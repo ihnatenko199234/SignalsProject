@@ -116,4 +116,52 @@ public class SignalTools {
 	public static double getWartoscSkuteczna(double mocSrednia) {
 		return Math.sqrt(mocSrednia);
 	}
+	
+	public static double[][] addSignals(double[][] syg1, double[][] syg2) {		
+		int length = syg1.length <= syg2.length ? syg1.length : syg2.length;
+		double[][] tab = new double[length][2];
+		
+		for(int i = 0; i < length; i++) {
+			tab[i][0] = syg1[i][0];
+			tab[i][1] = syg1[i][1] + syg2[i][1];
+		}
+		
+		return tab;
+	}
+	
+	public static double[][] substractSignals(double[][] syg1, double[][] syg2) {		
+		int length = syg1.length <= syg2.length ? syg1.length : syg2.length;
+		double[][] tab = new double[length][2];
+		
+		for(int i = 0; i < length; i++) {
+			tab[i][0] = syg1[i][0];
+			tab[i][1] = syg1[i][1] - syg2[i][1];
+		}
+		
+		return tab;
+	}
+	
+	public static double[][] multiplySignals(double[][] syg1, double[][] syg2) {		
+		int length = syg1.length <= syg2.length ? syg1.length : syg2.length;
+		double[][] tab = new double[length][2];
+		
+		for(int i = 0; i < length; i++) {
+			tab[i][0] = syg1[i][0];
+			tab[i][1] = syg1[i][1] * syg2[i][1];
+		}
+		
+		return tab;
+	}
+	
+	public static double[][] divideSignals(double[][] syg1, double[][] syg2) {		
+		int length = syg1.length <= syg2.length ? syg1.length : syg2.length;
+		double[][] tab = new double[length][2];
+		
+		for(int i = 0; i < length; i++) {
+			tab[i][0] = syg1[i][0];
+			tab[i][1] = syg2[i][1] != 0 ? syg1[i][1] / syg2[i][1] : syg1[i][1];
+		}
+		
+		return tab;
+	}
 }

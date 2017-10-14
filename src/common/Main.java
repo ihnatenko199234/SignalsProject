@@ -1,6 +1,7 @@
 package common;
 import java.util.Arrays;
 
+import gui.SignalChartsWindow;
 import gui.WindowsManager;
 
 public class Main {
@@ -10,7 +11,7 @@ public class Main {
 				    czasTrwania = 2,
 		 			okres = 1;
 		int 	  	czasPoczatkowy = 0,
-				    ilProbek = 100000;
+				    ilProbek = 100;
 				   
 				
 		ConstNoise n = new ConstNoise(amplituda, czasPoczatkowy, ilProbek, czasTrwania);
@@ -23,7 +24,7 @@ public class Main {
 		UnitImpuls unitImpuls = new UnitImpuls(2, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 		ImpulsNoise impulsNoise = new ImpulsNoise(0.01, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 		PeriodicImpulses periodImpuls = new PeriodicImpulses(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-//		double[][] array = n.generateSignal();
+		double[][] array1 = n.generateSignal();
 //		double[][] array = g.generateSignal();
 //		double[][] array = sin.generateSignal();
 //		double[][] array = sinProsty.generateSignal();
@@ -37,23 +38,23 @@ public class Main {
 		int[][] histogram = SignalTools.generateHistogram(array, 1);
 		
 		double srednia = SignalTools.getWartoscSrednia(array, ilProbek, czasTrwania);
-		System.out.println("srednia: " + srednia);
+//		System.out.println("srednia: " + srednia);
 		double sredniaBezwzgledna = SignalTools.getWartoscSredniaBezwzgledna(array, ilProbek, czasTrwania);
-		System.out.println("srednia bezwzgledna: " + sredniaBezwzgledna);
+//		System.out.println("srednia bezwzgledna: " + sredniaBezwzgledna);
 		double sredniaMoc = SignalTools.getWartoscSredniaMoc(array, ilProbek, czasTrwania);
-		System.out.println("srednia moc: " + sredniaMoc);
+//		System.out.println("srednia moc: " + sredniaMoc);
 		
 		double wariancja = SignalTools.getWartoscWariancja(array, ilProbek, czasTrwania, srednia);
-		System.out.println("wariancja: " + wariancja);
+//		System.out.println("wariancja: " + wariancja);
 		
 		double varSkuteczna = SignalTools.getWartoscSkuteczna(sredniaMoc);
-		System.out.println("wartosc skuteczna: " + varSkuteczna);
+//		System.out.println("wartosc skuteczna: " + varSkuteczna);
 		
-//		System.out.println(Arrays.deepToString(histogram).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-		
+		double[][] dodawanie = SignalTools.addSignals(array1, array);
+		System.out.println(Arrays.deepToString(dodawanie).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+
 	    WindowsManager WM = new WindowsManager();
 		WM.createMainWindow();
-
 	}
 
 }
