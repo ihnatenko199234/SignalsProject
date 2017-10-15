@@ -109,7 +109,7 @@ public class MainWindow {
 	}
 	
 	public void updateGraphPanel(String operation, Signal currentSignal, double[][] currentSignalValues) {
-		if(currentSignal.isComposite())shell.setSize(800, 1040);
+		if(currentSignal.isImaginary())shell.setSize(800, 1040);
 		else shell.setSize(800, 520);
 		frame.removeAll();
 		

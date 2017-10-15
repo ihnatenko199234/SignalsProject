@@ -16,6 +16,7 @@ public double[][] generateSignal() {
       tab[i][0] = t1 + ((double) 1/f * i);
       tab[i][1] = (double) ( (rand.nextGaussian() * (2 * A)) );
     } 
+    values = tab;
     return tab;
   }
 
