@@ -191,7 +191,7 @@ public class SignalChartsWindow {
 		effectiveValueInfLbl = formToolkit.createLabel(shell, "", SWT.NONE);
 		effectiveValueInfLbl.setBounds(138, 165, 70, 20);
 		
-		Label lblNewLabel_4 = formToolkit.createLabel(shell, "Block size for histogram:", SWT.NONE);
+		Label lblNewLabel_4 = formToolkit.createLabel(shell, "Block count for histogram:", SWT.NONE);
 		lblNewLabel_4.setBounds(33, 243, 168, 20);
 		
 		Combo blockSizeComboBox = new Combo(shell, SWT.NONE);
