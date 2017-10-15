@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Shell;
 import common.Signal;
 import common.SignalTools;
 import utils.GraphManager;
+import utils.SerializationManager;
 
 import org.eclipse.swt.widgets.Menu;
 
@@ -15,9 +16,11 @@ import org.eclipse.swt.widgets.Monitor;
 
 import java.awt.Frame;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
 
@@ -105,15 +108,21 @@ public class MainWindow {
 		mntmNewItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
+				JFileChooser jFileChooser = new JFileChooser();
+				jFileChooser.setCurrentDirectory(new File("/User/"));
 
-				//int returnValue = jfc.showOpenDialog(null);
-				 int returnValue = jfc.showSaveDialog(null);
+				int result = jFileChooser.showOpenDialog(new JFrame());
 
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
-					File selectedFile = jfc.getSelectedFile();
-					System.out.println(selectedFile.getAbsolutePath());
-				}
+				if (result == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = jFileChooser.getSelectedFile();
+					try {
+						SerializationManager.importSignal(selectedFile.getPath());
+					} catch (ClassNotFoundException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					}
+				
 			}
 		});
 		mntmNewItem.setText("Import signal");
