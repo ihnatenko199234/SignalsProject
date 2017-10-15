@@ -20,6 +20,7 @@ import common.SignalFactory;
 
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class GraphParametersDialog extends Dialog {
 
@@ -70,6 +71,37 @@ public class GraphParametersDialog extends Dialog {
 		int y = bounds.y + (bounds.height - rect.height) / 2;
 		shell.setLocation(x, y);
 		
+		Composite composite = new Composite(shell, SWT.NONE);
+		composite.setBounds(-11, 0, 465, 64);
+		formToolkit.adapt(composite);
+		formToolkit.paintBordersFor(composite);
+		
+
+		
+		signalOptionComboBox = new Combo(composite, SWT.NONE);
+		signalOptionComboBox.setLocation(37, 26);
+		signalOptionComboBox.setSize(401, 28);
+		signalOptionComboBox.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				selectedIndex = signalOptionComboBox.getSelectionIndex();
+				updateVisabilityOfTextBoxes();
+			}
+		});
+		signalOptionComboBox.setItems(new String[] {
+				"(S1) szum o rozk\u0142adzie jednostajnym", 
+				"(S2) szum gaussowski", 
+				"(S3) sygna\u0142 sinusoidalny", 
+				"(S4) sygna\u0142 sinusoidalny wyprostowany jednopo\u0142\u00F3wkowo", 
+				"(S5) sygna\u0142 sinusoidalny wyprostowany dwupo\u0142\u00F3wkowo", 
+				"(S6) sygna\u0142 prostok\u0105tny", 
+				"(S7) sygna\u0142 prostok\u0105tny symetryczny", 
+				"(S8) sygna\u0142 tr\u00F3jk\u0105tny", 
+				"(S9) skok jednostkowy", 
+				"(S10) impuls jednostkowy", 
+				"(S11) szum impulsowy"});
+		signalOptionComboBox.select(0);
+		
 		shell.open();
 		shell.layout();
 		Display display = getParent().getDisplay();
@@ -87,72 +119,78 @@ public class GraphParametersDialog extends Dialog {
 	private void createContents() {
 		shell = new Shell(getParent(), getStyle());
 		shell.setModified(true);
-		shell.setSize(450, 336);
+		shell.setSize(450, 325);
 		shell.setText("Choose signal and set parameters");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(0, 57, 444, 244);
+		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBounds(0, 57, 454, 288);
 		
 		Label lblNewLabel = new Label(composite, SWT.NONE);
+		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel.setToolTipText(" amount of samples used to mimic continuity of the function");
-		lblNewLabel.setBounds(55, 13, 30, 20);
+		lblNewLabel.setBounds(55, 38, 30, 20);
 		lblNewLabel.setText("f");
 		
 		Label lblNewLabel_1 = new Label(composite, SWT.NONE);
+		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_1.setToolTipText("amplitude");
-		lblNewLabel_1.setBounds(55, 51, 30, 20);
+		lblNewLabel_1.setBounds(55, 76, 30, 20);
 		lblNewLabel_1.setText("A");
 		
 		Label lblNewLabel_2 = new Label(composite, SWT.NONE);
+		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_2.setToolTipText("start time");
-		lblNewLabel_2.setBounds(251, 13, 30, 20);
+		lblNewLabel_2.setBounds(251, 38, 30, 20);
 		lblNewLabel_2.setText("t1");
 		
 		Label lblNewLabel_3 = new Label(composite, SWT.NONE);
+		lblNewLabel_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_3.setToolTipText("duration");
-		lblNewLabel_3.setBounds(251, 51, 30, 20);
+		lblNewLabel_3.setBounds(251, 76, 30, 20);
 		lblNewLabel_3.setText("d");
 		
 		Label lblT = new Label(composite, SWT.NONE);
+		lblT.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblT.setToolTipText("period");
-		lblT.setBounds(55, 93, 30, 20);
+		lblT.setBounds(55, 118, 30, 20);
 		lblT.setText("T");
 		
 		Label lblTs = new Label(composite, SWT.NONE);
 		lblTs.setToolTipText("t[s] wype\u0142nienie");
 		lblTs.setText("ts");
-		lblTs.setBounds(55, 135, 30, 20);
+		lblTs.setBounds(55, 160, 30, 20);
 		formToolkit.adapt(lblTs, true, true);
 		
 		Label lblPs = new Label(composite, SWT.NONE);
 		lblPs.setToolTipText("numer pr\u00F3bki, dla kt\u00F3rej nast\u0119puje skok amplitudy");
 		lblPs.setText("ns");
-		lblPs.setBounds(251, 135, 30, 20);
+		lblPs.setBounds(251, 160, 30, 20);
 		formToolkit.adapt(lblPs, true, true);
 		
 		fTextBox = new Text(composite, SWT.BORDER);
-		fTextBox.setBounds(91, 10, 78, 26);
+		fTextBox.setBounds(91, 35, 78, 26);
 		
 		ATextBox = new Text(composite, SWT.BORDER);
-		ATextBox.setBounds(91, 48, 78, 26);
+		ATextBox.setBounds(91, 73, 78, 26);
 		
 		t1TextBox = new Text(composite, SWT.BORDER);
-		t1TextBox.setBounds(287, 10, 78, 26);
+		t1TextBox.setBounds(287, 35, 78, 26);
 		
 		dTextBox = new Text(composite, SWT.BORDER);
-		dTextBox.setBounds(287, 48, 78, 26);
+		dTextBox.setBounds(287, 73, 78, 26);
 		
 		TTextBox = new Text(composite, SWT.BORDER);
-		TTextBox.setBounds(91, 90, 78, 26);
+		TTextBox.setBounds(91, 115, 78, 26);
 		
 		tsTextBox = new Text(composite, SWT.BORDER);
-		tsTextBox.setBounds(91, 129, 78, 26);
+		tsTextBox.setBounds(91, 154, 78, 26);
 		
 		nsTextBox = new Text(composite, SWT.BORDER);
-		nsTextBox.setBounds(287, 129, 78, 26);
+		nsTextBox.setBounds(287, 154, 78, 26);
 		
 		pTextBox = new Text(composite, SWT.BORDER);
-		pTextBox.setBounds(287, 87, 78, 26);
+		pTextBox.setBounds(287, 112, 78, 26);
 		
 		fTextBox.setText(String.valueOf(f));
 		ATextBox.setText(String.valueOf(A));
@@ -184,7 +222,7 @@ public class GraphParametersDialog extends Dialog {
 				WindowsManager.createSignalChartsWindow(signal);
 			}
 		});
-		btnOk.setBounds(231, 187, 90, 30);
+		btnOk.setBounds(231, 212, 90, 30);
 		formToolkit.adapt(btnOk, true, true);
 		btnOk.setText("OK");
 		
@@ -197,7 +235,7 @@ public class GraphParametersDialog extends Dialog {
 			}
 		});
 		btnCancel.setText("Cancel");
-		btnCancel.setBounds(120, 187, 90, 30);
+		btnCancel.setBounds(120, 212, 90, 30);
 		formToolkit.adapt(btnCancel, true, true);
 		
 		
@@ -205,33 +243,8 @@ public class GraphParametersDialog extends Dialog {
 		Label lblP = new Label(composite, SWT.NONE);
 		lblP.setToolTipText("prawdopodobie\u0144stwem wyst\u0105pienia warto\u015Bci A");
 		lblP.setText("p");
-		lblP.setBounds(251, 93, 30, 20);
+		lblP.setBounds(251, 118, 30, 20);
 		formToolkit.adapt(lblP, true, true);
-		
-
-		
-		signalOptionComboBox = new Combo(shell, SWT.NONE);
-		signalOptionComboBox.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				selectedIndex = signalOptionComboBox.getSelectionIndex();
-				updateVisabilityOfTextBoxes();
-			}
-		});
-		signalOptionComboBox.setItems(new String[] {
-				"(S1) szum o rozk\u0142adzie jednostajnym", 
-				"(S2) szum gaussowski", 
-				"(S3) sygna\u0142 sinusoidalny", 
-				"(S4) sygna\u0142 sinusoidalny wyprostowany jednopo\u0142\u00F3wkowo", 
-				"(S5) sygna\u0142 sinusoidalny wyprostowany dwupo\u0142\u00F3wkowo", 
-				"(S6) sygna\u0142 prostok\u0105tny", 
-				"(S7) sygna\u0142 prostok\u0105tny symetryczny", 
-				"(S8) sygna\u0142 tr\u00F3jk\u0105tny", 
-				"(S9) skok jednostkowy", 
-				"(S10) impuls jednostkowy", 
-				"(S11) szum impulsowy"});
-		signalOptionComboBox.setBounds(23, 23, 401, 28);
-		signalOptionComboBox.select(0);
 
 	}
 	

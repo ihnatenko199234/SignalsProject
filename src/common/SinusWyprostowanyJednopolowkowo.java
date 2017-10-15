@@ -14,6 +14,7 @@ public class SinusWyprostowanyJednopolowkowo extends PeriodicSignal {
       tab[i][0] = t1 + (1.0/f * i);
       tab[i][1] = 1.0/2 * A * (Math.sin( (2*Math.PI / T) * ( 1.0/f * i - t1)) + Math.abs( (Math.sin( (2*Math.PI / T) * ( 1.0/f * i - t1)) ))  );
     } 
+    values = tab;
     return tab;
   }
 

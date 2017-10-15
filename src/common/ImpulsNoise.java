@@ -2,8 +2,10 @@ package common;
 
 import java.util.Random;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class ImpulsNoise extends Signal {
-	
+	@XStreamOmitField
 	private double p;
 	public ImpulsNoise(double p, double A, int t1, int f, double d) {
 		super(A, t1, f, d);
@@ -27,6 +29,7 @@ public class ImpulsNoise extends Signal {
 			}
 			
 		} 
+		values = tab;
 		return tab;
 	}
 

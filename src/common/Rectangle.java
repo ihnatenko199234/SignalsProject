@@ -1,7 +1,10 @@
 package common;
-public class Rectangle extends PeriodicSignal {
 
-  private double kw;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+public class Rectangle extends PeriodicSignal {
+	@XStreamOmitField
+	private double kw;
 	public Rectangle(double T, double A, int t1, int f, double d) {
 		super(T, A, t1, f, d);
 		this.kw = 1.0/2;
@@ -31,6 +34,7 @@ public class Rectangle extends PeriodicSignal {
 			}
 			
 		} 
+		values = tab;
 		return tab;
 	}
 

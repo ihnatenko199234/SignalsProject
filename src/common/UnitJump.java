@@ -1,7 +1,9 @@
 package common;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class UnitJump extends Signal {
-	
+	@XStreamOmitField
 	private double ts;
 	public UnitJump(double ts, double A, int t1, int f, double d) {
 		super(A, t1, f, d);
@@ -27,6 +29,7 @@ public class UnitJump extends Signal {
 			}
 			
 		} 
+		values = tab;
 		return tab;
 	}
 

@@ -24,6 +24,7 @@ public class RectangleSymetrical extends PeriodicSignal {
 			}
 			
 		} 
+		values = tab;
 		return tab;
 	}
 

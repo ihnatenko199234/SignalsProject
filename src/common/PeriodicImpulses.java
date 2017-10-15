@@ -25,6 +25,7 @@ public class PeriodicImpulses extends PeriodicSignal {
 			}
 			
 		} 
+		values = tab;
 		return tab;
 	}
 
