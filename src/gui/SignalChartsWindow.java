@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import javax.swing.JPanel;
@@ -189,7 +191,7 @@ public class SignalChartsWindow {
 		effectiveValueInfLbl = formToolkit.createLabel(shell, "", SWT.NONE);
 		effectiveValueInfLbl.setBounds(138, 165, 70, 20);
 		
-		Label lblNewLabel_4 = formToolkit.createLabel(shell, "Block size for histogram:", SWT.NONE);
+		Label lblNewLabel_4 = formToolkit.createLabel(shell, "Block count for histogram:", SWT.NONE);
 		lblNewLabel_4.setBounds(33, 243, 168, 20);
 		
 		Combo blockSizeComboBox = new Combo(shell, SWT.NONE);
@@ -227,15 +229,18 @@ public class SignalChartsWindow {
 	}
 	
 	private void updateInfoLabels() {
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.CEILING);
+		
 		int f = signal.getF();
 		double d = signal.getD();
 		double average = SignalTools.getWartoscSrednia(signal.getValues(), f, d);
 		double averagePower = SignalTools.getWartoscSredniaMoc(signal.getValues(), f, d);
-		averageInfLbl.setText(Double.toString(average));
-		averageAbsoluteInfLbl.setText(Double.toString(SignalTools.getWartoscSredniaBezwzgledna(signal.getValues(), f, d)));
-		averagePowerInfLbl.setText(Double.toString(averagePower));
-		varianceInfLbl.setText(Double.toString(SignalTools.getWartoscWariancja(signal.getValues(), f, d, average)));
-		effectiveValueInfLbl.setText(Double.toString(SignalTools.getWartoscSkuteczna(averagePower)));		
+		averageInfLbl.setText(df.format(average));
+		averageAbsoluteInfLbl.setText(df.format(SignalTools.getWartoscSredniaBezwzgledna(signal.getValues(), f, d)));
+		averagePowerInfLbl.setText(df.format(averagePower));
+		varianceInfLbl.setText(df.format(SignalTools.getWartoscWariancja(signal.getValues(), f, d, average)));
+		effectiveValueInfLbl.setText(df.format(SignalTools.getWartoscSkuteczna(averagePower)));		
 	}
 	private void updateHistogramPanel() {
 		frame2.removeAll();

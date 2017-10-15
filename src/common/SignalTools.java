@@ -1,7 +1,5 @@
 package common;
 
-import java.util.Arrays;
-
 public class SignalTools {
 	
 	public static double[][] generateHistogram(double[][] values, int blockCount) {
@@ -28,6 +26,9 @@ public class SignalTools {
 					tab[j-1][1]++;
 					System.out.println(i + " + " + j);
 					break;
+				}
+				if(j == blockCount - 1) {
+					tab[j][1]++;
 				}
 			}
 		}
