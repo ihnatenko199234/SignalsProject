@@ -76,7 +76,8 @@ public class GraphManager {
 		double[][] histogramValues = SignalTools.generateHistogram(values, blockSize);
 		
 		XYSeriesCollection histogramDataset= new XYSeriesCollection();
-		histogramDataset.setIntervalWidth(blockSize);
+		double barWidth = (histogramValues[histogramValues.length -  1][0] - histogramValues[0][0]) / blockSize;
+		histogramDataset.setIntervalWidth(barWidth);
 		XYSeries xy= new XYSeries("");
 		
 		for(int i=0; i<histogramValues.length; i++) {
