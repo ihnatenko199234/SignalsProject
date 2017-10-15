@@ -16,7 +16,8 @@ public class UnitImpuls extends Signal {
 		for(int i = 0; i < d*f; i++) {
 			tab[i][0] = t1 + ((double) 1.0/f * i);
 			
-			if(1.0/f * i + t1 - ns == 0) {
+			double tmp = (double) Math.round(((1.0/f * i) + t1) * 1000000000d) / 1000000000d;
+			if( tmp  - ns == 0) {				
 				tab[i][1] = A;
 			}
 			else {

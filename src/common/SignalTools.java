@@ -1,5 +1,7 @@
 package common;
 
+import java.util.Arrays;
+
 public class SignalTools {
 	public static double[][] generateHistogram(double[][] values, double blockSize) {
 		
@@ -13,10 +15,10 @@ public class SignalTools {
 		}
 		
 		double ySize = min < 0 ? max - min : max;
-		System.out.println("ySize: " + ySize);
+//		System.out.println("ySize: " + ySize);
 		double blockCount = (ySize / blockSize);
-		System.out.println("blockCount: " + blockCount);
-		System.out.println("blockCount % 1: " + blockCount % 1);
+//		System.out.println("blockCount: " + blockCount);
+//		System.out.println("blockCount % 1: " + blockCount % 1);
 		int roundBlockCount = blockCount % 1 == 0 ? (int) blockCount : (int) blockCount + 1;
 		double firstBlock = min % blockSize == 0 ? min : (min/blockSize * blockSize); 
 		
@@ -24,7 +26,7 @@ public class SignalTools {
 		
 		for(int i = 0; i < roundBlockCount; i++) {
 			tab[i][0] = (firstBlock + i * blockSize);
-			System.out.println(tab[i][0]);
+//			System.out.println(tab[i][0]);
 			tab[i][1] = 0;
 		}
 		

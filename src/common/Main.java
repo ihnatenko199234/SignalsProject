@@ -13,7 +13,7 @@ public class Main {
 				    czasTrwania = 2,
 		 			okres = 1;
 		int 	  	czasPoczatkowy = 0,
-				    ilProbek = 10000;
+				    ilProbek = 1500;
 				   
 				
 		ConstNoise n = new ConstNoise(amplituda, czasPoczatkowy, ilProbek, czasTrwania);
@@ -23,7 +23,7 @@ public class Main {
 		SinusWyprostowanyDwupolowkowo sinProstyDwa = new SinusWyprostowanyDwupolowkowo(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 		Triangle triangle = new Triangle(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 		UnitJump unitJump = new UnitJump(1, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-		UnitImpuls unitImpuls = new UnitImpuls(0.1, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+		UnitImpuls unitImpuls = new UnitImpuls(1, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 		ImpulsNoise impulsNoise = new ImpulsNoise(0.01, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 		PeriodicImpulses periodImpuls = new PeriodicImpulses(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		double[][] array1 = n.generateSignal();
@@ -34,10 +34,10 @@ public class Main {
 //		double[][] array = triangle.generateSignal();
 //		double[][] array = unitJump.generateSignal();
 //		double[][] array = unitImpuls.generateSignal();
-		double[][] array = impulsNoise.generateSignal();
+//		double[][] array = impulsNoise.generateSignal();
 //		double[][] array = periodImpuls.generateSignal();
 		
-		double[][] histogram = SignalTools.generateHistogram(array, 0.01);
+//		double[][] histogram = SignalTools.generateHistogram(array, 0.01);
 		
 //		double srednia = SignalTools.getWartoscSrednia(array, ilProbek, czasTrwania);
 //		System.out.println("srednia: " + srednia);
@@ -53,13 +53,13 @@ public class Main {
 //		System.out.println("wartosc skuteczna: " + varSkuteczna);
 		
 //		double[][] dodawanie = SignalTools.addSignals(array1, array);
-		System.out.println(Arrays.deepToString(histogram).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+//		System.out.println(Arrays.deepToString(histogram).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
+		SerializationManager.exportSignal(n);
+		SerializationManager.importSignal("test.xml");
+		
 	    WindowsManager WM = new WindowsManager();
 		WM.createMainWindow();
-		
-		//SerializationManager.exportSignal(n);
-		//SerializationManager.importSignal("test.xml");
 	}
 
 }

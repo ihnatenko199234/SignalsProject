@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.Panel;
+import java.util.Arrays;
 
 import javax.swing.JPanel;
 
@@ -96,7 +97,7 @@ public class SignalChartsWindow {
 		/////////// graph and histogram
 		graphValues = signal.generateSignal();
 		JPanel graphPanel = GraphManager.createGraphPanel(graphValues, signal.getName());
-		frame.add(graphPanel);			
+		frame.add(graphPanel);		
 		
 		updateHistogramPanel();
 		
