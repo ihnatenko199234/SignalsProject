@@ -3,7 +3,40 @@ package common;
 import java.util.Arrays;
 
 public class SignalTools {
-	public static double[][] generateHistogram(double[][] values, double blockSize) {
+	
+	public static double[][] generateHistogram(double[][] values, int blockCount) {
+		//finding max Y value
+		double min = values[0][1];
+		double max = values[0][1];
+		
+		for(int i = 0; i < values.length; i++) {
+			min = min < values[i][1] ? min : values[i][1];
+			max = max > values[i][1] ? max : values[i][1];			
+		}
+		
+		double size = Math.abs((max - min) / blockCount);
+		
+		double tab[][] = new double[blockCount][2];
+		for(int i = 0; i < blockCount; i++) {
+			tab[i][0] = min + (i * size);
+			tab[i][1] = 0;
+		}
+		for(int i = 0; i < values.length; i++) {
+			double val = values[i][1];
+			for(int j = 1; j < blockCount; j++) {
+				if(val < tab[j][0]) {
+					tab[j-1][1]++;
+					System.out.println(i + " + " + j);
+					break;
+				}
+			}
+		}
+//		System.out.println(Arrays.deepToString(tab).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+		return tab;
+	}
+	
+	
+	public static double[][] generateHistogram1(double[][] values, double blockSize) {
 		
 		//finding max Y value
 		double min = values[0][1];

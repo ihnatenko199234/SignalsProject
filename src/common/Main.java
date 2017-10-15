@@ -55,8 +55,8 @@ public class Main {
 //		double[][] dodawanie = SignalTools.addSignals(array1, array);
 //		System.out.println(Arrays.deepToString(histogram).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
-		SerializationManager.exportSignal(n);
-		SerializationManager.importSignal("test.xml");
+//		SerializationManager.exportSignal(n);
+//		SerializationManager.importSignal("test.xml");
 		
 	    WindowsManager WM = new WindowsManager();
 		WM.createMainWindow();
