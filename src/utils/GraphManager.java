@@ -29,9 +29,9 @@ public class GraphManager {
 		
 	}
 	
-	public static JPanel createGraphPanel(Signal signal) {
+	public static JPanel createGraphPanel(double[][] array, String signalName) {
 		
-		double[][] array = signal.generateSignal();
+//		double[][] array = signal.generateSignal();
 		//ArrayList arrayList= new ArrayList(Arrays.asList(array));
 		
 		XYDataset dataset = createDatasetDouble(array); 	
@@ -39,7 +39,7 @@ public class GraphManager {
 		String xAxisLabel = "X";
 		String yAxisLabel = "Y";
 		
-		JFreeChart chart = ChartFactory.createXYLineChart(signal.getName(), xAxisLabel, yAxisLabel, dataset,
+		JFreeChart chart = ChartFactory.createXYLineChart(signalName, xAxisLabel, yAxisLabel, dataset,
 				PlotOrientation.VERTICAL, false, false, false);
 		
 		return new ChartPanel(chart);

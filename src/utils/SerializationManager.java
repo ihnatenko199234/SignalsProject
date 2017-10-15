@@ -32,7 +32,9 @@ public class SerializationManager {
 		String dataXml=(String)in.readObject();  
 		XStream xstream = new XStream();
 		XStream.setupDefaultSecurity(xstream);
-		XStream.allowTypes(Signal.class);
+		String[] classes = new String[1];
+		classes[0] = Signal.class.getName();
+		xstream.allowTypes(classes);
 		xstream.processAnnotations(Signal.class);
 		Signal signal = (Signal)xstream.fromXML(dataXml);
 	}
