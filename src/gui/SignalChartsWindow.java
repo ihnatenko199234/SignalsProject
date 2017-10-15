@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.Panel;
+import java.io.IOException;
 import java.util.Arrays;
 
 import javax.swing.JPanel;
@@ -19,6 +20,8 @@ import org.eclipse.swt.widgets.Shell;
 import common.Signal;
 import common.SignalTools;
 import utils.GraphManager;
+import utils.SerializationManager;
+
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -108,6 +111,17 @@ public class SignalChartsWindow {
 		shell.setMenuBar(menu);
 		
 		MenuItem mntmNewItem = new MenuItem(menu, SWT.NONE);
+		mntmNewItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					SerializationManager.exportSignal(signal);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		mntmNewItem.setText("Export");
 		
 		MenuItem mntmNewItem_1 = new MenuItem(menu, SWT.NONE);
@@ -132,7 +146,7 @@ public class SignalChartsWindow {
 		mntmNewItem_3.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//MW.updateGraphPanel("*",signal, graphValues);
+				MW.updateGraphPanel("*",signal, graphValues);
 			}
 		});
 		mntmNewItem_3.setText("* multiply");
@@ -141,7 +155,7 @@ public class SignalChartsWindow {
 		mntmNewItem_4.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//MW.updateGraphPanel("/",signal, graphValues);
+				MW.updateGraphPanel("/",signal, graphValues);
 			}
 		});
 		mntmNewItem_4.setText("/ divide");
@@ -223,6 +237,8 @@ public class SignalChartsWindow {
 		frame2.removeAll();
 		
 		double[][] histogramValues = SignalTools.generateHistogram(graphValues, blockSize);
+		System.out.println("////////////////skok");
+		System.out.println(Arrays.deepToString(graphValues).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 		JPanel histogramPanel = GraphManager.createHistogramPanel(histogramValues, blockSize);
 		frame2.add(histogramPanel);
 		histogramPanel.revalidate();
