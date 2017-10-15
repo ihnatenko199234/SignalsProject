@@ -97,7 +97,7 @@ public class SignalChartsWindow {
 		/////////// graph and histogram
 		graphValues = signal.generateSignal();
 		JPanel graphPanel = GraphManager.createGraphPanel(graphValues, signal.getName());
-		frame.add(graphPanel);			
+		frame.add(graphPanel);		
 		
 		updateHistogramPanel();
 		

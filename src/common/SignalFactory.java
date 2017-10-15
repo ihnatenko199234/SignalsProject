@@ -24,7 +24,7 @@ public class SignalFactory {
 		case "(S9) skok jednostkowy":
 			return new UnitJump(ts, A, t1, f, d);
 		case "(S10) impuls jednostkowy":
-			return new UnitImpuls(ts, A, t1, f, d);
+			return new UnitImpuls(ns, A, t1, f, d);
 		case "(S11) szum impulsowy":
 			return new ImpulsNoise(p, A, t1, f, d);
 		default:
