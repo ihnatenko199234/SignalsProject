@@ -15,6 +15,7 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.category.CategoryDataset;
@@ -73,49 +74,30 @@ public class GraphManager {
 	
 	public static JPanel createHistogramPanel(double[][] values, int blockSize) {
 		double[][] histogramValues = SignalTools.generateHistogram(values, blockSize);
-//		double[] yValues = new double[histogramValues.length];
-//		for(int i=0; i<histogramValues.length; i++) {
-//			yValues[i]=histogramValues[i][1];
-//		}
-////		double first = histogramValues[0][0];
-////		double last = histogramValues[histogramValues.length-1][0];
-//		
-//	    HistogramDataset dataset = new HistogramDataset();
-//	    dataset.setType(HistogramType.RELATIVE_FREQUENCY);
-//	    
-//	    for(int i=0; i<histogramValues.length; i++) {
-//	    	dataset.addSeries("", yValues, 1, histogramValues[i][0], histogramValues[i][0]+blockSize);
-//	    }    	
-//	    	
-//	    //dataset.addSeries("",yValues,yValues.length, first, last);
-//	    String plotTitle = "Histogram"; 
-//	    String xaxis = "Samples";
-//	    String yaxis = "Count"; 
-//	    PlotOrientation orientation = PlotOrientation.VERTICAL; 
-//	    boolean show = false; 
-//	    boolean toolTips = false;
-//	    boolean urls = false; 
-//	    JFreeChart chart = ChartFactory.createHistogram( plotTitle, xaxis, yaxis, dataset, orientation, show, toolTips, urls);
 		
 		XYSeriesCollection histogramDataset= new XYSeriesCollection();
+		histogramDataset.setIntervalWidth(blockSize);
 		XYSeries xy= new XYSeries("");
 		
 		for(int i=0; i<histogramValues.length; i++) {
 			xy.add(histogramValues[i][1], histogramValues[i][0]);
-			//xy.add(histogramValues[i][0]+blockSize, histogramValues[i][1])
-			
 		}
+
+//		xy.add(0,3);
+//		xy.add(10,4);
+//		xy.add(20,2);
+//		xy.add(30,9);
+//		xy.add(40,5);
+//		xy.add(50,15);
 		histogramDataset.addSeries(xy);
-//		xy.add(100,0.0);
-//		xy.add(101,0.3769791404875597);
-//		histogramDataset.addSeries(xy);
 
 		final NumberAxis xAxis = new NumberAxis("Samples");
-		xAxis.setAutoRangeIncludesZero(false);
+		//xAxis.setAutoRangeIncludesZero(false);
 		final ValueAxis yAxis = new NumberAxis("Numbers");
-		final XYItemRenderer renderer = new XYBarRenderer();
+		final XYBarRenderer renderer = new XYBarRenderer();
 
 		final XYPlot plot = new XYPlot((XYDataset) histogramDataset, xAxis, yAxis, renderer);
+		
 		JFreeChart chart = new JFreeChart("", JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 		return new ChartPanel(chart);		
 	}

@@ -159,8 +159,8 @@ public class GraphParametersDialog extends Dialog {
 		t1TextBox.setText(String.valueOf(t1));
 		dTextBox.setText(String.valueOf(d));
 		TTextBox.setText(String.valueOf(T));
-		tsTextBox.setText(String.valueOf(ts));
-		nsTextBox.setText(String.valueOf(ns));
+		tsTextBox.setText("1");
+		nsTextBox.setText("1");
 		pTextBox.setText(String.valueOf(p));
 		
 		

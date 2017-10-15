@@ -57,20 +57,14 @@ public class Main {
 //		double[][] dodawanie = SignalTools.addSignals(array1, array);
 //		System.out.println(Arrays.deepToString(histogram).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
-<<<<<<< HEAD
-//	    WindowsManager WM = new WindowsManager();
-//		WM.createMainWindow();
-		
-		n.generateSignal();
-		SerializationManager.exportSignal(n);
-		//SerializationManager.importSignal("test.xml");
-=======
-		SerializationManager.exportSignal(n);
-		SerializationManager.importSignal("test.xml");
-		
+
 	    WindowsManager WM = new WindowsManager();
 		WM.createMainWindow();
->>>>>>> d69b30e8f9b428a0a8c5757e5e0e83e6566dfba5
+		
+//		n.generateSignal();
+//		SerializationManager.exportSignal(n);
+		//SerializationManager.importSignal("test.xml");
+
 	}
 
 }

@@ -14,9 +14,12 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Monitor;
 
 import java.awt.Frame;
+import java.io.File;
 import java.util.Arrays;
 
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileSystemView;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
@@ -98,6 +101,20 @@ public class MainWindow {
 		shell.setMenuBar(menu);
 		
 		MenuItem mntmNewItem = new MenuItem(menu, SWT.NONE);
+		mntmNewItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
+
+				//int returnValue = jfc.showOpenDialog(null);
+				 int returnValue = jfc.showSaveDialog(null);
+
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = jfc.getSelectedFile();
+					System.out.println(selectedFile.getAbsolutePath());
+				}
+			}
+		});
 		mntmNewItem.setText("Import signal");
 		
 		MenuItem mntmNewItem_1 = new MenuItem(menu, SWT.NONE);
