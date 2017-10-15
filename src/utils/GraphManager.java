@@ -80,7 +80,7 @@ public class GraphManager {
 		XYSeries xy= new XYSeries("");
 		
 		for(int i=0; i<histogramValues.length; i++) {
-			xy.add(histogramValues[i][1], histogramValues[i][0]);
+			xy.add(histogramValues[i][0], histogramValues[i][1]);
 		}
 
 //		xy.add(0,3);

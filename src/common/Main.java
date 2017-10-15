@@ -58,7 +58,7 @@ public class Main {
 //		System.out.println(Arrays.deepToString(histogram).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
 
-<<<<<<< HEAD
+
 	    WindowsManager WM = new WindowsManager();
 		WM.createMainWindow();
 		
@@ -66,18 +66,7 @@ public class Main {
 //		SerializationManager.exportSignal(n);
 		//SerializationManager.importSignal("test.xml");
 
-=======
-//	    WindowsManager WM = new WindowsManager();
-//		WM.createMainWindow();
-		
-		n.generateSignal();
 
-//		SerializationManager.exportSignal(n);
-//		SerializationManager.importSignal("test.xml");
-		
-	    WindowsManager WM = new WindowsManager();
-		WM.createMainWindow();
->>>>>>> 91036a50a966b0fc338ca05f7df196cdca067ec9
 	}
 
 }
