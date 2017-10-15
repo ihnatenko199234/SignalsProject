@@ -1,17 +1,22 @@
 package common;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public abstract class Signal{
+public abstract class Signal implements Serializable{
 	protected int f; //ilosc probek (częstotliwosc probkowania???)  - is serializable
-	@XStreamOmitField
+	@XStreamOmitField 
 	protected double A; //amplituda
 	protected int t1; //czas poczatkowy  - is serializable
-	@XStreamOmitField
+	@XStreamOmitField 
 	protected double d; // signal duration 
-	@XStreamOmitField
+	@XStreamOmitField 
 	protected String name;
 	protected String valuesType = "real"; // type of signal   - is serializable
+	
 	protected double[][] values; //  - is serializable
 	/**
 	 * Constructor for this class.
@@ -25,6 +30,9 @@ public abstract class Signal{
 		this.A = A;
 		this.t1 = t1;
 		this.d = d;
+	}
+	public Signal() {
+		
 	}
 	
 	/**
@@ -51,11 +59,11 @@ public abstract class Signal{
 	public int getT1() {
 		return t1;
 	}
-
+	
 	public double getD() {
 		return d;
 	}
-
+ 
 	public String getValuesType() {
 		return valuesType;
 	}
@@ -63,7 +71,7 @@ public abstract class Signal{
 	public void setValuesType(String valuesType) {
 		this.valuesType = valuesType;
 	}
-
+ 
 	public double[][] getValues() {
 		return values;
 	}
@@ -93,6 +101,8 @@ public abstract class Signal{
 //	  {
 //	    f = in.readInt();
 //	    t1 = in.readInt();
+//	    valuesType = in.readLine();
+//	    values = 
 //	  }
 	
 }

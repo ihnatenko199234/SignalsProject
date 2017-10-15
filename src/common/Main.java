@@ -2,13 +2,15 @@ package common;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.xml.bind.JAXBException;
+
 import gui.SignalChartsWindow;
 import gui.WindowsManager;
 import utils.SerializationManager;
 
 public class Main {
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException, JAXBException {
 		double 		amplituda = 1,
 				    czasTrwania = 2,
 		 			okres = 1;
@@ -53,12 +55,13 @@ public class Main {
 //		System.out.println("wartosc skuteczna: " + varSkuteczna);
 		
 //		double[][] dodawanie = SignalTools.addSignals(array1, array);
-		System.out.println(Arrays.deepToString(histogram).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+//		System.out.println(Arrays.deepToString(histogram).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
-	    WindowsManager WM = new WindowsManager();
-		WM.createMainWindow();
+//	    WindowsManager WM = new WindowsManager();
+//		WM.createMainWindow();
 		
-		//SerializationManager.exportSignal(n);
+		n.generateSignal();
+		SerializationManager.exportSignal(n);
 		//SerializationManager.importSignal("test.xml");
 	}
 
