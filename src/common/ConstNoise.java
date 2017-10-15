@@ -16,6 +16,7 @@ public class ConstNoise extends Signal {
 			tab[i][0] = t1 + ((double) 1/f * i);
 			tab[i][1] = (rand.nextDouble() * (2 * A)) - A;
 		} 
+		values = tab;
 		return tab;
 	}
 

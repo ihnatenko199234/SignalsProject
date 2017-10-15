@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import common.Signal;
+import common.SignalTools;
 import utils.GraphManager;
 
 import org.eclipse.swt.widgets.Menu;
@@ -13,6 +14,7 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Monitor;
 
 import java.awt.Frame;
+import java.util.Arrays;
 
 import javax.swing.JPanel;
 
@@ -29,6 +31,10 @@ public class MainWindow {
 	
 	protected Frame frame;
 	protected Composite composite;
+	
+	private Signal previousSignal;
+	private double[][] previousSignalValues=null;
+	private String operationsHistoryTitle=null;
 
 	/**
 	 * Launch the application.
@@ -74,7 +80,7 @@ public class MainWindow {
 	protected void createContents() {
 		shell = new Shell();
 		shell.setText("SWT Application");	
-		shell.setSize(1600, 520);
+		shell.setSize(800, 520);
 		
 		composite = new Composite(shell, SWT.EMBEDDED);
 		composite.setBounds(20, 20, 600, 400);
@@ -102,11 +108,44 @@ public class MainWindow {
 
 	}
 	
-	public void updateGraphPanel(String operation, Signal signal, JPanel graphPanel) {
-		if(signal.isComposite())shell.setSize(1600, 1040);
-		else shell.setSize(1600, 520);
+	public void updateGraphPanel(String operation, Signal currentSignal, double[][] currentSignalValues) {
+		if(currentSignal.isImaginary())shell.setSize(800, 1040);
+		else shell.setSize(800, 520);
 		frame.removeAll();
+		
+		if(operationsHistoryTitle==null)operationsHistoryTitle=currentSignal.getName();
+		else operationsHistoryTitle+=" "+operation+" "+currentSignal.getName();
+		System.out.println(operationsHistoryTitle);
+		
+		double[][] operationResult = null;
+		
+		if(previousSignalValues==null) {
+			operationResult = currentSignalValues;			
+		}else {
+			switch(operation) {
+			case"+":
+				operationResult = SignalTools.addSignals(previousSignalValues, currentSignalValues);			
+				break;
+			case"-":
+				operationResult = SignalTools.substractSignals(previousSignalValues, currentSignalValues);
+				break;
+			case"*":
+				operationResult = SignalTools.multiplySignals(previousSignalValues, currentSignalValues);
+				break;
+			case"/":
+				operationResult = SignalTools.divideSignals(previousSignalValues, currentSignalValues);
+				break;
+			}
+		}
+		previousSignalValues = operationResult;
+		
+
+		System.out.println("Testing main window updating after operation:");
+		System.out.println(Arrays.deepToString(operationResult).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+		
+		JPanel graphPanel = GraphManager.createGraphPanel(operationResult, operationsHistoryTitle);
+
 		frame.add(graphPanel);
-		frame.repaint();
+		//frame.repaint();
 	}
 }
