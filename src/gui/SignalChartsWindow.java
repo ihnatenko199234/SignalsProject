@@ -1,7 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
-
+import java.awt.Frame;
 import java.awt.Panel;
 
 import javax.swing.JPanel;
@@ -25,6 +25,10 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 
 public class SignalChartsWindow {
 
@@ -40,6 +44,8 @@ public class SignalChartsWindow {
 	private Label varianceInfLbl;
 	private Label effectiveValueInfLbl;
 	private double[][] graphValues;
+	private Frame frame2;
+	private Composite composite2;
 
 	public SignalChartsWindow(MainWindow MW, Signal signal) {
 		this.MW = MW;
@@ -81,19 +87,18 @@ public class SignalChartsWindow {
 		composite.setLayout(new RowLayout( ));	
 		java.awt.Frame frame = SWT_AWT.new_Frame(composite);
 		
-		Composite composite2 = new Composite(shell, SWT.EMBEDDED);
+		composite2 = new Composite(shell, SWT.EMBEDDED);
 		composite2.setBounds(940, 20, 600, 400);
 		composite2.setLayout(new RowLayout( ));	
-		java.awt.Frame frame2 = SWT_AWT.new_Frame(composite2);
+		frame2 = SWT_AWT.new_Frame(composite2);
+		
 		
 		/////////// graph and histogram
 		graphValues = signal.generateSignal();
 		JPanel graphPanel = GraphManager.createGraphPanel(graphValues, signal.getName());
 		frame.add(graphPanel);			
 		
-//		int[][] histogramValues = SignalTools.generateHistogram(graphValues, blockSize);
-//		JPanel histogramPanel = GraphManager.createHistogramPanel(histogramValues, blockSize);
-//		frame2.add(histogramPanel);
+		updateHistogramPanel();
 		
 		//////////
 		
@@ -174,10 +179,23 @@ public class SignalChartsWindow {
 		lblNewLabel_4.setBounds(33, 243, 168, 20);
 		
 		Combo blockSizeComboBox = new Combo(shell, SWT.NONE);
+		blockSizeComboBox.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.keyCode==13) {
+					blockSize = Integer.parseInt(blockSizeComboBox.getText());
+					updateHistogramPanel();
+					//System.out.println("Typed text in combo box");
+				}
+			}
+		});
+	
 		blockSizeComboBox.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				blockSize = Integer.parseInt(blockSizeComboBox.getText());
+				updateHistogramPanel();
+				System.out.println("Selected block size combo box");
 			}
 		});
 		blockSizeComboBox.setItems(new String[] {"5", "10", "15", "20"});
@@ -199,5 +217,17 @@ public class SignalChartsWindow {
 		averagePowerInfLbl.setText(Double.toString(averagePower));
 		varianceInfLbl.setText(Double.toString(SignalTools.getWartoscWariancja(graphValues, f, d, average)));
 		effectiveValueInfLbl.setText(Double.toString(SignalTools.getWartoscSkuteczna(averagePower)));		
+	}
+	private void updateHistogramPanel() {
+		frame2.removeAll();
+		
+		double[][] histogramValues = SignalTools.generateHistogram(graphValues, blockSize);
+		JPanel histogramPanel = GraphManager.createHistogramPanel(histogramValues, blockSize);
+		frame2.add(histogramPanel);
+		histogramPanel.revalidate();
+		histogramPanel.repaint();
+
+		
+		System.out.println("Update histogram panel");
 	}
 }

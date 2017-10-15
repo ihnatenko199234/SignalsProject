@@ -23,6 +23,8 @@ import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.DisposeEvent;
 
 public class MainWindow {
 
@@ -79,6 +81,11 @@ public class MainWindow {
 	 */
 	protected void createContents() {
 		shell = new Shell();
+		shell.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent arg0) {
+				//WindowsManager.closeAllWindows();
+			}
+		});
 		shell.setText("SWT Application");	
 		shell.setSize(800, 520);
 		
@@ -146,6 +153,7 @@ public class MainWindow {
 		JPanel graphPanel = GraphManager.createGraphPanel(operationResult, operationsHistoryTitle);
 
 		frame.add(graphPanel);
-		//frame.repaint();
+		graphPanel.revalidate();
+		graphPanel.repaint();
 	}
 }
