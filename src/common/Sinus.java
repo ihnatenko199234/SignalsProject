@@ -14,6 +14,7 @@ public class Sinus extends PeriodicSignal {
 			tab[i][0] = t1 + (1.0/f * i);
 			tab[i][1] = A * Math.sin( (2*Math.PI / T) * ( 1.0/f * i - t1));
 		} 
+		values = tab;
 		return tab;
 	}
 

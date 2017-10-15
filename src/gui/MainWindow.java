@@ -28,6 +28,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class MainWindow {
 
@@ -90,7 +91,7 @@ public class MainWindow {
 			}
 		});
 		shell.setText("SWT Application");	
-		shell.setSize(800, 520);
+		shell.setSize(659, 520);
 		
 		composite = new Composite(shell, SWT.EMBEDDED);
 		composite.setBounds(20, 20, 600, 400);
@@ -117,6 +118,15 @@ public class MainWindow {
 		});
 		mntmNewItem.setText("Import signal");
 		
+		MenuItem mntmExportSignal = new MenuItem(menu, SWT.NONE);
+		mntmExportSignal.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+			}
+		});
+		mntmExportSignal.setText("Export signal");
+		
 		MenuItem mntmNewItem_1 = new MenuItem(menu, SWT.NONE);
 		mntmNewItem_1.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -129,12 +139,17 @@ public class MainWindow {
 			}
 		});
 		mntmNewItem_1.setText("Generate new signal");
+		
+		Composite composite_1 = new Composite(shell, SWT.NONE);
+		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_1.setBounds(0, 0, 641, 448);
 
 	}
 	
-	public void updateGraphPanel(String operation, Signal currentSignal, double[][] currentSignalValues) {
-		if(currentSignal.isImaginary())shell.setSize(800, 1040);
-		else shell.setSize(800, 520);
+	public void updateGraphPanel(String operation, Signal currentSignal) {
+		double[][] currentSignalValues = currentSignal.getValues();
+		if(currentSignal.isImaginary())shell.setSize(659, 1040);
+		else shell.setSize(659, 520);
 		frame.removeAll();
 		
 		if(operationsHistoryTitle==null)operationsHistoryTitle=currentSignal.getName();

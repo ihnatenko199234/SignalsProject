@@ -1,6 +1,9 @@
 package common;
-public abstract class PeriodicSignal extends Signal {
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+public abstract class PeriodicSignal extends Signal {
+	@XStreamOmitField
 	protected double T;
 
 	public PeriodicSignal(double T, double A, int t1, int f, double d) {

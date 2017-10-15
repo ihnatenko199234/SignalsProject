@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import javax.swing.JPanel;
@@ -47,7 +49,7 @@ public class SignalChartsWindow {
 	private Label averagePowerInfLbl;
 	private Label varianceInfLbl;
 	private Label effectiveValueInfLbl;
-	private double[][] graphValues;
+	//private double[][] graphValues;
 	private Frame frame2;
 	private Composite composite2;
 
@@ -81,7 +83,6 @@ public class SignalChartsWindow {
 	 */
 	protected void createContents(String title) {
 		shell = new Shell();
-		shell.setSize(1032, 532);
 		if(signal.isImaginary())shell.setSize(1600, 1040);
 			else shell.setSize(1600, 520);
 		shell.setText(title);
@@ -98,8 +99,8 @@ public class SignalChartsWindow {
 		
 		
 		/////////// graph and histogram
-		graphValues = signal.generateSignal();
-		JPanel graphPanel = GraphManager.createGraphPanel(graphValues, signal.getName());
+		signal.generateSignal();
+		JPanel graphPanel = GraphManager.createGraphPanel(signal.getValues(), signal.getName());
 		frame.add(graphPanel);		
 		
 		updateHistogramPanel();
@@ -128,7 +129,7 @@ public class SignalChartsWindow {
 		mntmNewItem_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				MW.updateGraphPanel("+",signal, graphValues);
+				MW.updateGraphPanel("+",signal);
 			}
 		});
 		mntmNewItem_1.setText("+ add");
@@ -137,7 +138,7 @@ public class SignalChartsWindow {
 		mntmNewItem_2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				MW.updateGraphPanel("-",signal, graphValues);
+				MW.updateGraphPanel("-",signal);
 			}
 		});
 		mntmNewItem_2.setText("- substract");
@@ -146,7 +147,7 @@ public class SignalChartsWindow {
 		mntmNewItem_3.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				MW.updateGraphPanel("*",signal, graphValues);
+				MW.updateGraphPanel("*",signal);
 			}
 		});
 		mntmNewItem_3.setText("* multiply");
@@ -155,7 +156,7 @@ public class SignalChartsWindow {
 		mntmNewItem_4.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				MW.updateGraphPanel("/",signal, graphValues);
+				MW.updateGraphPanel("/",signal);
 			}
 		});
 		mntmNewItem_4.setText("/ divide");
@@ -219,32 +220,33 @@ public class SignalChartsWindow {
 		formToolkit.paintBordersFor(blockSizeComboBox);
 		blockSizeComboBox.select(0);
 		
+		Composite composite_1 = new Composite(shell, SWT.NONE);
+		composite_1.setBounds(0, 0, 1600, 460);
+		formToolkit.adapt(composite_1);
+		formToolkit.paintBordersFor(composite_1);
+		
 		updateInfoLabels();
 	}
 	
 	private void updateInfoLabels() {
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.CEILING);
+		
 		int f = signal.getF();
 		double d = signal.getD();
-		double average = SignalTools.getWartoscSrednia(graphValues, f, d);
-		double averagePower = SignalTools.getWartoscSredniaMoc(graphValues, f, d);
-		averageInfLbl.setText(Double.toString(average));
-		averageAbsoluteInfLbl.setText(Double.toString(SignalTools.getWartoscSredniaBezwzgledna(graphValues, f, d)));
-		averagePowerInfLbl.setText(Double.toString(averagePower));
-		varianceInfLbl.setText(Double.toString(SignalTools.getWartoscWariancja(graphValues, f, d, average)));
-		effectiveValueInfLbl.setText(Double.toString(SignalTools.getWartoscSkuteczna(averagePower)));		
+		double average = SignalTools.getWartoscSrednia(signal.getValues(), f, d);
+		double averagePower = SignalTools.getWartoscSredniaMoc(signal.getValues(), f, d);
+		averageInfLbl.setText(df.format(average));
+		averageAbsoluteInfLbl.setText(df.format(SignalTools.getWartoscSredniaBezwzgledna(signal.getValues(), f, d)));
+		averagePowerInfLbl.setText(df.format(averagePower));
+		varianceInfLbl.setText(df.format(SignalTools.getWartoscWariancja(signal.getValues(), f, d, average)));
+		effectiveValueInfLbl.setText(df.format(SignalTools.getWartoscSkuteczna(averagePower)));		
 	}
 	private void updateHistogramPanel() {
 		frame2.removeAll();
-		
-		//double[][] histogramValues = SignalTools.generateHistogram(graphValues, blockSize);
-		System.out.println("////////////////skok");
-		System.out.println(Arrays.deepToString(graphValues).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-		JPanel histogramPanel = GraphManager.createHistogramPanel(graphValues, blockSize);
+		JPanel histogramPanel = GraphManager.createHistogramPanel(signal.getValues(), blockSize);
 		frame2.add(histogramPanel);
 		histogramPanel.revalidate();
 		histogramPanel.repaint();
-
-		
-		System.out.println("Update histogram panel");
 	}
 }
