@@ -27,6 +27,8 @@ public class SignalFactory {
 			return new UnitImpuls(ns, A, t1, f, d);
 		case "(S11) szum impulsowy":
 			return new ImpulsNoise(p, A, t1, f, d);
+		case "Impulsy okresowe":
+			return new PeriodicImpulses(T, A, t1, f, d);
 		default:
 			return null;
 		}

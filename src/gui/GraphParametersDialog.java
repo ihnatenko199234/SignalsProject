@@ -229,7 +229,8 @@ public class GraphParametersDialog extends Dialog {
 				"(S8) sygna\u0142 tr\u00F3jk\u0105tny", 
 				"(S9) skok jednostkowy", 
 				"(S10) impuls jednostkowy", 
-				"(S11) szum impulsowy"});
+				"(S11) szum impulsowy",
+				"Impulsy okresowe"});
 		signalOptionComboBox.setBounds(23, 23, 401, 28);
 		signalOptionComboBox.select(0);
 
