@@ -236,10 +236,10 @@ public class SignalChartsWindow {
 	private void updateHistogramPanel() {
 		frame2.removeAll();
 		
-		double[][] histogramValues = SignalTools.generateHistogram(graphValues, blockSize);
+		//double[][] histogramValues = SignalTools.generateHistogram(graphValues, blockSize);
 		System.out.println("////////////////skok");
 		System.out.println(Arrays.deepToString(graphValues).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-		JPanel histogramPanel = GraphManager.createHistogramPanel(histogramValues, blockSize);
+		JPanel histogramPanel = GraphManager.createHistogramPanel(graphValues, blockSize);
 		frame2.add(histogramPanel);
 		histogramPanel.revalidate();
 		histogramPanel.repaint();

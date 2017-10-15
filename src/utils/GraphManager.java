@@ -73,7 +73,12 @@ public class GraphManager {
 	
 	
 	public static JPanel createHistogramPanel(double[][] values, int blockSize) {
+		
+		
 		double[][] histogramValues = SignalTools.generateHistogram(values, blockSize);
+		System.out.println("//////////////////Histogram values//////////////////");
+		System.out.println(Arrays.deepToString(histogramValues).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+		System.out.println("////////////////////////////////////////////////////");
 		
 		XYSeriesCollection histogramDataset= new XYSeriesCollection();
 		double barWidth = (histogramValues[histogramValues.length -  1][0] - histogramValues[0][0]) / blockSize;
