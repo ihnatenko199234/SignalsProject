@@ -67,7 +67,7 @@ public class GraphManager {
 	
 	
 	public static JPanel createHistogramPanel(double[][] values, int blockSize) {
-		int[][] histogramValues = SignalTools.generateHistogram(values, blockSize);
+		double[][] histogramValues = SignalTools.generateHistogram(values, blockSize);
 		
 	    HistogramDataset dataset = new HistogramDataset();
 	    dataset.setType(HistogramType.RELATIVE_FREQUENCY);
