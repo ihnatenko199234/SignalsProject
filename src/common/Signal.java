@@ -60,6 +60,12 @@ public abstract class Signal implements Serializable{
 		return t1;
 	}
 	
+	public void setA(double a) {
+		A = a;
+	}
+	public void setD(double d) {
+		this.d = d;
+	}
 	public double getD() {
 		return d;
 	}
