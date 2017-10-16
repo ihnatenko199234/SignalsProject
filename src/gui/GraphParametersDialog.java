@@ -42,12 +42,14 @@ public class GraphParametersDialog extends Dialog {
 	double ts = 4;
 	double ns = 2;
 	double p = 0.01;
+	double kw = 1.0/2;
 	
 	
 	int selectedIndex;
 	private Text tsTextBox;
 	private Text nsTextBox;
 	private Text pTextBox;
+	private Text kwTextBox;
 	/**
 	 * Create the dialog.
 	 * @param parent
@@ -120,7 +122,7 @@ public class GraphParametersDialog extends Dialog {
 	private void createContents() {
 		shell = new Shell(getParent(), getStyle());
 		shell.setModified(true);
-		shell.setSize(450, 325);
+		shell.setSize(450, 353);
 		shell.setText("Choose signal and set parameters");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
@@ -193,6 +195,10 @@ public class GraphParametersDialog extends Dialog {
 		pTextBox = new Text(composite, SWT.BORDER);
 		pTextBox.setBounds(287, 112, 78, 26);
 		
+		kwTextBox = new Text(composite, SWT.BORDER);
+		kwTextBox.setBounds(91, 197, 78, 26);
+		
+		
 		fTextBox.setText(String.valueOf(f));
 		ATextBox.setText(String.valueOf(A));
 		t1TextBox.setText(String.valueOf(t1));
@@ -201,6 +207,7 @@ public class GraphParametersDialog extends Dialog {
 		tsTextBox.setText("1");
 		nsTextBox.setText("1");
 		pTextBox.setText(String.valueOf(p));
+		kwTextBox.setText(String.valueOf(kw));
 		
 		
 		updateVisabilityOfTextBoxes();
@@ -217,13 +224,14 @@ public class GraphParametersDialog extends Dialog {
 				ts = Double.parseDouble(tsTextBox.getText());
 				ns = Double.parseDouble(nsTextBox.getText());
 				p = Double.parseDouble(pTextBox.getText());
+				kw = Double.parseDouble(kwTextBox.getText());
 				
-				Signal signal = SignalFactory.getSignal(signalOptionComboBox.getText(), f, A, t1, d, T, ts, ns, p);
+				Signal signal = SignalFactory.getSignal(signalOptionComboBox.getText(), f, A, t1, d, T, ts, ns, p,kw);
 				shell.dispose();
 				WindowsManager.createSignalChartsWindow(signal);
 			}
 		});
-		btnOk.setBounds(231, 212, 90, 30);
+		btnOk.setBounds(236, 248, 90, 30);
 		formToolkit.adapt(btnOk, true, true);
 		btnOk.setText("OK");
 		
@@ -236,7 +244,7 @@ public class GraphParametersDialog extends Dialog {
 			}
 		});
 		btnCancel.setText("Cancel");
-		btnCancel.setBounds(120, 212, 90, 30);
+		btnCancel.setBounds(125, 248, 90, 30);
 		formToolkit.adapt(btnCancel, true, true);
 		
 		
@@ -246,6 +254,13 @@ public class GraphParametersDialog extends Dialog {
 		lblP.setText("p");
 		lblP.setBounds(251, 118, 30, 20);
 		formToolkit.adapt(lblP, true, true);
+		
+		
+		Label lblKw = new Label(composite, SWT.NONE);
+		lblKw.setToolTipText("numer pr\u00F3bki, dla kt\u00F3rej nast\u0119puje skok amplitudy");
+		lblKw.setText("kw");
+		lblKw.setBounds(55, 203, 30, 20);
+		formToolkit.adapt(lblKw, true, true);
 
 	}
 	
@@ -253,6 +268,10 @@ public class GraphParametersDialog extends Dialog {
 		if(selectedIndex == 0 || selectedIndex == 1 || selectedIndex == 8 || selectedIndex == 9 || selectedIndex == 10) {
 			TTextBox.setEnabled(false);
 		}else TTextBox.setEnabled(true);
+		
+		if(selectedIndex == 5 || selectedIndex == 6 || selectedIndex == 7) {
+			kwTextBox.setEnabled(true);
+		}else kwTextBox.setEnabled(false);
 		
 		if(selectedIndex == 8) {
 			tsTextBox.setEnabled(true);

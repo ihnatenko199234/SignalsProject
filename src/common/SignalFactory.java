@@ -3,7 +3,7 @@ package common;
 public class SignalFactory {
 	
 	public static Signal getSignal(String signalType, int f, double A, int t1, 
-			double d, double T, double ts, double ns, double p) {
+			double d, double T, double ts, double ns, double p, double kw) {
 		switch(signalType) {
 		case "(S1) szum o rozk\u0142adzie jednostajnym":
 			return new ConstNoise(A, t1, f, d);		
@@ -16,9 +16,9 @@ public class SignalFactory {
 		case "(S5) sygna\u0142 sinusoidalny wyprostowany dwupo\u0142\u00F3wkowo":
 			return new SinusWyprostowanyDwupolowkowo(T, A, t1, f, d);
 		case "(S6) sygna\u0142 prostok\u0105tny":
-			return new Rectangle(T, A, t1, f, d);
+			return new Rectangle(T, A, t1, f, d, kw);
 		case "(S7) sygna\u0142 prostok\u0105tny symetryczny":
-			return new RectangleSymetrical(T, A, t1, f, d);
+			return new RectangleSymetrical(T, A, t1, f, d, kw);
 		case "(S8) sygna\u0142 tr\u00F3jk\u0105tny":
 			return new Triangle(T, A, t1, f, d);
 		case "(S9) skok jednostkowy":

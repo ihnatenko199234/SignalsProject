@@ -1,7 +1,7 @@
 package common;
 public class RectangleSymetrical extends PeriodicSignal {
 
-	public RectangleSymetrical(double T, double A, int t1, int f, double d) {
+	public RectangleSymetrical(double T, double A, int t1, int f, double d, double kw) {
 		super(T, A, t1, f, d);
 		name = "S7";
 	}

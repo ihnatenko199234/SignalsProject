@@ -54,6 +54,7 @@ public class MainWindow {
 	private String operationsHistoryTitle=null;
 	private boolean filechooser=false;
 	private Text fileTxtBox;
+	private Signal signalForExport;
 
 	/**
 	 * Launch the application.
@@ -142,7 +143,12 @@ public class MainWindow {
 		mntmExportSignal.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				try {
+					SerializationManager.exportSignal(signalForExport);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		mntmExportSignal.setText("Export signal");
@@ -218,6 +224,9 @@ public class MainWindow {
 		}
 		previousSignalValues = operationResult;
 		
+		signalForExport = currentSignal;
+		signalForExport.setValues(operationResult);
+		signalForExport.setName(operationsHistoryTitle);
 
 		System.out.println("Testing main window updating after operation:");
 		System.out.println(Arrays.deepToString(operationResult).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
