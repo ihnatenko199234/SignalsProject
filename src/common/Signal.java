@@ -8,12 +8,9 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public abstract class Signal implements Serializable{
 	protected int f; //ilosc probek (częstotliwosc probkowania???)  - is serializable
-	@XStreamOmitField 
 	protected double A; //amplituda
 	protected int t1; //czas poczatkowy  - is serializable
-	@XStreamOmitField 
 	protected double d; // signal duration 
-	@XStreamOmitField 
 	protected String name;
 	protected String valuesType = "real"; // type of signal   - is serializable
 	
@@ -44,7 +41,7 @@ public abstract class Signal implements Serializable{
 		return name;		
 	}
 	public boolean isImaginary() {
-		if(valuesType=="real")return false;
+		if(valuesType.equals("real"))return false;
 		return true;
 	}
 

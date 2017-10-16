@@ -14,11 +14,14 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Monitor;
 
+import java.awt.Component;
 import java.awt.Frame;
+import java.awt.HeadlessException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -32,6 +35,11 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 
 public class MainWindow {
 
@@ -44,6 +52,8 @@ public class MainWindow {
 	private Signal previousSignal;
 	private double[][] previousSignalValues=null;
 	private String operationsHistoryTitle=null;
+	private boolean filechooser=false;
+	private Text fileTxtBox;
 
 	/**
 	 * Launch the application.
@@ -75,7 +85,10 @@ public class MainWindow {
 	    
 		shell.open();
 		shell.layout();
+		
+		
 		while (!shell.isDisposed()) {
+
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
@@ -94,7 +107,7 @@ public class MainWindow {
 			}
 		});
 		shell.setText("SWT Application");	
-		shell.setSize(659, 520);
+		shell.setSize(805, 560);
 		
 		composite = new Composite(shell, SWT.EMBEDDED);
 		composite.setBounds(20, 20, 600, 400);
@@ -104,24 +117,22 @@ public class MainWindow {
 		Menu menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);
 		
+//		JFileChooser fileChooser = new JFileChooser();
+//        int returnVal = fileChooser.showOpenDialog(new JFrame());
+//    if (returnVal == JFileChooser.APPROVE_OPTION) {
+//        File file = fileChooser.getSelectedFile();
+//        System.out.println("udalo sie.");
+//// What to do with the file, e.g. display it in a TextArea
+////        textarea.read( new FileReader( file.getAbsolutePath() ), null );
+//    } else {
+//        System.out.println("File access cancelled by user.");
+//    }
+
 		MenuItem mntmNewItem = new MenuItem(menu, SWT.NONE);
 		mntmNewItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				JFileChooser jFileChooser = new JFileChooser();
-				jFileChooser.setCurrentDirectory(new File("/User/"));
-
-				int result = jFileChooser.showOpenDialog(new JFrame());
-
-				if (result == JFileChooser.APPROVE_OPTION) {
-					File selectedFile = jFileChooser.getSelectedFile();
-					try {
-						SerializationManager.importSignal(selectedFile.getPath());
-					} catch (ClassNotFoundException | IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					}
+				//openFileChooser();
 				
 			}
 		});
@@ -151,7 +162,27 @@ public class MainWindow {
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		composite_1.setBounds(0, 0, 641, 448);
+		composite_1.setBounds(0, 0, 787, 488);
+		
+		fileTxtBox = new Text(composite_1, SWT.BORDER);
+		fileTxtBox.setBounds(27, 438, 246, 26);
+		
+		Button importBtn = new Button(composite_1, SWT.NONE);
+		importBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				String fileName = fileTxtBox.getText();
+				try {
+					Signal newSignal = SerializationManager.importSignal(fileName);
+					WindowsManager.createSignalChartsWindow(newSignal);
+				} catch (ClassNotFoundException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		importBtn.setBounds(303, 436, 90, 30);
+		importBtn.setText("Import");
 
 	}
 	
@@ -196,5 +227,21 @@ public class MainWindow {
 		frame.add(graphPanel);
 		graphPanel.revalidate();
 		graphPanel.repaint();
+	}
+	private void openFileChooser() {
+		JFileChooser jFileChooser = new JFileChooser();
+		jFileChooser.setCurrentDirectory(new File("/User/"));
+		
+		int result = jFileChooser.showOpenDialog(new JFrame());
+
+		if (result == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jFileChooser.getSelectedFile();
+//			try {
+//				//SerializationManager.importSignal(selectedFile.getPath());
+//			} catch (IOException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+			}
 	}
 }

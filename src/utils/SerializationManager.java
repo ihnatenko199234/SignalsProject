@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.Date;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 
 import common.Signal;
 
@@ -35,13 +36,16 @@ public class SerializationManager {
 	public static Signal importSignal(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
 		ObjectInputStream in=new ObjectInputStream(new FileInputStream(fileName));  
 		String dataXml=(String)in.readObject();  
+		//System.out.println(dataXml);
 		XStream xstream = new XStream();
 		XStream.setupDefaultSecurity(xstream);
+		xstream.addPermission(AnyTypePermission.ANY);
 		String[] classes = new String[1];
 		classes[0] = Signal.class.getName();
 		xstream.allowTypes(classes);
 		xstream.processAnnotations(Signal.class);
 		Signal signal = (Signal)xstream.fromXML(dataXml);
+		//System.out.println(signal.getF());
 		return signal;
 	}
 }
