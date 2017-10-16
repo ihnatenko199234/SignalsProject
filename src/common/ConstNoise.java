@@ -1,7 +1,8 @@
 package common;
+import java.io.Serializable;
 import java.util.Random;
 
-public class ConstNoise extends Signal {
+public class ConstNoise extends Signal implements Serializable {
 	
 	public ConstNoise(double A, int t1, int f, double d) {
 		super(A, t1, f, d);

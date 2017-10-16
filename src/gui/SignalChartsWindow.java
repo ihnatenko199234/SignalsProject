@@ -83,7 +83,7 @@ public class SignalChartsWindow {
 	 */
 	protected void createContents(String title) {
 		shell = new Shell();
-		if(signal.isImaginary())shell.setSize(1600, 1040);
+		if(signal.isImaginary())shell.setSize(1600, 1000);
 			else shell.setSize(1600, 520);
 		shell.setText(title);
 		

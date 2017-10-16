@@ -15,6 +15,8 @@ public class WindowsManager {
 		try {
 			MW = new MainWindow();
 			MW.open();
+//			FileChooserDialog fc = new FileChooserDialog();
+//			fc.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
