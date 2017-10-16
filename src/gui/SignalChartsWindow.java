@@ -192,7 +192,7 @@ public class SignalChartsWindow {
 		effectiveValueInfLbl.setBounds(138, 165, 70, 20);
 		
 		Label lblNewLabel_4 = formToolkit.createLabel(shell, "Block count for histogram:", SWT.NONE);
-		lblNewLabel_4.setBounds(33, 243, 168, 20);
+		lblNewLabel_4.setBounds(33, 243, 178, 20);
 		
 		Combo blockSizeComboBox = new Combo(shell, SWT.NONE);
 		blockSizeComboBox.addKeyListener(new KeyAdapter() {
@@ -215,7 +215,7 @@ public class SignalChartsWindow {
 			}
 		});
 		blockSizeComboBox.setItems(new String[] {"5", "10", "15", "20"});
-		blockSizeComboBox.setBounds(207, 239, 52, 28);
+		blockSizeComboBox.setBounds(212, 239, 52, 28);
 		formToolkit.adapt(blockSizeComboBox);
 		formToolkit.paintBordersFor(blockSizeComboBox);
 		blockSizeComboBox.select(0);

@@ -24,11 +24,14 @@ public class SerializationManager {
 
 		Date date = new Date();
 		String timeAnnotation = String.valueOf(String.valueOf(date.getTime()));
-		
-		FileOutputStream fout=new FileOutputStream(signal.getName()+"-"+timeAnnotation+".xml");  
+		String tmp = signal.getName();
+		tmp = tmp.replace("*", "razy");
+		tmp = tmp.replace("/", "dziel");
+		FileOutputStream fout=new FileOutputStream(tmp+"-"+timeAnnotation+".xml");  
 		ObjectOutputStream out=new ObjectOutputStream(fout);  
 		  
 		out.writeObject(dataXml);  
+		out.close();
 		out.flush();  
 		
 	}

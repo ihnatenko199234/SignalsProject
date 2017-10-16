@@ -3,6 +3,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+import common.ComplexSignal;
 import common.Signal;
 import common.SignalTools;
 import utils.GraphManager;
@@ -51,10 +52,12 @@ public class MainWindow {
 	
 	private Signal previousSignal;
 	private double[][] previousSignalValues=null;
+	double[][] operationResult = null;
 	private String operationsHistoryTitle=null;
 	private boolean filechooser=false;
 	private Text fileTxtBox;
 	private Signal signalForExport;
+	private JPanel graphPanel;
 
 	/**
 	 * Launch the application.
@@ -108,7 +111,7 @@ public class MainWindow {
 			}
 		});
 		shell.setText("SWT Application");	
-		shell.setSize(805, 560);
+		shell.setSize(805, 599);
 		
 		composite = new Composite(shell, SWT.EMBEDDED);
 		composite.setBounds(20, 20, 600, 400);
@@ -168,10 +171,10 @@ public class MainWindow {
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		composite_1.setBounds(0, 0, 787, 488);
+		composite_1.setBounds(0, 0, 787, 527);
 		
 		fileTxtBox = new Text(composite_1, SWT.BORDER);
-		fileTxtBox.setBounds(27, 438, 246, 26);
+		fileTxtBox.setBounds(111, 438, 246, 26);
 		
 		Button importBtn = new Button(composite_1, SWT.NONE);
 		importBtn.addMouseListener(new MouseAdapter() {
@@ -187,22 +190,40 @@ public class MainWindow {
 				}
 			}
 		});
-		importBtn.setBounds(303, 436, 90, 30);
+		importBtn.setBounds(387, 436, 90, 30);
 		importBtn.setText("Import");
+		
+		Button btnNewButton = new Button(composite_1, SWT.NONE);
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				clearPanel();
+			}
+		});
+		btnNewButton.setBounds(661, 79, 90, 30);
+		btnNewButton.setText("Clear");
 
 	}
-	
+	private void clearPanel() {
+		frame.remove(graphPanel);
+		operationsHistoryTitle =null;
+		previousSignal = null;
+		previousSignalValues = null;
+		operationResult = null;
+		frame.revalidate();
+		frame.repaint();
+	}
 	public void updateGraphPanel(String operation, Signal currentSignal) {
-		double[][] currentSignalValues = currentSignal.getValues();
-		if(currentSignal.isImaginary())shell.setSize(659, 1040);
-		else shell.setSize(659, 520);
-		frame.removeAll();
 		
+		if(currentSignal.isImaginary())shell.setSize(659, 1040);
+		else shell.setSize(805, 599);
+		frame.removeAll();
+		double[][] currentSignalValues = currentSignal.getValues();
 		if(operationsHistoryTitle==null)operationsHistoryTitle=currentSignal.getName();
 		else operationsHistoryTitle+=" "+operation+" "+currentSignal.getName();
 		System.out.println(operationsHistoryTitle);
 		
-		double[][] operationResult = null;
+		operationResult = null;
 		
 		if(previousSignalValues==null) {
 			operationResult = currentSignalValues;			
@@ -224,14 +245,18 @@ public class MainWindow {
 		}
 		previousSignalValues = operationResult;
 		
-		signalForExport = currentSignal;
+		signalForExport = new ComplexSignal();
+		signalForExport.setF(currentSignal.getF());
+		signalForExport.setT1(currentSignal.getT1());
+		signalForExport.setD(currentSignal.getD());
+		signalForExport.setValuesType(currentSignal.getValuesType());
 		signalForExport.setValues(operationResult);
 		signalForExport.setName(operationsHistoryTitle);
 
 		System.out.println("Testing main window updating after operation:");
 		System.out.println(Arrays.deepToString(operationResult).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 		
-		JPanel graphPanel = GraphManager.createGraphPanel(operationResult, operationsHistoryTitle);
+		graphPanel = GraphManager.createGraphPanel(operationResult, operationsHistoryTitle);
 
 		frame.add(graphPanel);
 		graphPanel.revalidate();

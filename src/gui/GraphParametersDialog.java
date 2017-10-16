@@ -34,7 +34,7 @@ public class GraphParametersDialog extends Dialog {
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 	private Combo signalOptionComboBox;
 	
-	int f = 200;
+	int f = 1000;
 	double A = 1;
 	int t1 = 0;
 	double d = 2;
