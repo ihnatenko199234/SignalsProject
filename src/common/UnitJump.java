@@ -8,7 +8,7 @@ public class UnitJump extends Signal {
 	public UnitJump(double ts, double A, int t1, int f, double d) {
 		super(A, t1, f, d);
 		this.ts = ts;
-		name = "Unit jump";
+		name = "S9";
 	}
 
 	@Override

@@ -3,7 +3,7 @@ public class Sinus extends PeriodicSignal {
 	
 	public Sinus(double T, double A, int t1, int f, double d) {
 		super(T, A, t1, f, d);
-		name = "Sinus";
+		name = "S3";
 	}
 
 	@Override

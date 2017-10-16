@@ -3,7 +3,7 @@ public class SinusWyprostowanyDwupolowkowo extends PeriodicSignal {
 
 	public SinusWyprostowanyDwupolowkowo(double T, double A, int t1, int f, double d) {
 		super(T, A, t1, f, d);
-		name = "Sinus wyprostowany dwupolówkowo";
+		name = "S5";
 	}
 
 	@Override

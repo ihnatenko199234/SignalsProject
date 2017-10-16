@@ -5,7 +5,7 @@ public class ConstNoise extends Signal {
 	
 	public ConstNoise(double A, int t1, int f, double d) {
 		super(A, t1, f, d);
-		name = "Const noise";
+		name = "S1";
 	}
 
 	@Override

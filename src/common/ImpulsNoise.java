@@ -10,7 +10,7 @@ public class ImpulsNoise extends Signal {
 	public ImpulsNoise(double p, double A, int t1, int f, double d) {
 		super(A, t1, f, d);
 		this.p = p;
-		name = "Impuls noise";
+		name = "S11";
 	}
 
 	@Override

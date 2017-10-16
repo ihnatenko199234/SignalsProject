@@ -5,7 +5,7 @@ public class GaussNoise extends Signal {
 
   public GaussNoise( double A, int t1, int f, double d ) {
     super( A, t1, f, d );
-    name = "Gauss noise";
+    name = "S2";
   }
 
   @Override

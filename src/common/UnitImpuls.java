@@ -8,7 +8,7 @@ public class UnitImpuls extends Signal {
 	public UnitImpuls(double ns, double A, int t1, int f, double d) {
 		super(A, t1, f, d);
 		this.ns = ns;
-		name = "Unit impuls";
+		name = "S10";
 	}
 
 	@Override
