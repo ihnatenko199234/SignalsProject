@@ -15,19 +15,10 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Monitor;
 
-import java.awt.Component;
 import java.awt.Frame;
-import java.awt.HeadlessException;
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.filechooser.FileSystemView;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.MenuItem;
@@ -37,7 +28,6 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -50,27 +40,12 @@ public class MainWindow {
 	protected Frame frame;
 	protected Composite composite;
 	
-	private Signal previousSignal;
 	private double[][] previousSignalValues=null;
 	double[][] operationResult = null;
 	private String operationsHistoryTitle=null;
-	private boolean filechooser=false;
 	private Text fileTxtBox;
 	private Signal signalForExport;
 	private JPanel graphPanel;
-
-	/**
-	 * Launch the application.
-	 * @param args
-	 */
-//	public static void main(String[] args) {
-//		try {
-//			MainWindow window = new MainWindow();
-//			window.open();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	/**
 	 * Open the window.
@@ -84,7 +59,6 @@ public class MainWindow {
 	    Rectangle bounds = primary.getBounds();
 	    Rectangle rect = shell.getBounds();
 	    int x = bounds.x + (bounds.width - rect.width) / 2;
-	    int y = bounds.y + (bounds.height - rect.height) / 2;
 	    shell.setLocation(x, 0);
 	    
 		shell.open();
@@ -120,17 +94,6 @@ public class MainWindow {
 		
 		Menu menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);
-		
-//		JFileChooser fileChooser = new JFileChooser();
-//        int returnVal = fileChooser.showOpenDialog(new JFrame());
-//    if (returnVal == JFileChooser.APPROVE_OPTION) {
-//        File file = fileChooser.getSelectedFile();
-//        System.out.println("udalo sie.");
-//// What to do with the file, e.g. display it in a TextArea
-////        textarea.read( new FileReader( file.getAbsolutePath() ), null );
-//    } else {
-//        System.out.println("File access cancelled by user.");
-//    }
 
 		MenuItem mntmNewItem = new MenuItem(menu, SWT.NONE);
 		mntmNewItem.addSelectionListener(new SelectionAdapter() {
@@ -207,7 +170,6 @@ public class MainWindow {
 	private void clearPanel() {
 		frame.remove(graphPanel);
 		operationsHistoryTitle =null;
-		previousSignal = null;
 		previousSignalValues = null;
 		operationResult = null;
 		frame.revalidate();
@@ -221,7 +183,6 @@ public class MainWindow {
 		double[][] currentSignalValues = currentSignal.getValues();
 		if(operationsHistoryTitle==null)operationsHistoryTitle=currentSignal.getName();
 		else operationsHistoryTitle+=" "+operation+" "+currentSignal.getName();
-		System.out.println(operationsHistoryTitle);
 		
 		operationResult = null;
 		
@@ -252,30 +213,11 @@ public class MainWindow {
 		signalForExport.setValuesType(currentSignal.getValuesType());
 		signalForExport.setValues(operationResult);
 		signalForExport.setName(operationsHistoryTitle);
-
-		System.out.println("Testing main window updating after operation:");
-		System.out.println(Arrays.deepToString(operationResult).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 		
 		graphPanel = GraphManager.createGraphPanel(operationResult, operationsHistoryTitle);
 
 		frame.add(graphPanel);
 		graphPanel.revalidate();
 		graphPanel.repaint();
-	}
-	private void openFileChooser() {
-		JFileChooser jFileChooser = new JFileChooser();
-		jFileChooser.setCurrentDirectory(new File("/User/"));
-		
-		int result = jFileChooser.showOpenDialog(new JFrame());
-
-		if (result == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = jFileChooser.getSelectedFile();
-//			try {
-//				//SerializationManager.importSignal(selectedFile.getPath());
-//			} catch (IOException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-			}
 	}
 }

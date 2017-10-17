@@ -3,6 +3,10 @@ package common;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class UnitJump extends Signal {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2474262754705581584L;
 	@XStreamOmitField
 	private double ts;
 	public UnitJump(double ts, double A, int t1, int f, double d) {

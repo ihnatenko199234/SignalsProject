@@ -1,13 +1,6 @@
 package utils;
 
-import java.awt.BorderLayout;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -15,18 +8,11 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.statistics.HistogramDataset;
-import org.jfree.data.statistics.HistogramType;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import common.Signal;
 import common.SignalTools;
 
 public class GraphManager {
@@ -61,24 +47,21 @@ public class GraphManager {
 		return dataset;
 	}
 	
-	private static XYDataset createDatasetInt(int[][] array) {
-		XYSeriesCollection dataset = new XYSeriesCollection();
-		XYSeries series1 = new XYSeries("Object 1");
-		for(int i=0; i<array.length; i++) {
-			series1.add(array[i][0],array[i][1]);
-		}
-		dataset.addSeries(series1);
-		return dataset;
-	}
+//	private static XYDataset createDatasetInt(int[][] array) {
+//		XYSeriesCollection dataset = new XYSeriesCollection();
+//		XYSeries series1 = new XYSeries("Object 1");
+//		for(int i=0; i<array.length; i++) {
+//			series1.add(array[i][0],array[i][1]);
+//		}
+//		dataset.addSeries(series1);
+//		return dataset;
+//	}
 	
 	
 	public static JPanel createHistogramPanel(double[][] values, int blockSize) {
 		
 		
 		double[][] histogramValues = SignalTools.generateHistogram(values, blockSize);
-		System.out.println("//////////////////Histogram values//////////////////");
-		System.out.println(Arrays.deepToString(histogramValues).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-		System.out.println("////////////////////////////////////////////////////");
 		
 		XYSeriesCollection histogramDataset= new XYSeriesCollection();
 		double barWidth = (histogramValues[histogramValues.length -  1][0] - histogramValues[0][0]) / blockSize;

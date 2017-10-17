@@ -3,7 +3,12 @@ import java.util.Random;
 
 public class GaussNoise extends Signal {
 
-  public GaussNoise( double A, int t1, int f, double d ) {
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3830220897242501852L;
+
+public GaussNoise( double A, int t1, int f, double d ) {
     super( A, t1, f, d );
     name = "S2";
   }

@@ -3,6 +3,10 @@ package common;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class Rectangle extends PeriodicSignal {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1649260468788059188L;
 	@XStreamOmitField
 	private double kw;
 	public Rectangle(double T, double A, int t1, int f, double d, double kw) {

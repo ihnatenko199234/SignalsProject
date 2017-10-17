@@ -20,7 +20,7 @@ public class WindowsManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		SCW = new ArrayList();
+		SCW = new ArrayList<SignalChartsWindow>();
 	}
 	
 	public static void createGraphParametersDialog(Shell shell) {

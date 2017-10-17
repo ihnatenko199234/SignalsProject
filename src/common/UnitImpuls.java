@@ -3,6 +3,10 @@ package common;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class UnitImpuls extends Signal {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6945676920193126749L;
 	@XStreamOmitField
 	private double ns;
 	public UnitImpuls(double ns, double A, int t1, int f, double d) {

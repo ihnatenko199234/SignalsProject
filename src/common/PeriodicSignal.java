@@ -3,6 +3,10 @@ package common;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public abstract class PeriodicSignal extends Signal {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7397390085542532353L;
 	@XStreamOmitField
 	protected double T;
 

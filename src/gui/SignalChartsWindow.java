@@ -1,13 +1,9 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Frame;
-import java.awt.Panel;
 import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.Arrays;
-
 import javax.swing.JPanel;
 
 import org.eclipse.swt.SWT;
@@ -31,8 +27,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 
@@ -211,7 +205,6 @@ public class SignalChartsWindow {
 			public void widgetSelected(SelectionEvent e) {
 				blockSize = Integer.parseInt(blockSizeComboBox.getText());
 				updateHistogramPanel();
-				System.out.println("Selected block size combo box");
 			}
 		});
 		blockSizeComboBox.setItems(new String[] {"5", "10", "15", "20"});

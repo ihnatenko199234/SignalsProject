@@ -24,7 +24,6 @@ public class SignalTools {
 			for(int j = 1; j < blockCount; j++) {
 				if(val < tab[j][0]) {
 					tab[j-1][1]++;
-					System.out.println(i + " + " + j);
 					break;
 				}
 				if(j == blockCount - 1) {
@@ -84,7 +83,6 @@ public class SignalTools {
 		}
 		
 		double n2 = f * d;
-		System.out.println(n2);
 		
 		double srednia = suma/n2;
 		return srednia;

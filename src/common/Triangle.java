@@ -1,6 +1,11 @@
 package common;
 public class Triangle extends PeriodicSignal {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3366915931347569011L;
+
 	public Triangle(double T, double A, int t1, int f, double d) {
 		super(T, A, t1, f, d);
 		name = "S8";

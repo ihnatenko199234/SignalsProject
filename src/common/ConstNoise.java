@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class ConstNoise extends Signal implements Serializable {
 	
+	private static final long serialVersionUID = -8768630676026002469L;
+
 	public ConstNoise(double A, int t1, int f, double d) {
 		super(A, t1, f, d);
 		name = "S1";

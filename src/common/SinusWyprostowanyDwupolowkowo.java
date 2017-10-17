@@ -1,6 +1,11 @@
 package common;
 public class SinusWyprostowanyDwupolowkowo extends PeriodicSignal {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7826635473172843308L;
+
 	public SinusWyprostowanyDwupolowkowo(double T, double A, int t1, int f, double d) {
 		super(T, A, t1, f, d);
 		name = "S5";

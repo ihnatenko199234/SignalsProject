@@ -2,6 +2,11 @@ package common;
 
 public class PeriodicImpulses extends PeriodicSignal {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -441894278596121169L;
+
 	public PeriodicImpulses(double T, double A, int t1, int f, double d) {
 		super(T, A, t1, f, d);
 		name = "Periodic impuls";

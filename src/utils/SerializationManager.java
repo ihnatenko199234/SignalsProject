@@ -37,8 +37,9 @@ public class SerializationManager {
 	}
 	
 	public static Signal importSignal(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
-		ObjectInputStream in=new ObjectInputStream(new FileInputStream(fileName));  
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));  
 		String dataXml=(String)in.readObject();  
+		in.close();
 		//System.out.println(dataXml);
 		XStream xstream = new XStream();
 		XStream.setupDefaultSecurity(xstream);

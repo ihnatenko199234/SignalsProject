@@ -1,6 +1,11 @@
 package common;
 public class Sinus extends PeriodicSignal {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3582800070491739332L;
+
 	public Sinus(double T, double A, int t1, int f, double d) {
 		super(T, A, t1, f, d);
 		name = "S3";

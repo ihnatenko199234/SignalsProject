@@ -1,12 +1,11 @@
 package common;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public abstract class Signal implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3491374478554105862L;
 	protected int f; //ilosc probek (częstotliwosc probkowania???)  - is serializable
 	protected double A; //amplituda
 	protected int t1; //czas poczatkowy  - is serializable
