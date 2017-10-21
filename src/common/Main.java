@@ -52,8 +52,9 @@ public class Main {
 //		double varSkuteczna = SignalTools.getWartoscSkuteczna(sredniaMoc);
 //		System.out.println("wartosc skuteczna: " + varSkuteczna);
 		
-		double[][] dodawanie = SamplingQuantizationTools.probkujSygnal(sin, 100);
-//		System.out.println(Arrays.deepToString(dodawanie).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+		double[][] sampling = SamplingQuantizationTools.probkujSygnal(sin, 100);
+		double[][] kwantyzacja = SamplingQuantizationTools.kwantyzacjaSygnalu(sampling, 3);
+//		System.out.println(Arrays.deepToString(kwantyzacja).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
 
 
