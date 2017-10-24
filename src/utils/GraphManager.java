@@ -1,5 +1,6 @@
 package utils;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -90,5 +91,14 @@ public class GraphManager {
 		JFreeChart chart = new JFreeChart("", JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 		return new ChartPanel(chart);		
 	}
+	
+	public static void graphWindowForTesting(double[][] array) {
+		JFrame frame = new JFrame();
+		frame.setSize(800, 600);
+		JPanel panel = GraphManager.createGraphPanel(array, "test");
+		frame.add(panel);
+		frame.setVisible(true);
+	}
+	
 	
 }

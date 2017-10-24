@@ -2,9 +2,12 @@ package common;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.xml.bind.JAXBException;
 
 import gui.WindowsManager;
+import utils.GraphManager;
 
 public class Main {
 
@@ -52,14 +55,16 @@ public class Main {
 //		double varSkuteczna = SignalTools.getWartoscSkuteczna(sredniaMoc);
 //		System.out.println("wartosc skuteczna: " + varSkuteczna);
 		
-		double[][] sampling = SamplingQuantizationTools.probkujSygnal(sin, 100);
-		double[][] kwantyzacja = SamplingQuantizationTools.kwantyzacjaSygnalu(sampling, 3);
+//		double[][] sampling = SamplingQuantizationTools.probkujSygnal(sin, 100);
+//		double[][] kwantyzacja = SamplingQuantizationTools.kwantyzacjaSygnalu(sampling, 3);
 //		System.out.println(Arrays.deepToString(kwantyzacja).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
-
-
-	    WindowsManager WM = new WindowsManager();
-		WM.createMainWindow();
+		GraphManager.graphWindowForTesting(array);
+		
+		
+//		
+//	    WindowsManager WM = new WindowsManager();
+//		WM.createMainWindow();
 	}
 
 }
