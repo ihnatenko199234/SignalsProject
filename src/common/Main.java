@@ -56,15 +56,17 @@ public class Main {
 //		System.out.println("wartosc skuteczna: " + varSkuteczna);
 		
 //		double[][] sampling = SamplingQuantizationTools.probkujSygnal(sin, 100);
-//		double[][] kwantyzacja = SamplingQuantizationTools.kwantyzacjaSygnalu(sampling, 3);
+		//double[][] kwantyzacja = SamplingQuantizationTools.kwantyzacjaSygnalu(sampling, 3);
 //		System.out.println(Arrays.deepToString(kwantyzacja).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
-		GraphManager.graphWindowForTesting(array);
+		//GraphManager.graphWindowForTesting(array);
 		
+		//WindowsManager.createSignalChartsWindow(sin);
+		//WindowsManager.createSignalSampleWindow(sin);
 		
 //		
-//	    WindowsManager WM = new WindowsManager();
-//		WM.createMainWindow();
+	    WindowsManager WM = new WindowsManager();
+		WM.createMainWindow();
 	}
 
 }

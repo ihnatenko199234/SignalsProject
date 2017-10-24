@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 
+import common.SamplingQuantizationTools;
 import common.Signal;
 import common.SignalTools;
 import utils.GraphManager;
@@ -154,6 +155,19 @@ public class SignalChartsWindow {
 			}
 		});
 		mntmNewItem_4.setText("/ divide");
+		
+		MenuItem mntmNewItem_5 = new MenuItem(menu, SWT.NONE);
+		mntmNewItem_5.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				WindowsManager.createSignalSampleWindow(signal);
+				
+			}
+		});
+		mntmNewItem_5.setText("Sample");
+		
+		MenuItem mntmNewItem_6 = new MenuItem(menu, SWT.NONE);
+		mntmNewItem_6.setText("Quantize");
 		
 		Label lblA = formToolkit.createLabel(shell, "Average: ", SWT.NONE);
 		lblA.setBounds(33, 20, 70, 20);	

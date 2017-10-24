@@ -42,6 +42,11 @@ public class WindowsManager {
 		}
 	}
 	
+	public static void createSignalSampleWindow(Signal signal) {
+		SignalSampleWindow signalSampleWindow = new SignalSampleWindow(signal);
+		signalSampleWindow.open();
+	}
+	
 	public static void closeAllWindows() {
 		for(SignalChartsWindow w: SCW) {
 			w.shell.dispose();
