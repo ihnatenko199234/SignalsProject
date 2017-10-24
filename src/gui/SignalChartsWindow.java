@@ -164,10 +164,7 @@ public class SignalChartsWindow {
 				
 			}
 		});
-		mntmNewItem_5.setText("Sample");
-		
-		MenuItem mntmNewItem_6 = new MenuItem(menu, SWT.NONE);
-		mntmNewItem_6.setText("Quantize");
+		mntmNewItem_5.setText("Sample and Quantize");
 		
 		Label lblA = formToolkit.createLabel(shell, "Average: ", SWT.NONE);
 		lblA.setBounds(33, 20, 70, 20);	

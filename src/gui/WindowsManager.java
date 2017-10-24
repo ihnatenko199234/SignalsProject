@@ -43,7 +43,7 @@ public class WindowsManager {
 	}
 	
 	public static void createSignalSampleWindow(Signal signal) {
-		SignalSampleWindow signalSampleWindow = new SignalSampleWindow(signal);
+		SampleQuantizeWindow signalSampleWindow = new SampleQuantizeWindow(signal);
 		signalSampleWindow.open();
 	}
 	
