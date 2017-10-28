@@ -54,12 +54,14 @@ public class Main {
 		
 		double[][] sampling = SamplingQuantizationTools.probkujSygnal(sin, 100);
 		double[][] kwantyzacja = SamplingQuantizationTools.kwantyzacjaSygnalu(sampling, 3);
+		double[][] interpolacja0 = SamplingQuantizationTools.interpolacjaZerowegoRzedu(kwantyzacja, 100);
+		double[][] interpolacja1 = SamplingQuantizationTools.interpolacjaPierwszegoRzedu(kwantyzacja, 100);
 //		System.out.println(Arrays.deepToString(kwantyzacja).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
 
 
-	    WindowsManager WM = new WindowsManager();
-		WM.createMainWindow();
+//	    WindowsManager WM = new WindowsManager();
+//		WM.createMainWindow();
 	}
 
 }
