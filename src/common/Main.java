@@ -70,8 +70,13 @@ public class Main {
 //		WindowsManager.createSignalChartsWindow(sin);
 //		WindowsManager.createSignalSampleWindow(sin);
 		
-	    WindowsManager WM = new WindowsManager();
-		WM.createMainWindow();
+//	    WindowsManager WM = new WindowsManager();
+//		WM.createMainWindow();
+		
+		System.out.println("MSE: " + Measures.MSE(sampling, interpolacja1));
+		System.out.println("SNR: " + Measures.SNR(sampling, interpolacja1));
+		System.out.println("PSNR: " + Measures.PSNR(sampling, interpolacja1));
+		System.out.println("MD: " + Measures.MD(sampling, interpolacja1));
 	}
 
 }
