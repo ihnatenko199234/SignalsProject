@@ -1,5 +1,6 @@
 package utils;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -22,11 +23,10 @@ public class GraphManager {
 	}
 	
 	public static JPanel createGraphPanel(double[][] array, String signalName) {
-		
-//		double[][] array = signal.generateSignal();
-		//ArrayList arrayList= new ArrayList(Arrays.asList(array));
-		
-		XYDataset dataset = createDatasetDouble(array); 	
+
+		XYSeriesCollection seriesCollecion = new XYSeriesCollection();
+		seriesCollecion.addSeries(createSeriesDouble(array, ""));
+		XYDataset dataset = seriesCollecion; 	
 		
 		String xAxisLabel = "X";
 		String yAxisLabel = "Y";
@@ -36,15 +36,32 @@ public class GraphManager {
 		
 		return new ChartPanel(chart);
 	}
+	
+	public static JPanel createMultiGraphPanel(double[][] array1, String descriptionArray1, double[][] array2, String descriptionArray2) {
+		
+		XYSeriesCollection seriesCollecion = new XYSeriesCollection();
+		seriesCollecion.addSeries(createSeriesDouble(array1, descriptionArray1));
+		seriesCollecion.addSeries(createSeriesDouble(array2, descriptionArray2));
+		XYDataset dataset = seriesCollecion; 	
+		
+		
+		String xAxisLabel = "X";
+		String yAxisLabel = "Y";
+		
+		JFreeChart chart = ChartFactory.createXYLineChart("", xAxisLabel, yAxisLabel, dataset,
+				PlotOrientation.VERTICAL, false, false, false);
+		
+		return new ChartPanel(chart);
+	}
 
-	private static XYDataset createDatasetDouble(double[][] array) {
-		XYSeriesCollection dataset = new XYSeriesCollection();
-		XYSeries series1 = new XYSeries("Object 1");
+	private static XYSeries createSeriesDouble(double[][] array, String seriesName) {
+		
+		XYSeries series1 = new XYSeries(seriesName);
 		for(int i=0; i<array.length; i++) {
 			series1.add(array[i][0],array[i][1]);
 		}
-		dataset.addSeries(series1);
-		return dataset;
+		
+		return series1;
 	}
 	
 //	private static XYDataset createDatasetInt(int[][] array) {
@@ -90,5 +107,18 @@ public class GraphManager {
 		JFreeChart chart = new JFreeChart("", JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 		return new ChartPanel(chart);		
 	}
+	
+	public static void graphWindowForTesting(double[][] array) {
+		JFrame frame = new JFrame();
+		frame.setSize(800, 600);
+		JPanel panel = GraphManager.createGraphPanel(array, "test");
+		frame.add(panel);
+		frame.setVisible(true);
+	}
+	
+
+	
+	
+	
 	
 }
