@@ -145,8 +145,6 @@ public class SamplingQuantizationTools {
 				}
 			}
 		}
-		
-		System.out.println(Arrays.deepToString(wynik).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 	
 		return wynik;
 	}

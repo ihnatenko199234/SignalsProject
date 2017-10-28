@@ -92,7 +92,7 @@ public class SampleQuantizeWindow {
 		
 		Combo combo = new Combo(composite_1, SWT.NONE);
 		
-		combo.setItems(new String[] {"100", "300", "500", "700", "900", "1000"});
+		combo.setItems(new String[] {"5", "10", "50", "100", "300", "500", "700", "900", "1000", "10000"});
 		combo.setBounds(24, 61, 107, 28);
 		combo.select(0);
 		
