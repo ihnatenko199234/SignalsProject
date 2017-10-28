@@ -68,7 +68,7 @@ public class SamplingQuantizationTools {
 				}
 			}
 		}
-		
+//		System.out.println(Arrays.deepToString(wynik).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 		return wynik;
 	}
 	
@@ -123,7 +123,10 @@ public class SamplingQuantizationTools {
 		for(int i = 0; i < signal.length - 2; i++) {
 			double val = signal[i][1];
 			double x = signal[i][0];
-			for(int j = 0; j < multipiler; j++) {
+			
+			double a = (signal[i+1][1] - signal[i][1]) / (signal[i+1][0] - signal[i][0]);
+			
+			for(int j = 0; j < multipiler/2; j++) {
 				
 				A[0][0] = x + (j * dt);
 				A[0][1] = 1;
@@ -133,7 +136,7 @@ public class SamplingQuantizationTools {
 				b[0] = val;
 				b[1] = signal[i+1][1];
 				
-				double[] wspolczynniki = SamplingQuantizationTools.GaussJordanElimination(A, b, 2);
+//				double[] wspolczynniki = SamplingQuantizationTools.GaussJordanElimination(A, b, 2);
 				
 				wynik[j + i*multipiler][0] = x + (j * dt);
 				
@@ -141,7 +144,8 @@ public class SamplingQuantizationTools {
 					wynik[j + i*multipiler][1] = val;
 				}
 				else {
-					wynik[j + i*multipiler][1] = (wspolczynniki[0] * x + (j * dt)) + wspolczynniki[1];
+					wynik[j + i*multipiler][1] = (a * (x + (j * dt) - signal[i][0])) + signal[i][1];
+//					wynik[j + i*multipiler][1] = (wspolczynniki[0] * x + (j * dt)) + wspolczynniki[1];
 				}
 			}
 		}
