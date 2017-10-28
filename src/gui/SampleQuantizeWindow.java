@@ -95,9 +95,10 @@ public class SampleQuantizeWindow {
 		
 		Combo fSamplingCombo = new Combo(composite_1, SWT.NONE);
 		
-		fSamplingCombo.setItems(new String[] {"100", "300", "500", "700", "900", "1000"});
+		fSamplingCombo.setItems(new String[] {"100", "300", "500", "700", "900", "1000", "10000"});
 		fSamplingCombo.setBounds(18, 52, 107, 28);
 		fSamplingCombo.select(0);
+
 		
 		Label lblSetBits = new Label(composite_1, SWT.NONE);
 		lblSetBits.setText("Bits");
@@ -149,7 +150,8 @@ public class SampleQuantizeWindow {
 
 			}
 		});
-		fReconstructingCombo.setItems(new String[] {"100", "300", "500", "700", "900", "1000"});
+
+		fReconstructingCombo.setItems(new String[] {"100", "300", "500", "700", "900", "1000", "10000"});
 		fReconstructingCombo.setBounds(18, 123, 107, 28);
 		fReconstructingCombo.select(5);
 		
