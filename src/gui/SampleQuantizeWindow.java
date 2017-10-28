@@ -67,26 +67,26 @@ public class SampleQuantizeWindow {
 	 */
 	protected void createContents(String title) {
 		shell = new Shell();
-		shell.setSize(1419, 442);
+		shell.setSize(1419, 553);
 //		if(signal.isImaginary())shell.setSize(1600, 1000);
 //			else shell.setSize(1600, 520);
 		shell.setText(title);
 		
 		Composite composite = new Composite(shell, SWT.EMBEDDED);
-		composite.setBounds(160, 0, 600, 400);
+		composite.setBounds(200, 0, 600, 400);
 		composite.setLayout(new RowLayout( ));	
 		frame = SWT_AWT.new_Frame(composite);
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		composite_1.setBounds(0, 0, 159, 400);
+		composite_1.setBounds(0, 0, 201, 400);
 		
 		
 		Label lblFrequency = new Label(composite_1, SWT.NONE);
 		lblFrequency.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblFrequency.setLocation(24, 35);
 		lblFrequency.setSize(107, 20);
-		lblFrequency.setText("Set frequency");
+		lblFrequency.setText("Frequency");
 		
 		Combo combo = new Combo(composite_1, SWT.NONE);
 		
@@ -95,34 +95,49 @@ public class SampleQuantizeWindow {
 		combo.select(0);
 		
 		Label lblSetBits = new Label(composite_1, SWT.NONE);
-		lblSetBits.setText("Set bits");
+		lblSetBits.setText("Bits");
 		lblSetBits.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblSetBits.setBounds(24, 112, 107, 20);
 		
-		Combo combo_1 = new Combo(composite_1, SWT.NONE);
-		combo_1.setItems(new String[] {"1", "3", "5", "7", "9"});
-		combo_1.setBounds(24, 138, 107, 28);
-		combo_1.select(0);
-		combo_1.addKeyListener(new KeyAdapter() {
+		Combo bitsCombo = new Combo(composite_1, SWT.NONE);
+		bitsCombo.setItems(new String[] {"1", "3", "5", "7", "9"});
+		bitsCombo.setBounds(24, 138, 107, 28);
+		bitsCombo.select(0);
+		
+		Combo reconstructionCombo = new Combo(composite_1, SWT.READ_ONLY );
+		reconstructionCombo.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
+		reconstructionCombo.setItems(new String[] {"ekstrapolation", "interpolation", "based on sinc func"});
+		reconstructionCombo.setBounds(24, 215, 158, 28);
+		reconstructionCombo.select(2);
+		
+		Label lblReconstructionType = new Label(composite_1, SWT.NONE);
+		lblReconstructionType.setText("Reconstruction");
+		lblReconstructionType.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblReconstructionType.setBounds(24, 186, 107, 20);
+		bitsCombo.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.keyCode == 13) {
-					bits=Integer.valueOf(combo_1.getText());
+					bits=Integer.valueOf(bitsCombo.getText());
 					updateQuantedSignalPanel();
 				}
 			}
 		});
-		combo_1.addSelectionListener(new SelectionAdapter() {
+		bitsCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				bits = Integer.valueOf(combo_1.getText());
+				bits = Integer.valueOf(bitsCombo.getText());
 				updateQuantedSignalPanel();
 			}
 		});
 		
 		
 		Composite composite_2 = new Composite(shell, SWT.EMBEDDED);
-		composite_2.setBounds(766, 0, 600, 400);
+		composite_2.setBounds(806, 0, 600, 400);
 		composite_2.setLayout(new RowLayout());
 		frame1 = SWT_AWT.new_Frame(composite_2);
 		
@@ -144,7 +159,7 @@ public class SampleQuantizeWindow {
 		});			
 		
 		frequency = Integer.valueOf(combo.getText());
-		bits = Integer.valueOf(combo_1.getText());
+		bits = Integer.valueOf(bitsCombo.getText());
 		
 		updateSampledSignalPanel();
 		updateQuantedSignalPanel();

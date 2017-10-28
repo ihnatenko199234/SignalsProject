@@ -80,7 +80,7 @@ public class GraphParametersDialog extends Dialog {
 		
 
 		
-		signalOptionComboBox = new Combo(composite, SWT.NONE);
+		signalOptionComboBox = new Combo(composite, SWT.READ_ONLY);
 		signalOptionComboBox.setLocation(37, 26);
 		signalOptionComboBox.setSize(401, 28);
 		signalOptionComboBox.addSelectionListener(new SelectionAdapter() {
