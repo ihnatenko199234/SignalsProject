@@ -55,14 +55,17 @@ public class Main {
 //		double varSkuteczna = SignalTools.getWartoscSkuteczna(sredniaMoc);
 //		System.out.println("wartosc skuteczna: " + varSkuteczna);
 		
-//		double[][] sampling = SamplingQuantizationTools.probkujSygnal(sin, 100);
-		//double[][] kwantyzacja = SamplingQuantizationTools.kwantyzacjaSygnalu(sampling, 3);
+		double[][] sampling = SamplingQuantizationTools.probkujSygnal(sin, 10);
+		double[][] kwantyzacja = SamplingQuantizationTools.kwantyzacjaSygnalu(sampling, 4);
+		double[][] interpolacja0 = SamplingQuantizationTools.interpolacjaZerowegoRzedu(sampling, ilProbek);
 //		System.out.println(Arrays.deepToString(kwantyzacja).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
-		//GraphManager.graphWindowForTesting(array);
-		
-		//WindowsManager.createSignalChartsWindow(sin);
-		//WindowsManager.createSignalSampleWindow(sin);
+//		GraphManager.graphWindowForTesting(sampling);
+//		GraphManager.graphWindowForTesting(kwantyzacja);
+//		GraphManager.graphWindowForTesting(interpolacja0, "interpolacja");
+//		
+		WindowsManager.createSignalChartsWindow(sin);
+		WindowsManager.createSignalSampleWindow(sin);
 		
 //		
 	    WindowsManager WM = new WindowsManager();

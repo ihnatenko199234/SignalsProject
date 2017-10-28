@@ -188,10 +188,10 @@ public class GraphManager {
 		return new ChartPanel(chart);		
 	}
 	
-	public static void graphWindowForTesting(double[][] array) {
+	public static void graphWindowForTesting(double[][] array, String name) {
 		JFrame frame = new JFrame();
 		frame.setSize(800, 600);
-		JPanel panel = GraphManager.createGraphPanel(array, "test");
+		JPanel panel = GraphManager.createGraphPanel(array, name);
 		frame.add(panel);
 		frame.setVisible(true);
 	}

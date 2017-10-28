@@ -1,6 +1,9 @@
 package common;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+
+import utils.GraphManager;
 
 public class SamplingQuantizationTools {
 	public static double[][] probkujSygnal(Signal sygnal, int freq) {
@@ -8,17 +11,22 @@ public class SamplingQuantizationTools {
 		sygnalProbkujacy.generateSignal();
 		
 		double[][] wynikMnozenia = SignalTools.multiplySignals(sygnal.getValues(), sygnalProbkujacy.getValues());
-
-		double[][] wynik = new double[(int) Math.ceil(freq*sygnal.getD())][2];
+		int tabWynikDlugosc = (int) Math.ceil(freq*sygnal.getD());
+		ArrayList<double[]> wynik = new ArrayList<>();
 		
+		double coKtoraProbka = wynikMnozenia.length / tabWynikDlugosc;
 		for(int i = 0; i < wynikMnozenia.length; i++) {
-			if(i % 10 == 0) {
-				wynik[i/10][0] = wynikMnozenia[i][0];
-				wynik[i/10][1] = wynikMnozenia[i][1];
+			if(i % coKtoraProbka == 0) {
+				double[] tmp = new double[2];
+				tmp[0] = wynikMnozenia[i][0];
+				tmp[1] = wynikMnozenia[i][1];
+				wynik.add(tmp);
 			}
 		}
-		
-		return wynik;
+		double[][] wynikArr = new double[wynik.size()][];
+		wynikArr = wynik.toArray(wynikArr);
+
+		return wynikArr;
 	}
 	
 	
@@ -79,10 +87,13 @@ public class SamplingQuantizationTools {
 		
 		double[][] wynik = new double[newSignalLength][2];
 		
+		if(multipiler == 1)
+			System.err.println("Czestotliwoœæ probkowanego i odtwarzanego sygnalu sa takie same!");
+		
 		for(int i = 0; i < signal.length - 1; i++) {
 			double val = signal[i][1];
 			double x = signal[i][0];
-			for(int j = 0; j < multipiler; j++) {
+			for(int j = 0; j < multipiler/2; j++) {
 				wynik[j + i*multipiler][0] = x + (j * dt);
 				wynik[j + i*multipiler][1] = val;
 			}

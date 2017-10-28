@@ -20,7 +20,7 @@ public class PeriodicImpulses extends PeriodicSignal {
 			tab[i][0] = t1 + (1.0/f * i);
 			
 			//rounding because OP is stupid when it comes to modulo with floating points...
-			double tmp = (double)Math.round(Math.IEEEremainder((1.0/f * i + t1), T) * 1000000000d) / 1000000000d;
+			double tmp = (double)Math.round(Math.IEEEremainder((1.0/f * i + t1), T) * 1000d) / 1000d;
 			
 			if(tmp == 0) {
 				tab[i][1] = A;
