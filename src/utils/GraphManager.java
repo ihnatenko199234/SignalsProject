@@ -37,6 +37,25 @@ public class GraphManager {
 		return new ChartPanel(chart);
 	}
 	
+	public static JPanel createMultiGraphPanel(double[][] array1, String descriptionArray1, double[][] array2, String descriptionArray2, double[][] array3, String descriptionArray3) {
+		
+		XYSeriesCollection seriesCollecion = new XYSeriesCollection();
+		seriesCollecion.addSeries(createSeriesDouble(array1, descriptionArray1));
+		seriesCollecion.addSeries(createSeriesDouble(array2, descriptionArray2));
+		seriesCollecion.addSeries(createSeriesDouble(array3, descriptionArray3));
+		XYDataset dataset = seriesCollecion; 	
+		
+		
+		String xAxisLabel = "X";
+		String yAxisLabel = "Y";
+		
+		JFreeChart chart = ChartFactory.createXYLineChart(descriptionArray1+" & "+descriptionArray2+" & "+descriptionArray3, 
+				xAxisLabel, yAxisLabel, dataset,
+				PlotOrientation.VERTICAL, false, false, false);
+		
+		return new ChartPanel(chart);
+	}
+	
 	public static JPanel createMultiGraphPanel(double[][] array1, String descriptionArray1, double[][] array2, String descriptionArray2) {
 		
 		XYSeriesCollection seriesCollecion = new XYSeriesCollection();
@@ -48,7 +67,8 @@ public class GraphManager {
 		String xAxisLabel = "X";
 		String yAxisLabel = "Y";
 		
-		JFreeChart chart = ChartFactory.createXYLineChart("", xAxisLabel, yAxisLabel, dataset,
+		JFreeChart chart = ChartFactory.createXYLineChart(descriptionArray1+" & "+descriptionArray2, 
+				xAxisLabel, yAxisLabel, dataset,
 				PlotOrientation.VERTICAL, false, false, false);
 		
 		return new ChartPanel(chart);

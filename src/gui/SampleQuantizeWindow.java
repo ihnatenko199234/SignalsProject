@@ -152,7 +152,9 @@ public class SampleQuantizeWindow {
 	
 	private void updateSampledSignalPanel() {
 		samples = SamplingQuantizationTools.probkujSygnal(signal, frequency);
-		JPanel graphPanel = GraphManager.createGraphPanel(samples, "Sampling of " + signal.getName());
+		//original + sampled + reconstructed
+		JPanel graphPanel = GraphManager.createMultiGraphPanel(signal.getValues(), "Original", samples, "Sampled");
+		//JPanel graphPanel = GraphManager.createGraphPanel(samples, "Sampling of " + signal.getName());
 		frame.add(graphPanel);	
 		graphPanel.revalidate();
 		graphPanel.repaint();
@@ -160,7 +162,8 @@ public class SampleQuantizeWindow {
 	
 	private void updateQuantedSignalPanel() {
 		double[][] quants = SamplingQuantizationTools.kwantyzacjaSygnalu(samples, bits);
-		JPanel graphPanel = GraphManager.createMultiGraphPanel(samples, "Original", quants, "Quantized");
+		//original + sampled + quantized
+		JPanel graphPanel = GraphManager.createMultiGraphPanel(signal.getValues(), "Original", samples, "Sampled", quants, "Quantized");
 		//JPanel graphPanel = GraphManager.createGraphPanel(quants, "Quantization of "+signal.getName());
 		frame1.add(graphPanel);	
 		graphPanel.revalidate();
