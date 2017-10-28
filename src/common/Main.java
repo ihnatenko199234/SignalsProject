@@ -55,10 +55,10 @@ public class Main {
 //		double varSkuteczna = SignalTools.getWartoscSkuteczna(sredniaMoc);
 //		System.out.println("wartosc skuteczna: " + varSkuteczna);
 		
-		double[][] sampling = SamplingQuantizationTools.probkujSygnal(sin, 5);
+		double[][] sampling = SamplingQuantizationTools.probkujSygnal(sin, 10);
 		double[][] kwantyzacja = SamplingQuantizationTools.kwantyzacjaSygnalu(sampling, 4);
 		double[][] interpolacja0 = SamplingQuantizationTools.interpolacjaZerowegoRzedu(kwantyzacja, ilProbek);
-		double[][] interpolacja1 = SamplingQuantizationTools.interpolacjaPierwszegoRzedu(kwantyzacja, ilProbek);
+		double[][] interpolacja1 = SamplingQuantizationTools.interpolacjaPierwszegoRzedu(sampling, ilProbek);
 //		System.out.println(Arrays.deepToString(kwantyzacja).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
 //		GraphManager.graphWindowForTesting(sin.getValues(), "sygnal");
@@ -69,6 +69,7 @@ public class Main {
 //		
 //		WindowsManager.createSignalChartsWindow(sin);
 //		WindowsManager.createSignalSampleWindow(sin);
+<<<<<<< HEAD
 		
 //	    WindowsManager WM = new WindowsManager();
 //		WM.createMainWindow();
@@ -77,6 +78,11 @@ public class Main {
 		System.out.println("SNR: " + Measures.SNR(sampling, interpolacja1));
 		System.out.println("PSNR: " + Measures.PSNR(sampling, interpolacja1));
 		System.out.println("MD: " + Measures.MD(sampling, interpolacja1));
+=======
+//		
+	    WindowsManager WM = new WindowsManager();
+		WM.createMainWindow();
+>>>>>>> 45d798e977bffeff03e4ef2fc05c252a4cda906d
 	}
 
 }

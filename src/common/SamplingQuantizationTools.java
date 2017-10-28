@@ -117,8 +117,6 @@ public class SamplingQuantizationTools {
 		int newSignalLength = (int) (freq*d);
 		
 		double[][] wynik = new double[newSignalLength][2];
-		double[][] A = new double[2][2];
-		double[] b = new double[2];
 		
 		for(int i = 0; i < signal.length - 2; i++) {
 			double val = signal[i][1];
@@ -128,16 +126,6 @@ public class SamplingQuantizationTools {
 			
 			for(int j = 0; j < multipiler/2; j++) {
 				
-				A[0][0] = x + (j * dt);
-				A[0][1] = 1;
-				A[1][0] = signal[i+1][0] + (j * dt);
-				A[1][1] = 1;
-				
-				b[0] = val;
-				b[1] = signal[i+1][1];
-				
-//				double[] wspolczynniki = SamplingQuantizationTools.GaussJordanElimination(A, b, 2);
-				
 				wynik[j + i*multipiler][0] = x + (j * dt);
 				
 				if(j == 0) {
@@ -145,7 +133,6 @@ public class SamplingQuantizationTools {
 				}
 				else {
 					wynik[j + i*multipiler][1] = (a * (x + (j * dt) - signal[i][0])) + signal[i][1];
-//					wynik[j + i*multipiler][1] = (wspolczynniki[0] * x + (j * dt)) + wspolczynniki[1];
 				}
 			}
 		}
@@ -153,47 +140,40 @@ public class SamplingQuantizationTools {
 		return wynik;
 	}
 	
-	private static double[] GaussJordanElimination(double[][] A, double[] b, int n)
-    {
-        double[] x = new double[n];
-        double[][] tmpA = new double[n][n + 1];
-        double tmp = 0;
-
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < n; j++)
-            {
-                tmpA[i][j] = A[i][j];
-            }
-            tmpA[i][n] = b[i];
-        }
-
-        for (int k = 0; k < n; k++)
-        {
-            tmp = tmpA[k][k];
-            for (int i = 0; i < n + 1; i++)
-            {
-                tmpA[k][i] = tmpA[k][i] / tmp;
-            }
-
-            for (int i = 0; i < n; i++)
-            {
-                if (i != k)
-                {
-                    tmp = tmpA[i][k] / tmpA[k][k];
-                    for (int j = k; j < n + 1; j++)
-                    {
-                        tmpA[i][j] -= tmp * tmpA[k][j];
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < n; i++)
-        {
-            x[i] = tmpA[i][n];
-        }
-
-        return x;
-    }
+	public static double[][] interpolacjaSinc(double[][] signal, int freq) {
+		double minX = signal[0][0];
+		double maxX = signal[signal.length-1][0];
+		
+		//czas = max X probki - min X probki
+		double d = maxX - minX;
+		//czestotliwosc = ilosc probek / czas trwania sygnalu
+		int f = (int) (signal.length/d);
+		int multipiler = freq/f;
+		double dt = d/freq;
+		int newSignalLength = (int) (freq*d);
+		
+		double[][] wynik = new double[newSignalLength][2];
+		
+		for(int i = 0; i < signal.length - 2; i++) {
+			double val = signal[i][1];
+			double x = signal[i][0];
+			
+//			double a = (signal[i+1][1] - signal[i][1]) / (signal[i+1][0] - signal[i][0]);
+			
+			for(int j = 0; j < multipiler/2; j++) {
+				
+				wynik[j + i*multipiler][0] = x + (j * dt);
+				
+				if(j == 0) {
+//					wynik[j + i*multipiler][1] = val;
+				}
+				else {
+//					wynik[j + i*multipiler][1] = (a * (x + (j * dt) - signal[i][0])) + signal[i][1];
+				}
+			}
+		}
+	
+		return wynik;
+	}
+	
 }
