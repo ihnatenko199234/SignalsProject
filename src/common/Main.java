@@ -69,20 +69,17 @@ public class Main {
 //		
 //		WindowsManager.createSignalChartsWindow(sin);
 //		WindowsManager.createSignalSampleWindow(sin);
-<<<<<<< HEAD
+
 		
-//	    WindowsManager WM = new WindowsManager();
-//		WM.createMainWindow();
-		
-		System.out.println("MSE: " + Measures.MSE(sampling, interpolacja1));
-		System.out.println("SNR: " + Measures.SNR(sampling, interpolacja1));
-		System.out.println("PSNR: " + Measures.PSNR(sampling, interpolacja1));
-		System.out.println("MD: " + Measures.MD(sampling, interpolacja1));
-=======
-//		
 	    WindowsManager WM = new WindowsManager();
 		WM.createMainWindow();
->>>>>>> 45d798e977bffeff03e4ef2fc05c252a4cda906d
+		
+		
+//		System.out.println("MSE: " + Measures.MSE(sin.getValues(), interpolacja1));
+//		System.out.println("SNR: " + Measures.SNR(sin.getValues(), interpolacja1));
+//		System.out.println("PSNR: " + Measures.PSNR(sin.getValues(), interpolacja1));
+//		System.out.println("MD: " + Measures.MD(sin.getValues(), interpolacja1));
+
 	}
 
 }

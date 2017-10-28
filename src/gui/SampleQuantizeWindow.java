@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 
+import common.Measures;
 import common.SamplingQuantizationTools;
 import common.Signal;
 import utils.GraphManager;
@@ -39,6 +40,10 @@ public class SampleQuantizeWindow {
 	private String displayedSignals;
 	protected int frequencyReconstructing;
 	private double[][] quants;
+	private Text mseText;
+	private Text snrText;
+	private Text psnrText;
+	private Text mdText;
 	
 	public SampleQuantizeWindow(Signal signal) {
 		this.signal = signal;
@@ -163,7 +168,7 @@ public class SampleQuantizeWindow {
 		Label lblDisplayedSignals = new Label(composite_1, SWT.NONE);
 		lblDisplayedSignals.setText("Displayed signals:");
 		lblDisplayedSignals.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblDisplayedSignals.setBounds(18, 335, 118, 23);
+		lblDisplayedSignals.setBounds(18, 319, 118, 23);
 		
 		Combo displayedSignalsCombo = new Combo(composite_1, SWT.READ_ONLY);
 		displayedSignalsCombo.addSelectionListener(new SelectionAdapter() {
@@ -175,8 +180,44 @@ public class SampleQuantizeWindow {
 		});
 		displayedSignalsCombo.setItems(new String[] {"O", "S", "S & Q", "S & Q & R"});
 		displayedSignalsCombo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		displayedSignalsCombo.setBounds(18, 364, 118, 28);
+		displayedSignalsCombo.setBounds(18, 348, 118, 28);
 		displayedSignalsCombo.select(3);
+		
+		Label lblMse = new Label(composite_1, SWT.NONE);
+		lblMse.setText("MSE:");
+		lblMse.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblMse.setBounds(18, 407, 47, 20);
+		
+		mseText = new Text(composite_1, SWT.BORDER);
+		mseText.setEditable(false);
+		mseText.setBounds(71, 404, 78, 26);
+		
+		snrText = new Text(composite_1, SWT.BORDER);
+		snrText.setEditable(false);
+		snrText.setBounds(71, 436, 78, 26);
+		
+		Label lblSnr = new Label(composite_1, SWT.NONE);
+		lblSnr.setText("SNR:");
+		lblSnr.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblSnr.setBounds(18, 439, 47, 20);
+		
+		Label lblPsnr = new Label(composite_1, SWT.NONE);
+		lblPsnr.setText("PSNR:");
+		lblPsnr.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblPsnr.setBounds(18, 475, 47, 20);
+		
+		psnrText = new Text(composite_1, SWT.BORDER);
+		psnrText.setEditable(false);
+		psnrText.setBounds(71, 472, 78, 26);
+		
+		Label lblMd = new Label(composite_1, SWT.NONE);
+		lblMd.setText("MD:");
+		lblMd.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblMd.setBounds(18, 510, 47, 20);
+		
+		mdText = new Text(composite_1, SWT.BORDER);
+		mdText.setEditable(false);
+		mdText.setBounds(71, 507, 78, 26);
 		bitsCombo.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -241,10 +282,18 @@ public class SampleQuantizeWindow {
 			break;
 		case "based on sinc func":
 			break;
-			
 		}
+		
+		updateMeasures();
+		
 	}
-
+	
+	private void updateMeasures() {
+		mseText.setText(String.valueOf(Measures.MSE(signal.getValues(), reconstructedValues)));
+		snrText.setText(String.valueOf(Measures.SNR(signal.getValues(), reconstructedValues)));
+		psnrText.setText(String.valueOf(Measures.PSNR(signal.getValues(), reconstructedValues)));
+		mdText.setText(String.valueOf(Measures.MD(signal.getValues(), reconstructedValues)));
+	}
 	
 	private void updateSignalsPanel() {
 		JPanel graphPanel = null;
