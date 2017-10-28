@@ -95,7 +95,7 @@ public class SampleQuantizeWindow {
 		
 		Combo fSamplingCombo = new Combo(composite_1, SWT.NONE);
 		
-		fSamplingCombo.setItems(new String[] {"100", "300", "500", "700", "900", "1000", "10000"});
+		fSamplingCombo.setItems(new String[] {"5", "10", "20", "50", "100", "300", "500", "700", "900", "1000", "10000"});
 		fSamplingCombo.setBounds(18, 52, 107, 28);
 		fSamplingCombo.select(0);
 
@@ -108,7 +108,7 @@ public class SampleQuantizeWindow {
 		Combo bitsCombo = new Combo(composite_1, SWT.NONE);
 		bitsCombo.setItems(new String[] {"1", "3", "5", "7", "9"});
 		bitsCombo.setBounds(18, 193, 107, 28);
-		bitsCombo.select(0);
+		bitsCombo.select(1);
 		
 		Combo reconstructionCombo = new Combo(composite_1, SWT.READ_ONLY );
 		reconstructionCombo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -151,7 +151,7 @@ public class SampleQuantizeWindow {
 			}
 		});
 
-		fReconstructingCombo.setItems(new String[] {"100", "300", "500", "700", "900", "1000", "10000"});
+		fReconstructingCombo.setItems(new String[] {"5", "10", "20", "50", "100", "300", "500", "700", "900", "1000", "10000"});
 		fReconstructingCombo.setBounds(18, 123, 107, 28);
 		fReconstructingCombo.select(5);
 		
