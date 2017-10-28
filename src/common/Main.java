@@ -64,8 +64,8 @@ public class Main {
 //		GraphManager.graphWindowForTesting(kwantyzacja);
 //		GraphManager.graphWindowForTesting(interpolacja0, "interpolacja");
 //		
-		WindowsManager.createSignalChartsWindow(sin);
-		WindowsManager.createSignalSampleWindow(sin);
+//		WindowsManager.createSignalChartsWindow(sin);
+//		WindowsManager.createSignalSampleWindow(sin);
 		
 //		
 	    WindowsManager WM = new WindowsManager();
