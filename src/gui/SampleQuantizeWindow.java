@@ -34,6 +34,8 @@ public class SampleQuantizeWindow {
 	private double[][] samples;
 	private int frequency;
 	private int bits;
+	private double[][] reconstructedValues;
+	private String reconstructionType;
 	
 	public SampleQuantizeWindow(Signal signal) {
 		this.signal = signal;
@@ -105,14 +107,19 @@ public class SampleQuantizeWindow {
 		bitsCombo.select(0);
 		
 		Combo reconstructionCombo = new Combo(composite_1, SWT.READ_ONLY );
+		reconstructionCombo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		reconstructionCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				reconstructionType = reconstructionCombo.getText();
+				updateSampledSignalPanel();
 			}
 		});
-		reconstructionCombo.setItems(new String[] {"ekstrapolation", "interpolation", "based on sinc func"});
-		reconstructionCombo.setBounds(24, 215, 158, 28);
-		reconstructionCombo.select(2);
+		reconstructionCombo.setItems(new String[] {"ekstrapolation", "0-order interpolation", "1-order interpolation", "based on sinc func"});
+		reconstructionCombo.setBounds(24, 215, 167, 28);
+		reconstructionCombo.select(1);
+		
+		reconstructionType = reconstructionCombo.getText();
 		
 		Label lblReconstructionType = new Label(composite_1, SWT.NONE);
 		lblReconstructionType.setText("Reconstruction");
@@ -146,6 +153,7 @@ public class SampleQuantizeWindow {
 			public void widgetSelected(SelectionEvent e) {
 				frequency = Integer.valueOf(combo.getText());
 				updateSampledSignalPanel();
+				updateQuantedSignalPanel();
 			}
 		});
 		combo.addKeyListener(new KeyAdapter() {
@@ -154,6 +162,7 @@ public class SampleQuantizeWindow {
 				if(e.keyCode == 13) {
 					frequency = Integer.valueOf(combo.getText());
 					updateSampledSignalPanel();
+					updateQuantedSignalPanel();
 				}
 			}
 		});			
@@ -167,8 +176,17 @@ public class SampleQuantizeWindow {
 	
 	private void updateSampledSignalPanel() {
 		samples = SamplingQuantizationTools.probkujSygnal(signal, frequency);
+		switch(reconstructionType) {
+		case "1-order interpolation":
+			reconstructedValues = SamplingQuantizationTools.interpolacjaPierwszegoRzedu(samples, frequency);
+			break;
+		case "0-order interpolation":
+			reconstructedValues = SamplingQuantizationTools.interpolacjaZerowegoRzedu(samples, frequency);
+			break;
+		}
+		
 		//original + sampled + reconstructed
-		JPanel graphPanel = GraphManager.createMultiGraphPanel(signal.getValues(), "Original", samples, "Sampled");
+		JPanel graphPanel = GraphManager.createMultiGraphPanel(signal.getValues(), "Original", samples, "Sampled", reconstructedValues, "Reconstructed");
 		//JPanel graphPanel = GraphManager.createGraphPanel(samples, "Sampling of " + signal.getName());
 		frame.add(graphPanel);	
 		graphPanel.revalidate();
