@@ -149,6 +149,8 @@ public class SamplingQuantizationTools {
 		//czestotliwosc = ilosc probek / czas trwania sygnalu
 		int f = (int) (signal.length/d);
 		int multipiler = freq/f;
+		System.out.println(freq);
+		System.out.println(f);
 		double dt = d/freq;
 		int newSignalLength = (int) (freq*d);
 		
@@ -158,17 +160,27 @@ public class SamplingQuantizationTools {
 			double val = signal[i][1];
 			double x = signal[i][0];
 			
-//			double a = (signal[i+1][1] - signal[i][1]) / (signal[i+1][0] - signal[i][0]);
-			
 			for(int j = 0; j < multipiler/2; j++) {
-				
-				wynik[j + i*multipiler][0] = x + (j * dt);
-				
 				if(j == 0) {
-//					wynik[j + i*multipiler][1] = val;
+					wynik[j + i*multipiler][1] = val;
+//					System.out.println("j = 0: "+(i*multipiler));
+//					System.out.println(val);
 				}
 				else {
-//					wynik[j + i*multipiler][1] = (a * (x + (j * dt) - signal[i][0])) + signal[i][1];
+					//wartosc x
+					double xt = x + (j * dt);
+					wynik[j + i*multipiler][0] = xt;
+					
+					//Ts = przedzial czasu miedzy probkami. 1/Ts - freq
+					double Ts = signal[1][0] - signal[0][0];
+					double sumaSinc = 0;
+					
+					for(int n = 0; n <= signal.length; n++) {
+						double t = xt/Ts - n;
+						sumaSinc += signal[(int) (n*Ts)][1] * sinc(t);
+					}
+					
+					wynik[j + i*multipiler][1] = sumaSinc;
 				}
 			}
 		}
@@ -176,7 +188,7 @@ public class SamplingQuantizationTools {
 		return wynik;
 	}
 	
-	private double sinc(double t) {
+	private static double sinc(double t) {
 		if(t == 0) {
 			return 1;
 		}
