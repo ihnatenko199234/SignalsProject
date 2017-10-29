@@ -69,9 +69,17 @@ public class Main {
 //		
 //		WindowsManager.createSignalChartsWindow(sin);
 //		WindowsManager.createSignalSampleWindow(sin);
-//		
+
+		
 	    WindowsManager WM = new WindowsManager();
 		WM.createMainWindow();
+		
+		
+//		System.out.println("MSE: " + Measures.MSE(sin.getValues(), interpolacja1));
+//		System.out.println("SNR: " + Measures.SNR(sin.getValues(), interpolacja1));
+//		System.out.println("PSNR: " + Measures.PSNR(sin.getValues(), interpolacja1));
+//		System.out.println("MD: " + Measures.MD(sin.getValues(), interpolacja1));
+
 	}
 
 }

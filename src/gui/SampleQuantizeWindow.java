@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 
+import common.Measures;
 import common.SamplingQuantizationTools;
 import common.Signal;
 import utils.GraphManager;
@@ -32,13 +33,18 @@ public class SampleQuantizeWindow {
 	protected Signal signal;
 	private Frame frame;
 	private double[][] samples;
-	private int frequencySampling;
+	private int frequencyOfSampledSignal;
 	private int bits;
 	private double[][] reconstructedValues;
 	private String reconstructionType;
 	private String displayedSignals;
-	protected int frequencyReconstructing;
+	protected int frequencyOfReconstructedSignal;
 	private double[][] quants;
+	private Text mseText;
+	private Text snrText;
+	private Text psnrText;
+	private Text mdText;
+	private Text originalFrequency;
 	
 	public SampleQuantizeWindow(Signal signal) {
 		this.signal = signal;
@@ -89,25 +95,25 @@ public class SampleQuantizeWindow {
 		
 		Label lblFrequency = new Label(composite_1, SWT.NONE);
 		lblFrequency.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblFrequency.setLocation(18, 26);
-		lblFrequency.setSize(107, 20);
-		lblFrequency.setText("f (sampling)");
+		lblFrequency.setLocation(18, 88);
+		lblFrequency.setSize(78, 20);
+		lblFrequency.setText("sampled");
 		
 		Combo fSamplingCombo = new Combo(composite_1, SWT.NONE);
 		
 		fSamplingCombo.setItems(new String[] {"5", "10", "20", "50", "100", "300", "500", "700", "900", "1000", "10000"});
-		fSamplingCombo.setBounds(18, 52, 107, 28);
+		fSamplingCombo.setBounds(113, 85, 78, 28);
 		fSamplingCombo.select(0);
 
 		
 		Label lblSetBits = new Label(composite_1, SWT.NONE);
 		lblSetBits.setText("Bits");
 		lblSetBits.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblSetBits.setBounds(18, 167, 107, 20);
+		lblSetBits.setBounds(18, 175, 107, 20);
 		
 		Combo bitsCombo = new Combo(composite_1, SWT.NONE);
 		bitsCombo.setItems(new String[] {"1", "3", "5", "7", "9"});
-		bitsCombo.setBounds(18, 193, 107, 28);
+		bitsCombo.setBounds(18, 201, 78, 28);
 		bitsCombo.select(1);
 		
 		Combo reconstructionCombo = new Combo(composite_1, SWT.READ_ONLY );
@@ -120,22 +126,22 @@ public class SampleQuantizeWindow {
 			}
 		});
 		reconstructionCombo.setItems(new String[] {"ekstrapolation", "0-order interpolation", "1-order interpolation", "based on sinc func"});
-		reconstructionCombo.setBounds(18, 270, 167, 28);
+		reconstructionCombo.setBounds(18, 276, 167, 28);
 		reconstructionCombo.select(1);
 		
 		reconstructionType = reconstructionCombo.getText();
 		
 		Label lblReconstructionType = new Label(composite_1, SWT.NONE);
-		lblReconstructionType.setText("Reconstruction");
+		lblReconstructionType.setText("Reconstruction:");
 		lblReconstructionType.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblReconstructionType.setBounds(18, 241, 107, 20);
+		lblReconstructionType.setBounds(18, 247, 107, 20);
 		
 		Combo fReconstructingCombo = new Combo(composite_1, SWT.NONE);
 		fReconstructingCombo.addKeyListener(new KeyAdapter() {
 			@Override
 				public void keyPressed(KeyEvent e) {
 					if(e.keyCode == 13) {
-						frequencyReconstructing = Integer.valueOf(fReconstructingCombo.getText());
+						frequencyOfReconstructedSignal = Integer.valueOf(fReconstructingCombo.getText());
 						updateSignals();
 						updateSignalsPanel();
 				}
@@ -144,7 +150,7 @@ public class SampleQuantizeWindow {
 		fReconstructingCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				frequencyReconstructing = Integer.valueOf(fReconstructingCombo.getText());
+				frequencyOfReconstructedSignal = Integer.valueOf(fReconstructingCombo.getText());
 				updateSignals();
 				updateSignalsPanel();
 
@@ -152,18 +158,18 @@ public class SampleQuantizeWindow {
 		});
 
 		fReconstructingCombo.setItems(new String[] {"5", "10", "20", "50", "100", "300", "500", "700", "900", "1000", "10000"});
-		fReconstructingCombo.setBounds(18, 123, 107, 28);
+		fReconstructingCombo.setBounds(113, 123, 78, 28);
 		fReconstructingCombo.select(5);
 		
 		Label lblFreconstructing = new Label(composite_1, SWT.NONE);
-		lblFreconstructing.setText("f (reconstructing)");
+		lblFreconstructing.setText("reconstructed");
 		lblFreconstructing.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblFreconstructing.setBounds(18, 97, 113, 20);
+		lblFreconstructing.setBounds(18, 126, 93, 20);
 		
 		Label lblDisplayedSignals = new Label(composite_1, SWT.NONE);
 		lblDisplayedSignals.setText("Displayed signals:");
 		lblDisplayedSignals.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblDisplayedSignals.setBounds(18, 335, 118, 23);
+		lblDisplayedSignals.setBounds(18, 339, 118, 23);
 		
 		Combo displayedSignalsCombo = new Combo(composite_1, SWT.READ_ONLY);
 		displayedSignalsCombo.addSelectionListener(new SelectionAdapter() {
@@ -175,8 +181,64 @@ public class SampleQuantizeWindow {
 		});
 		displayedSignalsCombo.setItems(new String[] {"O", "S", "S & Q", "S & Q & R"});
 		displayedSignalsCombo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		displayedSignalsCombo.setBounds(18, 364, 118, 28);
+		displayedSignalsCombo.setBounds(18, 368, 118, 28);
 		displayedSignalsCombo.select(3);
+		
+		Label lblMse = new Label(composite_1, SWT.NONE);
+		lblMse.setText("MSE:");
+		lblMse.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblMse.setBounds(18, 427, 47, 20);
+		
+		mseText = new Text(composite_1, SWT.BORDER);
+		mseText.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		mseText.setEditable(false);
+		mseText.setBounds(71, 424, 78, 26);
+		
+		snrText = new Text(composite_1, SWT.BORDER);
+		snrText.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		snrText.setEditable(false);
+		snrText.setBounds(71, 456, 78, 26);
+		
+		Label lblSnr = new Label(composite_1, SWT.NONE);
+		lblSnr.setText("SNR:");
+		lblSnr.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblSnr.setBounds(18, 459, 47, 20);
+		
+		Label lblPsnr = new Label(composite_1, SWT.NONE);
+		lblPsnr.setText("PSNR:");
+		lblPsnr.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblPsnr.setBounds(18, 495, 47, 20);
+		
+		psnrText = new Text(composite_1, SWT.BORDER);
+		psnrText.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		psnrText.setEditable(false);
+		psnrText.setBounds(71, 492, 78, 26);
+		
+		Label lblMd = new Label(composite_1, SWT.NONE);
+		lblMd.setText("MD:");
+		lblMd.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblMd.setBounds(18, 530, 47, 20);
+		
+		mdText = new Text(composite_1, SWT.BORDER);
+		mdText.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		mdText.setEditable(false);
+		mdText.setBounds(71, 527, 78, 26);
+		
+		Label lblOriginal = new Label(composite_1, SWT.NONE);
+		lblOriginal.setText("original");
+		lblOriginal.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblOriginal.setBounds(18, 53, 87, 20);
+		
+		Label lblNewLabel = new Label(composite_1, SWT.NONE);
+		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel.setBounds(18, 21, 173, 20);
+		lblNewLabel.setText("Signals frequencies (Hz):");
+		
+		originalFrequency = new Text(composite_1, SWT.BORDER);
+		originalFrequency.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		originalFrequency.setText(String.valueOf(signal.getF()));
+		originalFrequency.setEditable(false);
+		originalFrequency.setBounds(113, 50, 78, 26);
 		bitsCombo.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -199,7 +261,7 @@ public class SampleQuantizeWindow {
 		fSamplingCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				frequencySampling = Integer.valueOf(fSamplingCombo.getText());
+				frequencyOfSampledSignal = Integer.valueOf(fSamplingCombo.getText());
 				updateSignals();
 				updateSignalsPanel();
 			}
@@ -208,15 +270,16 @@ public class SampleQuantizeWindow {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.keyCode == 13) {
-					frequencySampling = Integer.valueOf(fSamplingCombo.getText());
+					frequencyOfSampledSignal = Integer.valueOf(fSamplingCombo.getText());
 					updateSignals();
 					updateSignalsPanel();
 				}
 			}
 		});			
 		
-		frequencySampling = Integer.valueOf(fSamplingCombo.getText());
-		frequencyReconstructing = Integer.valueOf(fReconstructingCombo.getText());
+		
+		frequencyOfSampledSignal = Integer.valueOf(fSamplingCombo.getText());
+		frequencyOfReconstructedSignal = Integer.valueOf(fReconstructingCombo.getText());
 		bits = Integer.valueOf(bitsCombo.getText());
 		displayedSignals = displayedSignalsCombo.getText();
 		
@@ -226,25 +289,35 @@ public class SampleQuantizeWindow {
 	}
 	
 	private void updateSignals() {
-		samples = SamplingQuantizationTools.probkujSygnal(signal, frequencySampling);
+		samples = SamplingQuantizationTools.probkujSygnal(signal, frequencyOfSampledSignal);
 
 		quants = SamplingQuantizationTools.kwantyzacjaSygnalu(samples, bits);
 		
 		switch(reconstructionType) {
 		case "1-order interpolation":
-			reconstructedValues = SamplingQuantizationTools.interpolacjaPierwszegoRzedu(quants, frequencyReconstructing);
+			reconstructedValues = SamplingQuantizationTools.interpolacjaPierwszegoRzedu(quants, frequencyOfReconstructedSignal);
 			break;
 		case "0-order interpolation":
-			reconstructedValues = SamplingQuantizationTools.interpolacjaZerowegoRzedu(quants, frequencyReconstructing);
+			reconstructedValues = SamplingQuantizationTools.interpolacjaZerowegoRzedu(quants, frequencyOfReconstructedSignal);
 			break;
 		case "ekstrapolation":
+			
 			break;
 		case "based on sinc func":
+			reconstructedValues = SamplingQuantizationTools.interpolacjaSinc(quants, frequencyOfReconstructedSignal);
 			break;
-			
 		}
+		
+		updateMeasures();
+		
 	}
-
+	
+	private void updateMeasures() {
+		mseText.setText(String.valueOf(Measures.MSE(signal.getValues(), reconstructedValues)));
+		snrText.setText(String.valueOf(Measures.SNR(signal.getValues(), reconstructedValues)));
+		psnrText.setText(String.valueOf(Measures.PSNR(signal.getValues(), reconstructedValues)));
+		mdText.setText(String.valueOf(Measures.MD(signal.getValues(), reconstructedValues)));
+	}
 	
 	private void updateSignalsPanel() {
 		JPanel graphPanel = null;
