@@ -50,6 +50,7 @@ public class SampleQuantizeWindow {
 	private Text psnrText;
 	private Text mdText;
 	private Text originalFrequency;
+	protected String mesuredSignals;
 	
 	public SampleQuantizeWindow(Signal signal) {
 		this.signal = signal;
@@ -132,7 +133,7 @@ public class SampleQuantizeWindow {
 			}
 		});
 		reconstructionCombo.setItems(new String[] {"zero-order hold", "first-order hold", "sinc"});
-		reconstructionCombo.setBounds(18, 246, 145, 28);
+		reconstructionCombo.setBounds(18, 238, 145, 28);
 		reconstructionCombo.select(0);
 		
 		reconstructionType = reconstructionCombo.getText();
@@ -175,7 +176,7 @@ public class SampleQuantizeWindow {
 		Label lblDisplayedSignals = new Label(composite_1, SWT.NONE);
 		lblDisplayedSignals.setText("Displayed signals:");
 		lblDisplayedSignals.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblDisplayedSignals.setBounds(18, 315, 118, 23);
+		lblDisplayedSignals.setBounds(21, 292, 118, 23);
 		
 		Combo displayedSignalsCombo = new Combo(composite_1, SWT.READ_ONLY);
 		displayedSignalsCombo.addSelectionListener(new SelectionAdapter() {
@@ -187,7 +188,7 @@ public class SampleQuantizeWindow {
 		});
 		displayedSignalsCombo.setItems(new String[] {"O","S","Q","R","S & R","S & Q", "O & S", "O & Q", "O & S & R", "O & S & Q"});
 		displayedSignalsCombo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		displayedSignalsCombo.setBounds(18, 344, 118, 28);
+		displayedSignalsCombo.setBounds(23, 312, 118, 28);
 		displayedSignalsCombo.select(4);
 		
 		Label lblMse = new Label(composite_1, SWT.NONE);
@@ -245,6 +246,26 @@ public class SampleQuantizeWindow {
 		originalFrequency.setText(String.valueOf(signal.getF()));
 		originalFrequency.setEditable(false);
 		originalFrequency.setBounds(113, 50, 78, 26);
+		
+		Label lblMeasuresFor = new Label(composite_1, SWT.NONE);
+		lblMeasuresFor.setText("Measures for:");
+		lblMeasuresFor.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblMeasuresFor.setBounds(21, 371, 118, 23);
+		
+		Combo measuresCombo = new Combo(composite_1, SWT.READ_ONLY);
+		measuresCombo.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				mesuredSignals = measuresCombo.getText();
+				updateMeasures();
+			}
+		});
+		measuresCombo.setItems(new String[] {"O & R", "O & Q"});
+		measuresCombo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		measuresCombo.setBounds(22, 390, 118, 28);
+		measuresCombo.select(0);
+		mesuredSignals = measuresCombo.getText();
+
 		bitsCombo.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -316,10 +337,22 @@ public class SampleQuantizeWindow {
 	}
 	
 	private void updateMeasures() {
-		mseText.setText(String.valueOf(Measures.MSE(signal.getValues(), reconstructedValues)));
-		snrText.setText(String.valueOf(Measures.SNR(signal.getValues(), reconstructedValues)));
-		psnrText.setText(String.valueOf(Measures.PSNR(signal.getValues(), reconstructedValues)));
-		mdText.setText(String.valueOf(Measures.MD(signal.getValues(), reconstructedValues)));
+		switch(mesuredSignals) {
+		case "O & Q":
+			mseText.setText(String.valueOf(Measures.MSE(signal.getValues(), quants)));
+			snrText.setText(String.valueOf(Measures.SNR(signal.getValues(), quants)));
+			psnrText.setText(String.valueOf(Measures.PSNR(signal.getValues(), quants)));
+			mdText.setText(String.valueOf(Measures.MD(signal.getValues(), quants)));
+			break;
+		case "O & R":
+			mseText.setText(String.valueOf(Measures.MSE(signal.getValues(), reconstructedValues)));
+			snrText.setText(String.valueOf(Measures.SNR(signal.getValues(), reconstructedValues)));
+			psnrText.setText(String.valueOf(Measures.PSNR(signal.getValues(), reconstructedValues)));
+			mdText.setText(String.valueOf(Measures.MD(signal.getValues(), reconstructedValues)));
+			break;
+			
+		}
+		
 	}
 	
 	private void updateSignalsPanel() {
