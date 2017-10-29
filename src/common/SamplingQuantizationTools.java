@@ -176,4 +176,13 @@ public class SamplingQuantizationTools {
 		return wynik;
 	}
 	
+	private double sinc(double t) {
+		if(t == 0) {
+			return 1;
+		}
+		else {
+			return (Math.sin(Math.PI * t) / (Math.PI * t));
+		}
+	}
+	
 }
