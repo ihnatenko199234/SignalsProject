@@ -55,19 +55,19 @@ public class Main {
 //		double varSkuteczna = SignalTools.getWartoscSkuteczna(sredniaMoc);
 //		System.out.println("wartosc skuteczna: " + varSkuteczna);
 		
-		double[][] sampling = SamplingQuantizationTools.probkujSygnal(sin, 20);
+		double[][] sampling = SamplingQuantizationTools.probkujSygnal(sin, 10);
 		double[][] kwantyzacja = SamplingQuantizationTools.kwantyzacjaSygnalu(sampling, 4);
 		double[][] interpolacja0 = SamplingQuantizationTools.interpolacjaZerowegoRzedu(kwantyzacja, ilProbek);
 		double[][] interpolacja1 = SamplingQuantizationTools.interpolacjaPierwszegoRzedu(sampling, ilProbek);
-		double[][] interpolacjaSinc = SamplingQuantizationTools.interpolacjaSinc(sampling, ilProbek);
+		double[][] interpolacjaSinc = SamplingQuantizationTools.interpolacjaSinc(sampling, 100);
 //		System.out.println(Arrays.deepToString(kwantyzacja).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
 //		GraphManager.graphWindowForTesting(sin.getValues(), "sygnal");
-		GraphManager.graphWindowForTesting(sampling, "sampling");
+//		GraphManager.graphWindowForTesting(sampling, "sampling");
 //		GraphManager.graphWindowForTesting(kwantyzacja, "kwantyzacja");
 //		GraphManager.graphWindowForTesting(interpolacja0, "interpolacja0");
 //		GraphManager.graphWindowForTesting(interpolacja1, "interpolacja1");
-		GraphManager.graphWindowForTesting(interpolacjaSinc, "interpolacjaSinc");
+//		GraphManager.graphWindowForTesting(interpolacjaSinc, "interpolacjaSinc");
 //		
 //		WindowsManager.createSignalChartsWindow(sin);
 //		WindowsManager.createSignalSampleWindow(sin);

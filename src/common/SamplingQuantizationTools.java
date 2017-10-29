@@ -148,43 +148,39 @@ public class SamplingQuantizationTools {
 		double d = maxX - minX;
 		//czestotliwosc = ilosc probek / czas trwania sygnalu
 		int f = (int) (signal.length/d);
+		//ile probek pomiedzy istniejacymi dodac
 		int multipiler = freq/f;
-		System.out.println(freq);
-		System.out.println(f);
+		//rozmiar przedialu miedzy probkami w rekonstruowanym sygnale
 		double dt = d/freq;
 		int newSignalLength = (int) (freq*d);
 		
 		double[][] wynik = new double[newSignalLength][2];
 		
-		for(int i = 0; i < signal.length - 2; i++) {
-			double val = signal[i][1];
-			double x = signal[i][0];
+		
+		for(int i = 0; i < signal.length-1; i++) {
+			double xStarejProbki = signal[i][0];
+			double yStarejProbki = signal[i][1];
+			//dla probek pokrywajacych sie ze starym sygnalem przepisujemy wartosci
+			wynik[i*multipiler][0] = xStarejProbki;
+			wynik[i*multipiler][1] = yStarejProbki;
 			
-			for(int j = 0; j < multipiler/2; j++) {
-				if(j == 0) {
-					wynik[j + i*multipiler][1] = val;
-//					System.out.println("j = 0: "+(i*multipiler));
-//					System.out.println(val);
+			//przechodzimy po wszystkich nowych probkach miedzy 2 starymi
+			for(int j = 1; j < multipiler/2; j++) {
+				double suma = 0;
+				double xNowejProbki = xStarejProbki + (j * dt);
+				
+				//dla kazdej nowej probki pzrechodzimy po wszystkich starych probkach robiac sumowanie z wagami.
+				for(int n = 0; n < signal.length; n++) {
+					System.out.println(signal[n][0]);
+					suma += signal[n][1] * sinc(xNowejProbki - signal[n][0]);
+//					suma += signal[i][1] * sinc(xNowejProbki/d - signal[i][0]);
 				}
-				else {
-					//wartosc x
-					double xt = x + (j * dt);
-					wynik[j + i*multipiler][0] = xt;
-					
-					//Ts = przedzial czasu miedzy probkami. 1/Ts - freq
-					double Ts = signal[1][0] - signal[0][0];
-					double sumaSinc = 0;
-					
-					for(int n = 0; n <= signal.length; n++) {
-						double t = xt/Ts - n;
-						sumaSinc += signal[(int) (n*Ts)][1] * sinc(t);
-					}
-					
-					wynik[j + i*multipiler][1] = sumaSinc;
-				}
+				
+				wynik[i*multipiler + j][0] = xNowejProbki;
+				wynik[i*multipiler + j][1] = suma;
 			}
 		}
-	
+		
 		return wynik;
 	}
 	
