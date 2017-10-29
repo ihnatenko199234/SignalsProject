@@ -10,6 +10,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.ColorModel;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -56,6 +57,43 @@ public class GraphManager {
 		return new ChartPanel(chart);
 	}
 	
+	public static JPanel createComplexGraphPanel(HashMap<String, double[][]> hm, String signalsToDisplay) {
+		//"O & S", "O & Q", "O & S & R", "O & S & Q"
+				XYSeriesCollection seriesCollecion = new XYSeriesCollection();
+				if(signalsToDisplay.contains("O")) seriesCollecion.addSeries(createSeriesDouble(hm.get("Original"), "Original"));
+				if(signalsToDisplay.contains("S")) seriesCollecion.addSeries(createSeriesDouble(hm.get("Sampled"), "Sampled"));
+				if(signalsToDisplay.contains("Q")) seriesCollecion.addSeries(createSeriesDouble(hm.get("Quantized"), "Quantized"));
+				if(signalsToDisplay.contains("R")) seriesCollecion.addSeries(createSeriesDouble(hm.get("Reconstructed"), "Reconstructed"));
+				
+				XYDataset dataset = seriesCollecion; 	
+				
+				String xAxisLabel = "X";
+				String yAxisLabel = "Y";
+				
+				JFreeChart chart = ChartFactory.createXYLineChart(signalsToDisplay, xAxisLabel, yAxisLabel, dataset,
+						PlotOrientation.VERTICAL, false, false, false);
+				
+				XYPlot plot = (XYPlot) chart.getPlot();
+				LegendTitle lt = new LegendTitle(plot);
+				lt.setItemFont(new Font("Dialog", Font.PLAIN, 15));
+				lt.setBackgroundPaint(new Color(255, 255, 255, 200));
+				//lt.setBackgroundPaint(Color.WHITE);
+				lt.setFrame(new BlockBorder(Color.white));
+				lt.setPosition(RectangleEdge.BOTTOM);
+				XYTitleAnnotation ta = new XYTitleAnnotation(0.98, 0, lt,RectangleAnchor.BOTTOM_RIGHT);
+
+				ta.setMaxWidth(1);
+				plot.addAnnotation(ta);
+				
+//				plot.getRenderer().setSeriesPaint(0, Color.MAGENTA);
+//				plot.getRenderer().setSeriesPaint(1, Color.CYAN);
+//				plot.getRenderer().setSeriesPaint(2, Color.YELLOW);
+//				plot.getRenderer().setSeriesPaint(3, Color.ORANGE);
+				
+				return new ChartPanel(chart);
+			}
+	
+
 	public static JPanel createMultiGraphPanel(double[][] array1, String descriptionArray1, double[][] array2, String descriptionArray2, double[][] array3, String descriptionArray3) {
 		
 		XYSeriesCollection seriesCollection = new XYSeriesCollection();
@@ -143,16 +181,6 @@ public class GraphManager {
 		series1.setDescription(seriesName);
 		return series1;
 	}
-	
-//	private static XYDataset createDatasetInt(int[][] array) {
-//		XYSeriesCollection dataset = new XYSeriesCollection();
-//		XYSeries series1 = new XYSeries("Object 1");
-//		for(int i=0; i<array.length; i++) {
-//			series1.add(array[i][0],array[i][1]);
-//		}
-//		dataset.addSeries(series1);
-//		return dataset;
-//	}
 	
 	
 	public static JPanel createHistogramPanel(double[][] values, int blockSize) {

@@ -1,6 +1,11 @@
 package gui;
 
 import java.awt.Frame;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
@@ -109,11 +114,11 @@ public class SampleQuantizeWindow {
 		Label lblSetBits = new Label(composite_1, SWT.NONE);
 		lblSetBits.setText("Bits");
 		lblSetBits.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblSetBits.setBounds(18, 175, 107, 20);
+		lblSetBits.setBounds(18, 175, 87, 20);
 		
 		Combo bitsCombo = new Combo(composite_1, SWT.NONE);
 		bitsCombo.setItems(new String[] {"1", "3", "5", "7", "9"});
-		bitsCombo.setBounds(18, 201, 78, 28);
+		bitsCombo.setBounds(113, 172, 78, 28);
 		bitsCombo.select(1);
 		
 		Combo reconstructionCombo = new Combo(composite_1, SWT.READ_ONLY );
@@ -125,8 +130,8 @@ public class SampleQuantizeWindow {
 				updateSignalsPanel();
 			}
 		});
-		reconstructionCombo.setItems(new String[] {"ekstrapolation", "0-order interpolation", "1-order interpolation", "based on sinc func"});
-		reconstructionCombo.setBounds(18, 276, 167, 28);
+		reconstructionCombo.setItems(new String[] {"zero-order hold", "first-order hold", "sinc"});
+		reconstructionCombo.setBounds(18, 246, 145, 28);
 		reconstructionCombo.select(1);
 		
 		reconstructionType = reconstructionCombo.getText();
@@ -134,7 +139,7 @@ public class SampleQuantizeWindow {
 		Label lblReconstructionType = new Label(composite_1, SWT.NONE);
 		lblReconstructionType.setText("Reconstruction:");
 		lblReconstructionType.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblReconstructionType.setBounds(18, 247, 107, 20);
+		lblReconstructionType.setBounds(18, 217, 107, 20);
 		
 		Combo fReconstructingCombo = new Combo(composite_1, SWT.NONE);
 		fReconstructingCombo.addKeyListener(new KeyAdapter() {
@@ -169,7 +174,7 @@ public class SampleQuantizeWindow {
 		Label lblDisplayedSignals = new Label(composite_1, SWT.NONE);
 		lblDisplayedSignals.setText("Displayed signals:");
 		lblDisplayedSignals.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblDisplayedSignals.setBounds(18, 339, 118, 23);
+		lblDisplayedSignals.setBounds(18, 315, 118, 23);
 		
 		Combo displayedSignalsCombo = new Combo(composite_1, SWT.READ_ONLY);
 		displayedSignalsCombo.addSelectionListener(new SelectionAdapter() {
@@ -179,10 +184,10 @@ public class SampleQuantizeWindow {
 				updateSignalsPanel();
 			}
 		});
-		displayedSignalsCombo.setItems(new String[] {"O", "S", "S & Q", "S & Q & R"});
+		displayedSignalsCombo.setItems(new String[] {"S & R","S & Q", "O & S", "O & Q", "O & S & R", "O & S & Q"});
 		displayedSignalsCombo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		displayedSignalsCombo.setBounds(18, 368, 118, 28);
-		displayedSignalsCombo.select(3);
+		displayedSignalsCombo.setBounds(18, 344, 118, 28);
+		displayedSignalsCombo.select(1);
 		
 		Label lblMse = new Label(composite_1, SWT.NONE);
 		lblMse.setText("MSE:");
@@ -294,17 +299,14 @@ public class SampleQuantizeWindow {
 		quants = SamplingQuantizationTools.kwantyzacjaSygnalu(samples, bits);
 		
 		switch(reconstructionType) {
-		case "1-order interpolation":
-			reconstructedValues = SamplingQuantizationTools.interpolacjaPierwszegoRzedu(quants, frequencyOfReconstructedSignal);
+		case "first-order hold":
+			reconstructedValues = SamplingQuantizationTools.interpolacjaPierwszegoRzedu(samples, frequencyOfReconstructedSignal);
 			break;
-		case "0-order interpolation":
-			reconstructedValues = SamplingQuantizationTools.interpolacjaZerowegoRzedu(quants, frequencyOfReconstructedSignal);
+		case "zero-order hold":
+			reconstructedValues = SamplingQuantizationTools.interpolacjaZerowegoRzedu(samples, frequencyOfReconstructedSignal);
 			break;
-		case "ekstrapolation":
-			
-			break;
-		case "based on sinc func":
-			reconstructedValues = SamplingQuantizationTools.interpolacjaSinc(quants, frequencyOfReconstructedSignal);
+		case "sinc":
+			reconstructedValues = SamplingQuantizationTools.interpolacjaSinc(samples, frequencyOfReconstructedSignal);
 			break;
 		}
 		
@@ -321,20 +323,39 @@ public class SampleQuantizeWindow {
 	
 	private void updateSignalsPanel() {
 		JPanel graphPanel = null;
-		switch(displayedSignals) {
-		case "O":
-			graphPanel = GraphManager.createGraphPanel(signal.getValues(), "Original");
-			break;
-		case "S":
-			graphPanel = GraphManager.createGraphPanel(samples, "Sampled");
-			break;
-		case "S & Q":
-			graphPanel = GraphManager.createMultiGraphPanel(samples, "Sampled", quants, "Quantized");
-			break;
-		case "S & Q & R":
-			graphPanel = GraphManager.createMultiGraphPanel(samples, "Sampled", quants, "Quantized", reconstructedValues, "Reconstructed");
-			break;
-		}
+		HashMap<String, double[][]> hm = new HashMap<String, double[][]>();
+		hm.put("Original", signal.getValues());
+		hm.put("Sampled", samples);
+		hm.put("Quantized", quants);
+		
+//		System.out.println("Before:");
+//		double test[][] = hm.get("Reconstructed");
+//		System.out.println(Arrays.deepToString(test).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+		
+		hm.put("Reconstructed", reconstructedValues);
+		
+//		test = hm.get("Reconstructed");
+//		System.out.println("After:");
+//		System.out.println(Arrays.deepToString(test).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+		
+		
+		graphPanel = GraphManager.createComplexGraphPanel(hm, displayedSignals);
+//		switch(displayedSignals) {
+//		//"O & S", "O & Q", "O & S & R", "O & S & Q"
+//		case "O & S":
+//			graphPanel = GraphManager.createMultiGraphPanel(signal.getValues(), "Original", samples, "Sampled");
+//			break;
+//		case "O & Q":
+//			graphPanel = GraphManager.createMultiGraphPanel(signal.getValues(), "Original", quants, "Quantized");
+//			break;
+//		case "O & S & R":
+//			graphPanel = GraphManager.createMultiGraphPanel(signal.getValues(), "Original", samples, "Sampled", reconstructedValues, "Reconstructed");
+//			break;
+//		case "O & S & Q":
+//			graphPanel = GraphManager.createMultiGraphPanel(signal.getValues(), "Original", samples, "Sampled", quants, "Quantized");
+//			break;
+//		
+//		}
 
 		frame.add(graphPanel);	
 		graphPanel.revalidate();
