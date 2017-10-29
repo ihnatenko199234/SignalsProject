@@ -127,12 +127,13 @@ public class SampleQuantizeWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				reconstructionType = reconstructionCombo.getText();
+				updateSignals();
 				updateSignalsPanel();
 			}
 		});
 		reconstructionCombo.setItems(new String[] {"zero-order hold", "first-order hold", "sinc"});
 		reconstructionCombo.setBounds(18, 246, 145, 28);
-		reconstructionCombo.select(1);
+		reconstructionCombo.select(0);
 		
 		reconstructionType = reconstructionCombo.getText();
 		
@@ -184,10 +185,10 @@ public class SampleQuantizeWindow {
 				updateSignalsPanel();
 			}
 		});
-		displayedSignalsCombo.setItems(new String[] {"S & R","S & Q", "O & S", "O & Q", "O & S & R", "O & S & Q"});
+		displayedSignalsCombo.setItems(new String[] {"O","S","Q","R","S & R","S & Q", "O & S", "O & Q", "O & S & R", "O & S & Q"});
 		displayedSignalsCombo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		displayedSignalsCombo.setBounds(18, 344, 118, 28);
-		displayedSignalsCombo.select(1);
+		displayedSignalsCombo.select(4);
 		
 		Label lblMse = new Label(composite_1, SWT.NONE);
 		lblMse.setText("MSE:");
@@ -306,7 +307,7 @@ public class SampleQuantizeWindow {
 			reconstructedValues = SamplingQuantizationTools.interpolacjaZerowegoRzedu(samples, frequencyOfReconstructedSignal);
 			break;
 		case "sinc":
-			reconstructedValues = SamplingQuantizationTools.interpolacjaSinc(samples, frequencyOfReconstructedSignal);
+			reconstructedValues = SamplingQuantizationTools.interpolacjaSinc(quants, frequencyOfReconstructedSignal);
 			break;
 		}
 		
