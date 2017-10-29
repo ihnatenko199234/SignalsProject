@@ -2,6 +2,7 @@ package common;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import utils.GraphManager;
 
@@ -25,7 +26,7 @@ public class SamplingQuantizationTools {
 		}
 		double[][] wynikArr = new double[wynik.size()][];
 		wynikArr = wynik.toArray(wynikArr);
-
+//		System.out.println(Arrays.deepToString(wynikArr).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 		return wynikArr;
 	}
 	
@@ -145,43 +146,89 @@ public class SamplingQuantizationTools {
 		double maxX = signal[signal.length-1][0];
 		
 		//czas = max X probki - min X probki
-		double d = maxX - minX;
+		double d = Math.round(maxX - minX);
 		//czestotliwosc = ilosc probek / czas trwania sygnalu
 		int f = (int) (signal.length/d);
 		//ile probek pomiedzy istniejacymi dodac
 		int multipiler = freq/f;
 		//rozmiar przedialu miedzy probkami w rekonstruowanym sygnale
 		double dt = d/freq;
-		int newSignalLength = (int) (freq*d);
+//		int newSignalLength = (int) (freq*d);
+		int newSignalLength = signal.length * multipiler;
 		
-		double[][] wynik = new double[newSignalLength][2];
+		List<double[]> wyn = new ArrayList();
+		for(int q = 0; q < newSignalLength; q++) {
+			double[] tmp = new double[2];
+			tmp[0] = q * dt;
+			tmp[1] = 0;
+			wyn.add(tmp);
+		}
+//		
+//		System.out.println(signal.length);
+//		System.out.println(d);
+//		System.out.println(freq);
 		
-		
-		for(int i = 0; i < signal.length-1; i++) {
-			double xStarejProbki = signal[i][0];
-			double yStarejProbki = signal[i][1];
-			//dla probek pokrywajacych sie ze starym sygnalem przepisujemy wartosci
-			wynik[i*multipiler][0] = xStarejProbki;
-			wynik[i*multipiler][1] = yStarejProbki;
-			
-			//przechodzimy po wszystkich nowych probkach miedzy 2 starymi
-			for(int j = 1; j < multipiler/2; j++) {
-				double suma = 0;
-				double xNowejProbki = xStarejProbki + (j * dt);
-				
-				//dla kazdej nowej probki pzrechodzimy po wszystkich starych probkach robiac sumowanie z wagami.
-				for(int n = 0; n < signal.length; n++) {
-					System.out.println(signal[n][0]);
-					suma += signal[n][1] * sinc(xNowejProbki - signal[n][0]);
-//					suma += signal[i][1] * sinc(xNowejProbki/d - signal[i][0]);
+		int i = 0;
+		for(int q = 0; q < newSignalLength; q++) {
+			double[] tmp = wyn.get(q);
+			if(q % multipiler == 0) {
+				tmp[0] = signal[i][0];
+				tmp[1] = signal[i][1];
+				i++;
+			}
+			else {
+				double sum = 0;
+				for(int w = 0; w < signal.length-1; w++) {
+					sum += signal[w][1] * sinc((wyn.get(q)[0] * f) - w);
 				}
-				
-				wynik[i*multipiler + j][0] = xNowejProbki;
-				wynik[i*multipiler + j][1] = suma;
+				tmp[1] = sum;
 			}
 		}
 		
-		return wynik;
+//
+//		double[][] wynik = new double[newSignalLength][2];
+////		double[][] wynikSinc = new double[newSignalLength][2];
+//		
+//		
+//		for(int i = 0; i < signal.length-1; i++) {
+//			double xStarejProbki = signal[i][0];
+//			double yStarejProbki = signal[i][1];
+////			System.out.println("x: "+signal[i][0] + "y: "+signal[i][1]);
+//			//dla probek pokrywajacych sie ze starym sygnalem przepisujemy wartosci
+////			wynik[i*multipiler][0] = xStarejProbki;
+////			wynik[i*multipiler][1] = yStarejProbki;
+////			
+////			wynikSinc[i*multipiler][0] = 0;
+////			wynikSinc[i*multipiler][1] = sinc(0);
+////			System.out.println(i*multipiler);
+//			
+//			//przechodzimy po wszystkich nowych probkach miedzy 2 starymi
+//			for(int j = 0; j < multipiler; j++) {
+////				System.out.println("j starts");
+//				double suma = 0;
+//				double xNowejProbki = xStarejProbki + (j * dt);
+//				
+//				//dla kazdej nowej probki pzrechodzimy po wszystkich starych probkach robiac sumowanie z wagami.
+//				for(int n = 0; n < signal.length; n++) {
+////					System.out.println("y: "+signal[n][1] + "sinc: "+sinc(xNowejProbki - signal[n][0]));
+////					suma += signal[n][1] * sinc(xNowejProbki - signal[n][0]);
+//					suma += signal[n][1] * sinc((xNowejProbki/d) - n);
+//				}
+//				
+//				wynik[i*multipiler + j][0] = xNowejProbki;
+//				wynik[i*multipiler + j][1] = suma;
+////				System.out.println("x: "+xNowejProbki + "y: "+suma);
+////				wynikSinc[i*multipiler + j][0] = xNowejProbki;
+////				wynikSinc[i*multipiler + j][1] = sinc(xNowejProbki);
+////				System.out.println("j ends");
+//			}
+//		}
+		
+		double[][] wynikArr = new double[wyn.size()][];
+		wynikArr = wyn.toArray(wynikArr);
+//		GraphManager.graphWindowForTesting(wynikSinc, "Sinc");
+//		System.out.println(Arrays.deepToString(wynikArr).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+		return wynikArr;
 	}
 	
 	private static double sinc(double t) {
