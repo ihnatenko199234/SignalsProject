@@ -1,30 +1,25 @@
 package common;
 import java.io.IOException;
-import java.util.Arrays;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.xml.bind.JAXBException;
 
 import gui.WindowsManager;
-import utils.GraphManager;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, JAXBException {
-		double 		amplituda = 1,
-				    czasTrwania = 1,
-		 			okres = 1;
-		int 	  	czasPoczatkowy = 0,
-				    ilProbek = 1000;
+//		double 		amplituda = 1,
+//				    czasTrwania = 1,
+//		 			okres = 1;
+//		int 	  	czasPoczatkowy = 0,
+//				    ilProbek = 1000;
 				   
 //				
 //		ConstNoise n = new ConstNoise(amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		GaussNoise g = new GaussNoise(amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-		Sinus sin = new Sinus(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+//		Sinus sin = new Sinus(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		SinusWyprostowanyJednopolowkowo sinProsty = new SinusWyprostowanyJednopolowkowo(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		SinusWyprostowanyDwupolowkowo sinProstyDwa = new SinusWyprostowanyDwupolowkowo(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-		Triangle triangle = new Triangle(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+//		Triangle triangle = new Triangle(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		UnitJump unitJump = new UnitJump(1, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		UnitImpuls unitImpuls = new UnitImpuls(1, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		ImpulsNoise impulsNoise = new ImpulsNoise(0.01, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
@@ -34,7 +29,7 @@ public class Main {
 //		double[][] array = sin.generateSignal();
 //		double[][] array = sinProsty.generateSignal();
 //		double[][] array = sinProstyDwa.generateSignal();
-		double[][] array = triangle.generateSignal();
+//		double[][] array = triangle.generateSignal();
 //		double[][] array = unitJump.generateSignal();
 //		double[][] array = unitImpuls.generateSignal();
 //		double[][] array = impulsNoise.generateSignal();

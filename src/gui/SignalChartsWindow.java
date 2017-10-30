@@ -15,7 +15,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 
-import common.SamplingQuantizationTools;
 import common.Signal;
 import common.SignalTools;
 import utils.GraphManager;
