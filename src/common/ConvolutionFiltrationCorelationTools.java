@@ -36,7 +36,7 @@ public class ConvolutionFiltrationCorelationTools {
     return wynik;
   }
   
-  public static double[][] lowPassFilter(int M, Signal xSignal, double fOdciecia) {
+  public static double[][] lowPassFilter(int M, Signal xSignal, double fOdciecia, boolean czyOknoHanninga) {
 	  double[][] x = xSignal.getValues();
 	  if(M > x.length)
 		  System.err.println("Dlugosc ciaglu sinc nie moze byc wieksza niz iloc probek x(n)!");
@@ -47,19 +47,51 @@ public class ConvolutionFiltrationCorelationTools {
 	  
 	  double K = xSignal.getF()/fOdciecia;
 	  
+	  double hanning; 
+	  
 	  for(int i = 0; i < x.length; i++) {
 		  if(i < M ) {
+			  hanning = czyOknoHanninga ? oknoHanninga(i, M) : 1;
 			  h[i][0] = x[i][0];
-			  System.out.println(sincLowPass(h[i][0], przesuniecie, K));
-			  h[i][1] = sincLowPass(h[i][0], przesuniecie, K);
+			  h[i][1] = sincLowPass(h[i][0], przesuniecie, K) * hanning;
 		  }
 		  else {
 			  h[i][0] = x[i][0];
 			  h[i][1] = 0;
 		  }
 	  }
-	  GraphManager.graphWindowForTesting(h, "h");
-	  System.out.println(Arrays.deepToString(h).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+	  GraphManager.graphWindowForTesting(h, "h low pass");
+	  return ConvolutionFiltrationCorelationTools.obliczSplot(h, xSignal);
+  }
+  
+  public static double[][] highPassFilter(int M, Signal xSignal, double fOdciecia, boolean czyOknoHanninga) {
+	  double[][] x = xSignal.getValues();
+	  if(M > x.length)
+		  System.err.println("Dlugosc ciaglu sinc nie moze byc wieksza niz iloc probek x(n)!");
+	  
+	  double[][] h = new double[x.length][2];
+	  double roznica = x[1][0] - x[0][0];
+	  double przesuniecie = (M/2.0) * roznica;
+	  
+	  double K = xSignal.getF()/fOdciecia;
+	  
+	  double hanning; 
+	  
+	  for(int i = 0; i < x.length; i++) {
+		  if(i < M ) {
+			  hanning = czyOknoHanninga ? oknoHanninga(i, M) : 1;
+			  h[i][0] = x[i][0];
+			  h[i][1] = sincLowPass(h[i][0], przesuniecie, K) * hanning;
+			  if(i % 2 == 1) {
+				  h[i][1] *= -1.0;
+			  }
+		  }
+		  else {
+			  h[i][0] = x[i][0];
+			  h[i][1] = 0;
+		  }
+	  }
+	  GraphManager.graphWindowForTesting(h, "h high pass");
 	  return ConvolutionFiltrationCorelationTools.obliczSplot(h, xSignal);
   }
   
@@ -72,4 +104,8 @@ public class ConvolutionFiltrationCorelationTools {
 			return (Math.sin((2.0*Math.PI * (n - przesuniecie)/K)) / (Math.PI * (n - przesuniecie)));
 		}
 	}
+  
+  private static double oknoHanninga(double n, double M) {
+	  return (0.5 - (0.5 * Math.cos( (2 * Math.PI * n)/M )));
+  }
 }

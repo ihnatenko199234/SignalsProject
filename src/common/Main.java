@@ -10,7 +10,7 @@ public class Main {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, JAXBException {
 		double 		amplituda = 1,
 				    czasTrwania = 1,
-		 			okres = 1;
+		 			okres = 0.5;
 		int 	  	czasPoczatkowy = 0,
 				    ilProbek = 100;
 				   
@@ -20,7 +20,7 @@ public class Main {
 		Sinus sin = new Sinus(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 		SinusWyprostowanyJednopolowkowo sinProsty = new SinusWyprostowanyJednopolowkowo(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		SinusWyprostowanyDwupolowkowo sinProstyDwa = new SinusWyprostowanyDwupolowkowo(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-//		Triangle triangle = new Triangle(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+		Triangle triangle = new Triangle(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		UnitJump unitJump = new UnitJump(1, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		UnitImpuls unitImpuls = new UnitImpuls(1, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		ImpulsNoise impulsNoise = new ImpulsNoise(0.01, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
@@ -28,9 +28,9 @@ public class Main {
 		double[][] array1 = n.generateSignal();
 //		double[][] array = g.generateSignal();
 		double[][] array2 = sin.generateSignal();
-		double[][] array = sinProsty.generateSignal();
+//		double[][] array = sinProsty.generateSignal();
 //		double[][] array = sinProstyDwa.generateSignal();
-//		double[][] array = triangle.generateSignal();
+		double[][] array = triangle.generateSignal();
 //		double[][] array = unitJump.generateSignal();
 //		double[][] array = unitImpuls.generateSignal();
 //		double[][] array = impulsNoise.generateSignal();
@@ -57,18 +57,24 @@ public class Main {
 //		double[][] interpolacja1 = SamplingQuantizationTools.interpolacjaPierwszegoRzedu(sampling, ilProbek);
 //		double[][] interpolacjaSinc = SamplingQuantizationTools.interpolacjaSinc(sampling, 1000);
 		
-		double[][] splot = ConvolutionFiltrationCorelationTools.obliczSplot(array1, n);
-		double[][] lowPass = ConvolutionFiltrationCorelationTools.lowPassFilter(30, n, 1000);
+//		double[][] splot = ConvolutionFiltrationCorelationTools.obliczSplot(array1, n);
+//		double[][] lowPass = ConvolutionFiltrationCorelationTools.lowPassFilter(99, n, 500, false);
+//		double[][] lowPassHanning = ConvolutionFiltrationCorelationTools.lowPassFilter(99, n, 500, true);
+		double[][] highPass = ConvolutionFiltrationCorelationTools.highPassFilter(11, triangle, 500, false);
+		double[][] highPassHanning = ConvolutionFiltrationCorelationTools.highPassFilter(11, triangle, 500, true);
 //		System.out.println(Arrays.deepToString(kwantyzacja).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
-		GraphManager.graphWindowForTesting(n.getValues(), "sygnal");
+		GraphManager.graphWindowForTesting(triangle.getValues(), "sygnal");
 //		GraphManager.graphWindowForTesting(sampling, "sampling");
 //		GraphManager.graphWindowForTesting(kwantyzacja, "kwantyzacja");
 //		GraphManager.graphWindowForTesting(interpolacja0, "interpolacja0");
 //		GraphManager.graphWindowForTesting(interpolacja1, "interpolacja1");
 //		GraphManager.graphWindowForTesting(interpolacjaSinc, "interpolacjaSinc");
 //		GraphManager.graphWindowForTesting(splot, "interpolacjaSinc");
-		GraphManager.graphWindowForTesting(lowPass, "lowPassFilter");
+//		GraphManager.graphWindowForTesting(lowPass, "lowPassFilter");
+//		GraphManager.graphWindowForTesting(lowPassHanning, "lowPassHanningFilter");
+		GraphManager.graphWindowForTesting(highPass, "highPassFilter");
+		GraphManager.graphWindowForTesting(highPassHanning, "highPassHanningFilter");
 //		
 //		WindowsManager.createSignalChartsWindow(sin);
 //		WindowsManager.createSignalSampleWindow(sin);
