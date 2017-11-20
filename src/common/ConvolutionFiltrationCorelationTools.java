@@ -10,29 +10,46 @@ public class ConvolutionFiltrationCorelationTools {
     int M = h.length;
     int N = x.length;
     int n = M + N - 1;
+    
     double xSize = xSignal.getD()/xSignal.getF();
-//    System.out.println("dlugosc 1. syg: "+M);
-//    System.out.println("dlugosc 2. syg: "+N);
-//    System.out.println("dlugosc: "+n);
     double suma = 0;
+    
     double[][] wynik = new double[n][2];
+    
     for(int i = 0; i < n; i++) {
       suma = 0;
       for(int k = 0; k < M; k++) {
-    	  if(i-k >= 0 && i-k < N) {
-//    		  System.out.println("i: "+i+" k: "+k+" n-k: "+(i-k));
-    		 
+    	  if(i-k >= 0 && i-k < N) {		 
     		  suma += h[k][1] * x[i-k][1];
-//    		  System.out.println("suma: "+suma);
     	  }
       }
       wynik[i][0] = xSize * (i+1);
       wynik[i][1] = suma;
     }
-//    System.out.println(Arrays.deepToString(h).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-//    System.out.println(Arrays.deepToString(x).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-//    System.out.println(Arrays.deepToString(wynik).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-
+    return wynik;
+  }
+  
+  public static double[][] obliczKorelacje(double[][] h, Signal xSignal) {
+	double[][] x = xSignal.getValues();
+    int M = h.length;
+    int N = x.length;
+    int n = M + N - 1;
+    
+    double xSize = xSignal.getD()/xSignal.getF();
+    double suma = 0;
+    
+    double[][] wynik = new double[n][2];
+    
+    for(int i = 0; i < n; i++) {
+      suma = 0;
+      for(int k = 0; k < M; k++) {
+//    	  if(k-i >= 0 && k-i < N) {		 
+    		  suma += h[k][1] * x[k-i][1];
+//    	  }
+      }
+      wynik[i][0] = xSize * (i+1);
+      wynik[i][1] = suma;
+    }
     return wynik;
   }
   
