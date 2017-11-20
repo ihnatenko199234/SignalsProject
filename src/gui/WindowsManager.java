@@ -52,4 +52,9 @@ public class WindowsManager {
 			w.shell.dispose();
 		}
 	}
+
+	public static void createFiltrationCorelationWindow(Signal signal) {
+		FiltrationCorelationWindow filtrationCorelationWindow = new FiltrationCorelationWindow(signal);
+		filtrationCorelationWindow.open();		
+	}
 }

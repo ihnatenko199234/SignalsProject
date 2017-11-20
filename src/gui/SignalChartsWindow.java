@@ -165,6 +165,15 @@ public class SignalChartsWindow {
 		});
 		mntmNewItem_5.setText("Sample and Quantize");
 		
+		MenuItem mntmFiltrationAndCorelation = new MenuItem(menu, SWT.NONE);
+		mntmFiltrationAndCorelation.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				WindowsManager.createFiltrationCorelationWindow(signal);
+			}
+		});
+		mntmFiltrationAndCorelation.setText("Filtration and Corelation");
+		
 		Label lblA = formToolkit.createLabel(shell, "Average: ", SWT.NONE);
 		lblA.setBounds(33, 20, 70, 20);	
 		

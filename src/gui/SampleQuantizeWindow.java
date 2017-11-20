@@ -45,6 +45,8 @@ public class SampleQuantizeWindow {
 	private Text mdText;
 	private Text originalFrequency;
 	protected String mesuredSignals;
+	private Text idealSNRText;
+	private Text enobText;
 	
 	public SampleQuantizeWindow(Signal signal) {
 		this.signal = signal;
@@ -78,7 +80,7 @@ public class SampleQuantizeWindow {
 	 */
 	protected void createContents(String title) {
 		shell = new Shell();
-		shell.setSize(1013, 638);
+		shell.setSize(1013, 685);
 //		if(signal.isImaginary())shell.setSize(1600, 1000);
 //			else shell.setSize(1600, 520);
 		shell.setText(title);
@@ -90,7 +92,7 @@ public class SampleQuantizeWindow {
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		composite_1.setBounds(0, 0, 201, 600);
+		composite_1.setBounds(0, 0, 201, 638);
 		
 		
 		Label lblFrequency = new Label(composite_1, SWT.NONE);
@@ -112,7 +114,7 @@ public class SampleQuantizeWindow {
 		lblSetBits.setBounds(18, 175, 87, 20);
 		
 		Combo bitsCombo = new Combo(composite_1, SWT.NONE);
-		bitsCombo.setItems(new String[] {"1", "3", "5", "7", "9"});
+		bitsCombo.setItems(new String[] {"1", "3", "5", "7", "9", "10", "15", "20", "30"});
 		bitsCombo.setBounds(113, 172, 78, 28);
 		bitsCombo.select(1);
 		
@@ -170,7 +172,7 @@ public class SampleQuantizeWindow {
 		Label lblDisplayedSignals = new Label(composite_1, SWT.NONE);
 		lblDisplayedSignals.setText("Displayed signals:");
 		lblDisplayedSignals.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblDisplayedSignals.setBounds(21, 292, 118, 23);
+		lblDisplayedSignals.setBounds(18, 282, 118, 23);
 		
 		Combo displayedSignalsCombo = new Combo(composite_1, SWT.READ_ONLY);
 		displayedSignalsCombo.addSelectionListener(new SelectionAdapter() {
@@ -180,50 +182,50 @@ public class SampleQuantizeWindow {
 				updateSignalsPanel();
 			}
 		});
-		displayedSignalsCombo.setItems(new String[] {"O","S","Q","R","S & R","S & Q", "O & S", "O & Q", "O & S & R", "O & S & Q"});
+		displayedSignalsCombo.setItems(new String[] {"O","S","Q","R","S & R","O & R","S & Q", "O & S", "O & Q", "O & S & R", "O & S & Q"});
 		displayedSignalsCombo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		displayedSignalsCombo.setBounds(23, 312, 118, 28);
+		displayedSignalsCombo.setBounds(20, 302, 118, 28);
 		displayedSignalsCombo.select(4);
 		
 		Label lblMse = new Label(composite_1, SWT.NONE);
 		lblMse.setText("MSE:");
 		lblMse.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblMse.setBounds(18, 427, 47, 20);
+		lblMse.setBounds(18, 407, 47, 20);
 		
 		mseText = new Text(composite_1, SWT.BORDER);
 		mseText.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		mseText.setEditable(false);
-		mseText.setBounds(71, 424, 78, 26);
+		mseText.setBounds(71, 404, 78, 26);
 		
 		snrText = new Text(composite_1, SWT.BORDER);
 		snrText.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		snrText.setEditable(false);
-		snrText.setBounds(71, 456, 78, 26);
+		snrText.setBounds(71, 436, 78, 26);
 		
 		Label lblSnr = new Label(composite_1, SWT.NONE);
 		lblSnr.setText("SNR:");
 		lblSnr.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblSnr.setBounds(18, 459, 47, 20);
+		lblSnr.setBounds(18, 439, 47, 20);
 		
 		Label lblPsnr = new Label(composite_1, SWT.NONE);
 		lblPsnr.setText("PSNR:");
 		lblPsnr.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblPsnr.setBounds(18, 495, 47, 20);
+		lblPsnr.setBounds(18, 475, 47, 20);
 		
 		psnrText = new Text(composite_1, SWT.BORDER);
 		psnrText.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		psnrText.setEditable(false);
-		psnrText.setBounds(71, 492, 78, 26);
+		psnrText.setBounds(71, 472, 78, 26);
 		
 		Label lblMd = new Label(composite_1, SWT.NONE);
 		lblMd.setText("MD:");
 		lblMd.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblMd.setBounds(18, 530, 47, 20);
+		lblMd.setBounds(18, 510, 47, 20);
 		
 		mdText = new Text(composite_1, SWT.BORDER);
 		mdText.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		mdText.setEditable(false);
-		mdText.setBounds(71, 527, 78, 26);
+		mdText.setBounds(71, 507, 78, 26);
 		
 		Label lblOriginal = new Label(composite_1, SWT.NONE);
 		lblOriginal.setText("original");
@@ -244,7 +246,7 @@ public class SampleQuantizeWindow {
 		Label lblMeasuresFor = new Label(composite_1, SWT.NONE);
 		lblMeasuresFor.setText("Measures for:");
 		lblMeasuresFor.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblMeasuresFor.setBounds(21, 371, 118, 23);
+		lblMeasuresFor.setBounds(21, 351, 118, 23);
 		
 		Combo measuresCombo = new Combo(composite_1, SWT.READ_ONLY);
 		measuresCombo.addSelectionListener(new SelectionAdapter() {
@@ -256,8 +258,35 @@ public class SampleQuantizeWindow {
 		});
 		measuresCombo.setItems(new String[] {"O & R", "O & Q"});
 		measuresCombo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		measuresCombo.setBounds(22, 390, 118, 28);
+		measuresCombo.setBounds(22, 370, 118, 28);
 		measuresCombo.select(0);
+		
+		Label label = new Label(composite_1, SWT.NONE);
+		label.setText("SNR:");
+		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label.setBounds(18, 580, 47, 20);
+		
+		idealSNRText = new Text(composite_1, SWT.BORDER);
+		idealSNRText.setText("0");
+		idealSNRText.setEditable(false);
+		idealSNRText.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		idealSNRText.setBounds(71, 577, 78, 26);
+		
+		Label lblTe = new Label(composite_1, SWT.NONE);
+		lblTe.setText("Ideal measures:");
+		lblTe.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblTe.setBounds(18, 554, 118, 23);
+		
+		enobText = new Text(composite_1, SWT.BORDER);
+		enobText.setText("0");
+		enobText.setEditable(false);
+		enobText.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		enobText.setBounds(71, 602, 78, 26);
+		
+		Label lblEnob = new Label(composite_1, SWT.NONE);
+		lblEnob.setText("ENOB:");
+		lblEnob.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblEnob.setBounds(18, 605, 47, 20);
 		mesuredSignals = measuresCombo.getText();
 
 		bitsCombo.addKeyListener(new KeyAdapter() {
@@ -312,7 +341,7 @@ public class SampleQuantizeWindow {
 	private void updateSignals() {
 		samples = SamplingQuantizationTools.probkujSygnal(signal, frequencyOfSampledSignal);
 
-		quants = SamplingQuantizationTools.kwantyzacjaSygnalu(samples, bits);
+		quants = SamplingQuantizationTools.kwantyzacjaSygnalu(signal.getValues(), bits);
 		
 		switch(reconstructionType) {
 		case "first-order hold":
@@ -344,8 +373,11 @@ public class SampleQuantizeWindow {
 			psnrText.setText(String.valueOf(Measures.PSNR(signal.getValues(), reconstructedValues)));
 			mdText.setText(String.valueOf(Measures.MD(signal.getValues(), reconstructedValues)));
 			break;
-			
 		}
+		
+		double snr = 6.02*bits+1.76;
+		idealSNRText.setText(Double.toString(snr));
+		enobText.setText(Double.toString((snr-1.76)/6.02));
 		
 	}
 	
