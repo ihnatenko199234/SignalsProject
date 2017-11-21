@@ -41,15 +41,16 @@ public class ConvolutionFiltrationCorelationTools {
     double[][] wynik = new double[n][2];
     
     for(int i = 0; i < n; i++) {
-      suma = 0;
-      for(int k = 0; k < M; k++) {
-//    	  if(k-i >= 0 && k-i < N) {		 
-    		  suma += h[k][1] * x[k-i][1];
-//    	  }
+        suma = 0;
+        for(int k = 0; k < M; k++) {
+        	if(i-k >= 0 && i-k < N) {	
+      			suma += h[k][1] * x[N-1-i+k][1];
+        	}
+        }
+        wynik[i][0] = xSize * (i+1);
+        wynik[i][1] = suma;
       }
-      wynik[i][0] = xSize * (i+1);
-      wynik[i][1] = suma;
-    }
+
     return wynik;
   }
   

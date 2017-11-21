@@ -58,19 +58,21 @@ public class Main {
 //		double[][] interpolacjaSinc = SamplingQuantizationTools.interpolacjaSinc(sampling, 1000);
 		
 //		double[][] splot = ConvolutionFiltrationCorelationTools.obliczSplot(array1, n);
+//		double[][] korelacja = ConvolutionFiltrationCorelationTools.obliczKorelacje(array1, n);
 //		double[][] lowPass = ConvolutionFiltrationCorelationTools.lowPassFilter(99, n, 500, false);
 //		double[][] lowPassHanning = ConvolutionFiltrationCorelationTools.lowPassFilter(99, n, 500, true);
 		//double[][] highPass = ConvolutionFiltrationCorelationTools.highPassFilter(11, triangle, 500, false);
 		//double[][] highPassHanning = ConvolutionFiltrationCorelationTools.highPassFilter(11, triangle, 500, true);
 //		System.out.println(Arrays.deepToString(kwantyzacja).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
-		//GraphManager.graphWindowForTesting(triangle.getValues(), "sygnal");
+//		GraphManager.graphWindowForTesting(sin.getValues(), "sygnal");
 //		GraphManager.graphWindowForTesting(sampling, "sampling");
 //		GraphManager.graphWindowForTesting(kwantyzacja, "kwantyzacja");
 //		GraphManager.graphWindowForTesting(interpolacja0, "interpolacja0");
 //		GraphManager.graphWindowForTesting(interpolacja1, "interpolacja1");
 //		GraphManager.graphWindowForTesting(interpolacjaSinc, "interpolacjaSinc");
-//		GraphManager.graphWindowForTesting(splot, "interpolacjaSinc");
+//		GraphManager.graphWindowForTesting(splot, "splot");
+//		GraphManager.graphWindowForTesting(korelacja, "korelacja");
 //		GraphManager.graphWindowForTesting(lowPass, "lowPassFilter");
 //		GraphManager.graphWindowForTesting(lowPassHanning, "lowPassHanningFilter");
 		//GraphManager.graphWindowForTesting(highPass, "highPassFilter");
@@ -79,11 +81,9 @@ public class Main {
 //		WindowsManager.createSignalChartsWindow(sin);
 //		WindowsManager.createSignalSampleWindow(sin);
 
-//		
 	    WindowsManager WM = new WindowsManager();
 		WM.createMainWindow();
-////		
-		
+
 //		System.out.println("MSE: " + Measures.MSE(sin.getValues(), interpolacja1));
 //		System.out.println("SNR: " + Measures.SNR(sin.getValues(), interpolacja1));
 //		System.out.println("PSNR: " + Measures.PSNR(sin.getValues(), interpolacja1));
