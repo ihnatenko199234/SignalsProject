@@ -134,15 +134,21 @@ public class FiltrationCorelationWindow {
 		windowParamCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(windowParamCombo.equals("Hanning")) hanning = true;
-				else hanning = false;
+				if(windowParamCombo.getText().equals("Hanning")) {
+					System.out.println("Hanning true");
+					hanning = true;
+				}
+				else {
+					System.out.println("Rectangle");
+					hanning = false;
+				}
 				updateSignalsPanel();
 				
 			}
 		});
-		windowParamCombo.setItems(new String[] {"simple", "Hanning"});
+		windowParamCombo.setItems(new String[] {"rectangle", "Hanning"});
 		windowParamCombo.setBounds(26, 187, 97, 28);
-		windowParamCombo.select(1);
+		windowParamCombo.select(0);
 		
 		Label lblWindowFunction = new Label(composite_1, SWT.NONE);
 		lblWindowFunction.setText("Window function:");
@@ -169,7 +175,7 @@ public class FiltrationCorelationWindow {
 		M = Integer.valueOf(McomboBox.getText());
 		cutoffFreaquency = Double.valueOf(cutoffFrequencyCombo.getText());
 		filterType = filterTypeCombo.getText();
-		if(windowParamCombo.equals("Hanning")) hanning = true;
+		if(windowParamCombo.getText().equals("Hanning")) hanning = true;
 		else hanning = false;
 
 		

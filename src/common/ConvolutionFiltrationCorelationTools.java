@@ -78,7 +78,7 @@ public class ConvolutionFiltrationCorelationTools {
 			  h[i][1] = 0;
 		  }
 	  }
-	  GraphManager.graphWindowForTesting(h, "h low pass");
+	  //GraphManager.graphWindowForTesting(h, "h low pass");
 	  return ConvolutionFiltrationCorelationTools.obliczSplot(h, xSignal);
   }
   
@@ -109,7 +109,7 @@ public class ConvolutionFiltrationCorelationTools {
 			  h[i][1] = 0;
 		  }
 	  }
-	  GraphManager.graphWindowForTesting(h, "h high pass");
+	 // GraphManager.graphWindowForTesting(h, "h high pass");
 	  return ConvolutionFiltrationCorelationTools.obliczSplot(h, xSignal);
   }
   

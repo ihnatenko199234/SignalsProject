@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import common.ComplexSignal;
+import common.ConvolutionFiltrationCorelationTools;
 import common.Signal;
 import common.SignalTools;
 import utils.GraphManager;
@@ -201,6 +202,12 @@ public class MainWindow {
 				break;
 			case"/":
 				operationResult = SignalTools.divideSignals(previousSignalValues, currentSignalValues);
+				break;
+			case"Convolution":
+				operationResult = ConvolutionFiltrationCorelationTools.obliczSplot(previousSignalValues, currentSignal);
+				break;
+			case"Correlation":
+				operationResult = ConvolutionFiltrationCorelationTools.obliczKorelacje(previousSignalValues, currentSignal);
 				break;
 			}
 		}

@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 
+import common.ConvolutionFiltrationCorelationTools;
 import common.Signal;
 import common.SignalTools;
 import utils.GraphManager;
@@ -172,7 +173,25 @@ public class SignalChartsWindow {
 				WindowsManager.createFiltrationCorelationWindow(signal);
 			}
 		});
-		mntmFiltrationAndCorelation.setText("Filtration and Corelation");
+		mntmFiltrationAndCorelation.setText("Filtration");
+		
+		MenuItem mntmSplot = new MenuItem(menu, SWT.NONE);
+		mntmSplot.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				MW.updateGraphPanel("Convolution", signal);
+			}
+		});
+		mntmSplot.setText("Convolution");
+		
+		MenuItem mntmCorrelation = new MenuItem(menu, SWT.NONE);
+		mntmCorrelation.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				MW.updateGraphPanel("Correlation",signal);
+			}
+		});
+		mntmCorrelation.setText("Correlation");
 		
 		Label lblA = formToolkit.createLabel(shell, "Average: ", SWT.NONE);
 		lblA.setBounds(33, 20, 70, 20);	
