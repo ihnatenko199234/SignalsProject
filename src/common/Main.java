@@ -14,7 +14,7 @@ public class Main {
 				    czasTrwania = 1,
 		 			okres = 0.5;
 		int 	  	czasPoczatkowy = 0,
-				    ilProbek = 100;
+				    ilProbek = 128;
 				   
 //				
 		ConstNoise n = new ConstNoise(amplituda, czasPoczatkowy, ilProbek, czasTrwania);
@@ -93,11 +93,11 @@ public class Main {
 			ss[i][0] = i;
 			ss[i][1] = 0;
 		}
-		System.out.println(Arrays.deepToString(ss).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-		double[][] ww = FFT.sortValuesFFT(ss);
+//		System.out.println(Arrays.deepToString(ss).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+		double[][] ww = Fourier.sortValuesFFT(ss);
 		System.out.println(Arrays.deepToString(ww).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 		
 //	    WindowsManager WM = new WindowsManager();
-//		WM.createMainWindow();
+//	    WM.createMainWindow();
 	}
 }

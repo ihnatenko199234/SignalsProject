@@ -3,7 +3,7 @@ package common;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class FFT {
+public class Fourier {
 	
 	public static double[][] sortValuesFFT(double[][] signal) {
 //		ArrayList<double[]> np = new ArrayList();
@@ -40,6 +40,28 @@ public class FFT {
 			System.arraycopy(sortValuesFFT(np), 0, wynik, p.length, np.length);
 		}
 		return wynik;
+	}
+	
+	public static double[][] DFT(double[][] signal) {
+	  // m - kolejny wspolczynnik przerobionego wektora
+	  // n - przechodzimy po wszystkich probkach sygnalu.
+	  int N = signal.length;
+	  int Xlen = N - 1;
+	  double[][] wynik = new double[Xlen][3];
+	  for(int m = 0; m < Xlen; m++) {
+	    double sumaRzeczywista = 0;
+	    double sumaUrojona = 0;
+	    
+	    for( int n = 0; n < Xlen; n++) {
+	      sumaRzeczywista += signal[n][1] * Math.cos( (2 * Math.PI * m * n) / N );
+	      sumaUrojona += signal[n][1] * - Math.sin( (2 * Math.PI * m * n) / N );
+	    }
+	    
+	    wynik[m][0] = m;
+	    wynik[m][1] = sumaRzeczywista;
+	    wynik[m][2] = sumaUrojona;
+	  }
+	  return wynik;
 	}
 
 }
