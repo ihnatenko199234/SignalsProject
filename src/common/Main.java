@@ -12,9 +12,9 @@ public class Main {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, JAXBException {
 		double 		amplituda = 1,
 				    czasTrwania = 1,
-		 			okres = 0.5;
+		 			okres = 0.2;
 		int 	  	czasPoczatkowy = 0,
-				    ilProbek = 128;
+				    ilProbek = 1024;
 				   
 //				
 		ConstNoise n = new ConstNoise(amplituda, czasPoczatkowy, ilProbek, czasTrwania);
@@ -27,6 +27,7 @@ public class Main {
 //		UnitImpuls unitImpuls = new UnitImpuls(1, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		ImpulsNoise impulsNoise = new ImpulsNoise(0.01, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		PeriodicImpulses periodImpuls = new PeriodicImpulses(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+		RectangleSymetrical rect = new RectangleSymetrical(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania, 0.5);
 		double[][] array1 = n.generateSignal();
 //		double[][] array = g.generateSignal();
 		double[][] array2 = sin.generateSignal();
@@ -37,6 +38,7 @@ public class Main {
 //		double[][] array = unitImpuls.generateSignal();
 //		double[][] array = impulsNoise.generateSignal();
 //		double[][] array = periodImpuls.generateSignal();
+		double[][] rec = rect.generateSignal();
 		
 //		double[][] histogram = SignalTools.generateHistogram(array, 0.01);
 		
@@ -67,7 +69,7 @@ public class Main {
 		//double[][] highPassHanning = ConvolutionFiltrationCorelationTools.highPassFilter(11, triangle, 500, true);
 //		System.out.println(Arrays.deepToString(kwantyzacja).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
-//		GraphManager.graphWindowForTesting(sin.getValues(), "sygnal");
+		GraphManager.graphWindowForTesting(rect.getValues(), "sygnal");
 //		GraphManager.graphWindowForTesting(sampling, "sampling");
 //		GraphManager.graphWindowForTesting(kwantyzacja, "kwantyzacja");
 //		GraphManager.graphWindowForTesting(interpolacja0, "interpolacja0");
@@ -88,14 +90,30 @@ public class Main {
 //		System.out.println("PSNR: " + Measures.PSNR(sin.getValues(), interpolacja1));
 //		System.out.println("MD: " + Measures.MD(sin.getValues(), interpolacja1));
 		
-		double[][] ss= new double[8][2];
-		for(int i = 0; i< 8; i++) {
-			ss[i][0] = i;
-			ss[i][1] = 0;
-		}
+//		double[][] ss= new double[8][2];
+//		for(int i = 0; i< 8; i++) {
+//			ss[i][0] = i;
+//			ss[i][1] = i;
+//		}
 //		System.out.println(Arrays.deepToString(ss).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-		double[][] ww = Fourier.sortValuesFFT(ss);
-		System.out.println(Arrays.deepToString(ww).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+//		double[][] ww = Fourier.sortValuesFFT(ss);
+		double[][] xx = Fourier.DFT(rec);
+		double[][] testR = new double[xx.length][2];
+		double[][] testI = new double[xx.length][2];
+		
+		for(int i = 0; i< xx.length; i++) {
+			testR[i][0] = xx[i][0];
+			testI[i][0] = xx[i][0];
+			testR[i][1] = xx[i][1];
+			testI[i][1] = xx[i][2];
+		}
+		
+		System.out.println(Arrays.deepToString(Fourier.DFT(xx)).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+		
+//		GraphManager.graphWindowForTesting(ss, "ss");
+//		GraphManager.graphWindowForTesting(ww, "ww");
+		GraphManager.graphWindowForTesting(testR, "testR");
+		GraphManager.graphWindowForTesting(testI, "testI");
 		
 //	    WindowsManager WM = new WindowsManager();
 //	    WM.createMainWindow();

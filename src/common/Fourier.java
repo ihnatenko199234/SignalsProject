@@ -53,8 +53,11 @@ public class Fourier {
 	    double sumaUrojona = 0;
 	    
 	    for( int n = 0; n < Xlen; n++) {
-	      sumaRzeczywista += signal[n][1] * Math.cos( (2 * Math.PI * m * n) / N );
-	      sumaUrojona += signal[n][1] * - Math.sin( (2 * Math.PI * m * n) / N );
+	    	double angle = 2 * Math.PI * m * n / N;
+	    	sumaRzeczywista += signal[n][1] * Math.cos(angle);
+	    	sumaUrojona += -signal[n][1] * Math.sin(angle);
+//	      sumaRzeczywista += signal[n][1] * Math.cos( (2 * Math.PI * m * n) / N );
+//	      sumaUrojona += signal[n][1] * - Math.sin( (2 * Math.PI * m * n) / N );
 	    }
 	    
 	    wynik[m][0] = m;
