@@ -1,5 +1,7 @@
 package common;
 import java.io.IOException;
+import java.util.Arrays;
+
 import javax.xml.bind.JAXBException;
 
 import gui.WindowsManager;
@@ -81,12 +83,21 @@ public class Main {
 //		WindowsManager.createSignalChartsWindow(sin);
 //		WindowsManager.createSignalSampleWindow(sin);
 
-	    WindowsManager WM = new WindowsManager();
-		WM.createMainWindow();
-
 //		System.out.println("MSE: " + Measures.MSE(sin.getValues(), interpolacja1));
 //		System.out.println("SNR: " + Measures.SNR(sin.getValues(), interpolacja1));
 //		System.out.println("PSNR: " + Measures.PSNR(sin.getValues(), interpolacja1));
 //		System.out.println("MD: " + Measures.MD(sin.getValues(), interpolacja1));
+		
+		double[][] ss= new double[8][2];
+		for(int i = 0; i< 8; i++) {
+			ss[i][0] = i;
+			ss[i][1] = 0;
+		}
+		System.out.println(Arrays.deepToString(ss).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+		double[][] ww = FFT.sortValuesFFT(ss);
+		System.out.println(Arrays.deepToString(ww).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+		
+//	    WindowsManager WM = new WindowsManager();
+//		WM.createMainWindow();
 	}
 }
