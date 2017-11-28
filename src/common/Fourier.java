@@ -42,9 +42,10 @@ public class Fourier {
 		return wynik;
 	}
 	
-	public static double[][] DFT(double[][] signal) {
+	public static double[][] DFT(Signal sig) {
 	  // m - kolejny wspolczynnik przerobionego wektora
 	  // n - przechodzimy po wszystkich probkach sygnalu.
+	  double[][] signal = sig.getValues();
 	  int N = signal.length;
 	  int Xlen = N - 1;
 	  double[][] wynik = new double[Xlen][3];
@@ -56,13 +57,12 @@ public class Fourier {
 	    	double angle = 2 * Math.PI * m * n / N;
 	    	sumaRzeczywista += signal[n][1] * Math.cos(angle);
 	    	sumaUrojona += -signal[n][1] * Math.sin(angle);
-//	      sumaRzeczywista += signal[n][1] * Math.cos( (2 * Math.PI * m * n) / N );
-//	      sumaUrojona += signal[n][1] * - Math.sin( (2 * Math.PI * m * n) / N );
 	    }
 	    
-	    wynik[m][0] = m;
-	    wynik[m][1] = sumaRzeczywista;
-	    wynik[m][2] = sumaUrojona;
+	    double f0 = sig.getF()*1.0/N;
+	    wynik[m][0] = m * f0;
+	    wynik[m][1] = Math.abs(sumaRzeczywista/N);
+	    wynik[m][2] = Math.abs(sumaUrojona/N);
 	  }
 	  return wynik;
 	}

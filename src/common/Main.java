@@ -11,31 +11,31 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, JAXBException {
 		double 		amplituda = 1,
-				    czasTrwania = 1,
-		 			okres = 0.2;
+				    czasTrwania = 2,
+		 			okres = 1;
 		int 	  	czasPoczatkowy = 0,
-				    ilProbek = 1024;
+				    ilProbek = 64;
 				   
 //				
 		ConstNoise n = new ConstNoise(amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-//		GaussNoise g = new GaussNoise(amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+		GaussNoise g = new GaussNoise(amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 		Sinus sin = new Sinus(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 		SinusWyprostowanyJednopolowkowo sinProsty = new SinusWyprostowanyJednopolowkowo(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		SinusWyprostowanyDwupolowkowo sinProstyDwa = new SinusWyprostowanyDwupolowkowo(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 		Triangle triangle = new Triangle(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		UnitJump unitJump = new UnitJump(1, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-//		UnitImpuls unitImpuls = new UnitImpuls(1, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+		UnitImpuls unitImpuls = new UnitImpuls(1, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		ImpulsNoise impulsNoise = new ImpulsNoise(0.01, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 //		PeriodicImpulses periodImpuls = new PeriodicImpulses(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
 		RectangleSymetrical rect = new RectangleSymetrical(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania, 0.5);
 		double[][] array1 = n.generateSignal();
-//		double[][] array = g.generateSignal();
-		double[][] array2 = sin.generateSignal();
-//		double[][] array = sinProsty.generateSignal();
+		double[][] ga = g.generateSignal();
+		double[][] s = sin.generateSignal();
+		double[][] sp = sinProsty.generateSignal();
 //		double[][] array = sinProstyDwa.generateSignal();
-		double[][] array = triangle.generateSignal();
+		double[][] tr = triangle.generateSignal();
 //		double[][] array = unitJump.generateSignal();
-//		double[][] array = unitImpuls.generateSignal();
+		double[][] ui = unitImpuls.generateSignal();
 //		double[][] array = impulsNoise.generateSignal();
 //		double[][] array = periodImpuls.generateSignal();
 		double[][] rec = rect.generateSignal();
@@ -97,7 +97,7 @@ public class Main {
 //		}
 //		System.out.println(Arrays.deepToString(ss).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 //		double[][] ww = Fourier.sortValuesFFT(ss);
-		double[][] xx = Fourier.DFT(rec);
+		double[][] xx = Fourier.DFT(rect);
 		double[][] testR = new double[xx.length][2];
 		double[][] testI = new double[xx.length][2];
 		
@@ -108,7 +108,7 @@ public class Main {
 			testI[i][1] = xx[i][2];
 		}
 		
-		System.out.println(Arrays.deepToString(Fourier.DFT(xx)).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+//		System.out.println(Arrays.deepToString(xx).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 		
 //		GraphManager.graphWindowForTesting(ss, "ss");
 //		GraphManager.graphWindowForTesting(ww, "ww");
