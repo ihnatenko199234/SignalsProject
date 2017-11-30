@@ -2,16 +2,29 @@ package common;
 
 import java.util.Arrays;
 
+import test.Complex;
+
 public class Fourier {
-	public static double[][] convertArrayToCompex(double[][] arr) {
-		double[][] wynik = new double[arr.length][3];
-		for(int i = 0; i < arr.length; i++) {
-			wynik[i][0] = arr[i][0];
-			wynik[i][1] = arr[i][1];
-			wynik[i][2] = 0;
+//	public static double[][] convertArrayToCompex(double[][] arr) {
+//		double[][] wynik = new double[arr.length][3];
+//		for(int i = 0; i < arr.length; i++) {
+//			wynik[i][0] = arr[i][0];
+//			wynik[i][1] = arr[i][1];
+//			wynik[i][2] = 0;
+//		}
+//		return wynik;
+//	}
+	
+	public static Complex[] convertToComplex(double[][] sig) {
+		Complex[] x = new Complex[sig.length];
+		// original data
+		for (int i = 0; i < sig.length; i++) {
+			x[i] = new Complex(sig[i][1], 0);
 		}
-		return wynik;
+		
+		return x;
 	}
+	
 	public static double[][] sortValuesFFT(double[][] signal) {
 		int len = signal.length;
 		System.out.println(len);
@@ -48,27 +61,24 @@ public class Fourier {
 		return wynik;
 	}
 	
-	public static double[][] DFT(Signal sig) {
+	public static Complex[] DFT(Complex[] signal) {
 	  // m - kolejny wspolczynnik przerobionego wektora
 	  // n - przechodzimy po wszystkich probkach sygnalu.
-	  double[][] signal = sig.getValues();
+		
 	  int N = signal.length;
-	  int Xlen = N - 1;
-	  double[][] wynik = new double[Xlen][3];
-	  for(int m = 0; m < Xlen; m++) {
+//	  int Xlen = N - 1;
+	  Complex[] wynik = new Complex[N];
+	  for(int m = 0; m < N; m++) {
 	    double sumaRzeczywista = 0;
 	    double sumaUrojona = 0;
 	    
-	    for( int n = 0; n < Xlen; n++) {
+	    for( int n = 0; n < N; n++) {
 	    	double angle = 2 * Math.PI * m * n / N;
-	    	sumaRzeczywista += signal[n][1] * Math.cos(angle);
-	    	sumaUrojona += -signal[n][1] * Math.sin(angle);
+	    	sumaRzeczywista += signal[n].re() * Math.cos(angle);
+	    	sumaUrojona += -signal[n].re() * Math.sin(angle);
 	    }
 	    
-	    double f0 = sig.getF()*1.0/N;
-	    wynik[m][0] = m * f0;
-	    wynik[m][1] = Math.abs(sumaRzeczywista/N);
-	    wynik[m][2] = Math.abs(sumaUrojona/N);
+	    wynik[m] = new Complex(sumaRzeczywista/N, sumaUrojona/N);
 	  }
 	  return wynik;
 	}

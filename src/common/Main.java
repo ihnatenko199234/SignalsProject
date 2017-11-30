@@ -15,7 +15,7 @@ public class Main {
 				    czasTrwania = 1,
 		 			okres = 1;
 		int 	  	czasPoczatkowy = 0,
-				    ilProbek = 512;
+				    ilProbek = 128;
 				   
 //				
 		ConstNoise n = new ConstNoise(amplituda/3, czasPoczatkowy, ilProbek, czasTrwania);
@@ -43,19 +43,19 @@ public class Main {
 		
 		
 		/**
-		 * Fast Fourier Transform Przyklad dla sin + noise
+		 * Discrete Fourier Transform and Fast Fourier Transform Przyklad dla sin + noise
 		 */
 		double[][] sig = SignalTools.addSignals(s, array1);
 		double[][] re = new double[sig.length][2];
 		double[][] im = new double[sig.length][2];
 		
-		Complex[] x = new Complex[sig.length];
-		// original data
-		for (int i = 0; i < sig.length; i++) {
-			x[i] = new Complex(sig[i][1], 0);
-		}
-      
+		Complex[] x = Fourier.convertToComplex(sig);
+		
+		/**
+		 * Wywo³anie dft lub fft 
+		 */
 		Complex[] y = FFT.fft(x);
+//		Complex[] y = Fourier.DFT(x);
 		
 		for (int i = 0; i < sig.length; i++) {
 			re[i][0] = sig[i][0];
@@ -68,6 +68,33 @@ public class Main {
 		GraphManager.graphWindowForTesting(sig, "sygnal");
 		GraphManager.graphWindowForTesting(re, "re");
 		GraphManager.graphWindowForTesting(im, "im");
+		
+		/**
+		 * Pomiar czasu dla DFT i FFT 
+		 */
+		long startTime = System.nanoTime();
+		FFT.fft(x);
+		long endTime = System.nanoTime();
+
+		long durationFFT = (endTime - startTime);  //divide by 1000000 to get milliseconds.
+		
+		
+		startTime = System.nanoTime();
+		Fourier.DFT(x);
+		endTime = System.nanoTime();
+
+		long durationDFT = (endTime - startTime);  //divide by 1000000 to get milliseconds.
+		
+		System.out.println("DFT time: "+ durationDFT);
+		System.out.println("FFT time: "+ durationFFT);
+		
+//	    WindowsManager WM = new WindowsManager();
+//	    WM.createMainWindow();
+		
+		
+		
+		
+		
       
 //		double[][] histogram = SignalTools.generateHistogram(array, 0.01);
 		
@@ -190,7 +217,6 @@ public class Main {
 		GraphManager.graphWindowForTesting(testI2, "testI");
 		GraphManager.graphWindowForTesting(test3, "test3");
 	*/	
-//	    WindowsManager WM = new WindowsManager();
-//	    WM.createMainWindow();
+
 	}
 }
