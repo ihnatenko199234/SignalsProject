@@ -57,4 +57,10 @@ public class WindowsManager {
 		FiltrationCorelationWindow filtrationCorelationWindow = new FiltrationCorelationWindow(signal);
 		filtrationCorelationWindow.open();		
 	}
+
+	public static void createFourierTransformWindow(Signal signal, String type) {
+		FourierTransformWindow fourierTransformWindow = new FourierTransformWindow(signal, type);
+		fourierTransformWindow.open();
+		
+	}
 }

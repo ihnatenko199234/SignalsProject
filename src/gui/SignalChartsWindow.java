@@ -193,6 +193,24 @@ public class SignalChartsWindow {
 		});
 		mntmCorrelation.setText("Correlation");
 		
+		MenuItem mntmDft = new MenuItem(menu, SWT.NONE);
+		mntmDft.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				WindowsManager.createFourierTransformWindow(signal, "DFT");
+			}
+		});
+		mntmDft.setText("DFT");
+		
+		MenuItem mntmFft = new MenuItem(menu, SWT.NONE);
+		mntmFft.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				WindowsManager.createFourierTransformWindow(signal, "FFT");
+			}
+		});
+		mntmFft.setText("FFT");
+		
 		Label lblA = formToolkit.createLabel(shell, "Average: ", SWT.NONE);
 		lblA.setBounds(33, 20, 70, 20);	
 		

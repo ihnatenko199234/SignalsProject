@@ -18,78 +18,79 @@ public class Main {
 				    ilProbek = 128;
 				   
 //				
-		ConstNoise n = new ConstNoise(amplituda/3, czasPoczatkowy, ilProbek, czasTrwania);
-		GaussNoise g = new GaussNoise(amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-		Sinus sin = new Sinus(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-		SinusWyprostowanyJednopolowkowo sinProsty = new SinusWyprostowanyJednopolowkowo(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-//		SinusWyprostowanyDwupolowkowo sinProstyDwa = new SinusWyprostowanyDwupolowkowo(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-		Triangle triangle = new Triangle(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-		UnitJump unitJump = new UnitJump(0.5, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-		UnitImpuls unitImpuls = new UnitImpuls(1, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-//		ImpulsNoise impulsNoise = new ImpulsNoise(0.01, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-//		PeriodicImpulses periodImpuls = new PeriodicImpulses(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
-		RectangleSymetrical rect = new RectangleSymetrical(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania, 0.5);
-		double[][] array1 = n.generateSignal();
-		double[][] ga = g.generateSignal();
-		double[][] s = sin.generateSignal();
-		double[][] sp = sinProsty.generateSignal();
-//		double[][] array = sinProstyDwa.generateSignal();
-		double[][] tr = triangle.generateSignal();
-		double[][] uj = unitJump.generateSignal();
-		double[][] ui = unitImpuls.generateSignal();
-//		double[][] array = impulsNoise.generateSignal();
-//		double[][] array = periodImpuls.generateSignal();
-		double[][] rec = rect.generateSignal();
+//		ConstNoise n = new ConstNoise(amplituda/3, czasPoczatkowy, ilProbek, czasTrwania);
+//		GaussNoise g = new GaussNoise(amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+//		Sinus sin = new Sinus(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+//		SinusWyprostowanyJednopolowkowo sinProsty = new SinusWyprostowanyJednopolowkowo(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+////		SinusWyprostowanyDwupolowkowo sinProstyDwa = new SinusWyprostowanyDwupolowkowo(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+//		Triangle triangle = new Triangle(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+//		UnitJump unitJump = new UnitJump(0.5, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+//		UnitImpuls unitImpuls = new UnitImpuls(1, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+////		ImpulsNoise impulsNoise = new ImpulsNoise(0.01, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+////		PeriodicImpulses periodImpuls = new PeriodicImpulses(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania);
+//		RectangleSymetrical rect = new RectangleSymetrical(okres, amplituda, czasPoczatkowy, ilProbek, czasTrwania, 0.5);
+//		double[][] array1 = n.generateSignal();
+//		double[][] ga = g.generateSignal();
+//		double[][] s = sin.generateSignal();
+//		double[][] sp = sinProsty.generateSignal();
+////		double[][] array = sinProstyDwa.generateSignal();
+//		double[][] tr = triangle.generateSignal();
+//		double[][] uj = unitJump.generateSignal();
+//		double[][] ui = unitImpuls.generateSignal();
+////		double[][] array = impulsNoise.generateSignal();
+////		double[][] array = periodImpuls.generateSignal();
+//		double[][] rec = rect.generateSignal();
 		
 		
 		/**
 		 * Discrete Fourier Transform and Fast Fourier Transform Przyklad dla sin + noise
 		 */
-		double[][] sig = SignalTools.addSignals(s, array1);
-		double[][] re = new double[sig.length][2];
-		double[][] im = new double[sig.length][2];
-		
-		Complex[] x = Fourier.convertToComplex(sig);
+//		double[][] sig = SignalTools.addSignals(s, array1);
+//		double[][] re = new double[sig.length][2];
+//		double[][] im = new double[sig.length][2];
+//		
+//		Complex[] x = Fourier.convertToComplex(sig);
 		
 		/**
 		 * Wywo³anie dft lub fft 
 		 */
-		Complex[] y = FFT.fft(x);
-//		Complex[] y = Fourier.DFT(x);
-		
-		for (int i = 0; i < sig.length; i++) {
-			re[i][0] = sig[i][0];
-			re[i][1] = y[i].re();
-			
-			im[i][0] = sig[i][0];
-			im[i][1] = y[i].im();
-		}
-		
-		GraphManager.graphWindowForTesting(sig, "sygnal");
-		GraphManager.graphWindowForTesting(re, "re");
-		GraphManager.graphWindowForTesting(im, "im");
+//		Complex[] y = FFT.fft(x);
+//		
+////		Complex[] y = Fourier.DFT(x);
+//		
+//		for (int i = 0; i < sig.length; i++) {
+//			re[i][0] = sig[i][0];
+//			re[i][1] = y[i].re();
+//			
+//			im[i][0] = sig[i][0];
+//			im[i][1] = y[i].im();
+//		}
+//		
+//		GraphManager.graphWindowForTesting(sig, "sygnal");
+//		GraphManager.graphWindowForTesting(re, "re");
+//		GraphManager.graphWindowForTesting(im, "im");
 		
 		/**
 		 * Pomiar czasu dla DFT i FFT 
 		 */
-		long startTime = System.nanoTime();
-		FFT.fft(x);
-		long endTime = System.nanoTime();
-
-		long durationFFT = (endTime - startTime);  //divide by 1000000 to get milliseconds.
+//		long startTime = System.nanoTime();
+//		FFT.fft(x);
+//		long endTime = System.nanoTime();
+//
+//		long durationFFT = (endTime - startTime);  //divide by 1000000 to get milliseconds.
+//		
+//		
+//		startTime = System.nanoTime();
+//		Fourier.DFT(x);
+//		endTime = System.nanoTime();
+//
+//		long durationDFT = (endTime - startTime);  //divide by 1000000 to get milliseconds.
+//		
+//		System.out.println("DFT time: "+ durationDFT);
+//		System.out.println("FFT time: "+ durationFFT);
 		
-		
-		startTime = System.nanoTime();
-		Fourier.DFT(x);
-		endTime = System.nanoTime();
-
-		long durationDFT = (endTime - startTime);  //divide by 1000000 to get milliseconds.
-		
-		System.out.println("DFT time: "+ durationDFT);
-		System.out.println("FFT time: "+ durationFFT);
-		
-//	    WindowsManager WM = new WindowsManager();
-//	    WM.createMainWindow();
+	    WindowsManager WM = new WindowsManager();
+	    WM.createMainWindow();
 		
 		
 		

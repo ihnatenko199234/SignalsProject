@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Frame;
+import java.io.IOException;
 import java.util.HashMap;
 
 import javax.swing.JPanel;
@@ -16,6 +17,8 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import common.ConvolutionFiltrationCorelationTools;
 import common.Signal;
 import utils.GraphManager;
+import utils.SerializationManager;
+
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Combo;
@@ -24,6 +27,8 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 
 public class FiltrationCorelationWindow {
 
@@ -33,7 +38,8 @@ public class FiltrationCorelationWindow {
 	private int M;
 	private double cutoffFreaquency;
 	private String filterType;
-	private boolean hanning;	
+	private boolean hanning;
+	private double[][] filtrationResult;	
 		
 
 	public FiltrationCorelationWindow(Signal signal) {
@@ -172,6 +178,24 @@ public class FiltrationCorelationWindow {
 		filterTypeCombo.setBounds(26, 261, 97, 28);
 		filterTypeCombo.select(0);
 		
+		Button exportBtn = new Button(composite_1, SWT.NONE);
+		exportBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {	
+					try {
+						signal.setValues(filtrationResult);
+						signal.setName(signal.getName() + " filtred by "+ filterTypeCombo.getText());
+						
+						SerializationManager.exportSignal(signal);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		});
+		exportBtn.setBounds(26, 335, 90, 30);
+		exportBtn.setText("Export");
+		
 		M = Integer.valueOf(McomboBox.getText());
 		cutoffFreaquency = Double.valueOf(cutoffFrequencyCombo.getText());
 		filterType = filterTypeCombo.getText();
@@ -183,7 +207,7 @@ public class FiltrationCorelationWindow {
 	}
 	private void updateSignalsPanel() {
 		JPanel graphPanel = null;
-		double[][] filtrationResult = null;
+		 filtrationResult = null;
 		String graphTitle = signal.getName();
 		
 		switch(filterType) {
